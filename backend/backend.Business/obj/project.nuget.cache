@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "X04+iSyaa3B6+dMm0/mOFyC7Vs1rsS6i3AhDKOgyZj7sislc12eD72W1fWC7jbcqHTI0xCxd2RPk3Urs8ou5Jg==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\sirat\\OneDrive\\Desktop\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Business\\backend.Business.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\sirat\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
+    "C:\\Users\\sirat\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512"
+  ],
+  "logs": []
+}
