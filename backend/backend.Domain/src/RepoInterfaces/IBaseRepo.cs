@@ -4,9 +4,9 @@ namespace backend.Domain.src.RepoInterfaces;
 
 public interface IBaseRepo<T>
 {
-    IEnumerable<T> GetAll( QueryParameters queryParameters);
-    T GetOneById(string id);
-    T UpdateOneById(T foundEntity,T newEntity);
-    bool DeleteOneById(T newEntity);
-    T CreateOne(T newEntity);
+    Task<IEnumerable<T>> GetAll(QueryParameters queryParameters);
+    Task<T> GetOneById(string id);
+    Task<T> UpdateOneById(T foundEntity, T newEntity);
+    Task<bool> DeleteOneById(T newEntity);
+    Task<T> CreateOne(T newEntity);
 }

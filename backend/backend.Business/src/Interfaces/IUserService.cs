@@ -3,7 +3,7 @@ using backend.Domain.src.Entities;
 
 namespace backend.Business.src.Interfaces;
 
-public interface IUserService : IBaseService<User,UserDto>
+public interface IUserService : IBaseService<User, UserReadDto, UserCreateDto, UserUpdateDto>
 {
-    UserDto UpdatePassword(string id,string password);
+    Task<UserReadDto> UpdatePassword(string id,string password);
 }

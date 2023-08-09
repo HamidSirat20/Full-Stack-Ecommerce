@@ -5,7 +5,8 @@ using backend.Domain.src.RepoInterfaces;
 
 namespace backend.Business.src.Implementations;
 
-public class BaseService<T, TDto> : IBaseService<T, TDto>
+public class BaseService<T, TReadDto, TCreateDto, TUpdateDto>
+    : IBaseService<T, TReadDto, TCreateDto, TUpdateDto>
 {
     private readonly IBaseRepo<T> _baseRepo;
     protected readonly IMapper _mapper;
@@ -16,12 +17,13 @@ public class BaseService<T, TDto> : IBaseService<T, TDto>
         _mapper = mapper;
     }
 
-    public TDto CreateOne(T newEntity)
+    public virtual async Task<TReadDto> CreateOne(TCreateDto newEntity)
     {
-        return _mapper.Map<TDto>(_baseRepo.CreateOne(newEntity));
+        var entity = await _baseRepo.CreateOne(_mapper.Map<T>(newEntity));
+        return _mapper.Map<TReadDto>(entity);
     }
 
-    public bool DeleteOneById(string id)
+    public async Task<bool> DeleteOneById(string id)
     {
         //! original code
         // var foundEntity = _baseRepo.GetOneById(id);
@@ -33,10 +35,10 @@ public class BaseService<T, TDto> : IBaseService<T, TDto>
         // return false;
         try
         {
-            var foundEntity = _baseRepo.GetOneById(id);
+            var foundEntity = await _baseRepo.GetOneById(id);
             if (foundEntity != null)
             {
-                _baseRepo.DeleteOneById(foundEntity);
+                await _baseRepo.DeleteOneById(foundEntity);
                 return true;
             }
             else
@@ -51,18 +53,19 @@ public class BaseService<T, TDto> : IBaseService<T, TDto>
         }
     }
 
-    public IEnumerable<TDto> GetAll(QueryParameters queryParameters)
+    public async Task<IEnumerable<TReadDto>> GetAll(QueryParameters queryParameters)
     {
-        IEnumerable<TDto> getAllEntity = (IEnumerable<TDto>)_baseRepo.GetAll(queryParameters);
+        IEnumerable<TReadDto> getAllEntity =
+            (IEnumerable<TReadDto>)await _baseRepo.GetAll(queryParameters);
         return getAllEntity;
     }
 
-    public TDto GetOneById(string id)
+    public async Task<TReadDto> GetOneById(string id)
     {
-        var foundEntity = _baseRepo.GetOneById(id);
+        var foundEntity = await _baseRepo.GetOneById(id);
         if (foundEntity != null)
         {
-            return _mapper.Map<TDto>(foundEntity);
+            return _mapper.Map<TReadDto>(foundEntity);
         }
         else
         {
@@ -70,17 +73,17 @@ public class BaseService<T, TDto> : IBaseService<T, TDto>
         }
     }
 
-    public TDto UpdateOneById(string id, TDto newEntity)
+    public async Task<TReadDto> UpdateOneById(string id, TUpdateDto newEntity)
     {
-        var foundEntity = _baseRepo.GetOneById(id);
+        var foundEntity = await _baseRepo.GetOneById(id);
         if (foundEntity == null)
         {
             throw new Exception($"Item with {id} id not found");
         }
         else
         {
-            var updated = _baseRepo.UpdateOneById(foundEntity, _mapper.Map<T>(newEntity));
-            return _mapper.Map<TDto>(updated);
+            var updated = await _baseRepo.UpdateOneById(foundEntity, _mapper.Map<T>(newEntity));
+            return _mapper.Map<TReadDto>(updated);
         }
     }
 }

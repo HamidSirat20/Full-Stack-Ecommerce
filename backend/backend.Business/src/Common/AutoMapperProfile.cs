@@ -8,9 +8,46 @@ public class AutoMapperProfile : Profile
 {
     public AutoMapperProfile()
     {
-        CreateMap<User,UserDto>();
-        CreateMap<UserDto,User>();
-        CreateMap<ProductDto,Product>();
-        CreateMap<Product,ProductDto>();
+        CreateMap<User, UserReadDto>();
+        CreateMap<UserReadDto, User>();
+        CreateMap<User, UserCreateDto>();
+        CreateMap<UserCreateDto, User>();
+        CreateMap<User, UserUpdateDto>();
+        CreateMap<UserUpdateDto, User>();
+
+        CreateMap<Product, ProductReadDto>();
+        CreateMap<ProductReadDto, Product>();
+        CreateMap<Product, ProductCreateDto>();
+        CreateMap<ProductCreateDto, Product>();
+        CreateMap<Product, ProductUpdateDto>();
+        CreateMap<ProductUpdateDto, Product>();
+
+        CreateMap<Order, OrderReadDto>();
+        CreateMap<OrderReadDto, Order>();
+        CreateMap<Order, OrderCreateDto>();
+        CreateMap<OrderCreateDto, Order>();
+        CreateMap<Order, OrderUpdateDto>();
+        CreateMap<OrderUpdateDto, Order>();
+
+        CreateMap<Review, ReviewReadDto>();
+        CreateMap<ReviewReadDto, Review>();
+        CreateMap<Review, ReviewCreateDto>();
+        CreateMap<ReviewCreateDto, Review>();
+        CreateMap<Review, ReviewUpdateDto>();
+        CreateMap<ReviewUpdateDto, Review>();
+
+        CreateMap<OrderItem, OrderItemReadDto>();
+        CreateMap<OrderItemReadDto, OrderItem>();
+        CreateMap<OrderItem, OrderItemCreateDto>();
+        CreateMap<OrderItemCreateDto, OrderItem>();
+        CreateMap<OrderItem, OrderItemUpdateDto>();
+        CreateMap<OrderItemUpdateDto, OrderItem>();
+
+        CreateMap<Category, CategoryReadDto>();
+        CreateMap<CategoryReadDto, Category>();
+        CreateMap<Category, CategoryCreateDto>();
+        CreateMap<CategoryCreateDto, Category>();
+        CreateMap<Category, CategoryUpdateDto>();
+        CreateMap<CategoryUpdateDto, Category>();
     }
 }

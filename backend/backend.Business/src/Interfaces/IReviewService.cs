@@ -3,7 +3,7 @@ using backend.Domain.src.Entities;
 
 namespace backend.Business.src.Interfaces;
 
-public interface IReviewService : IBaseService<Review,ReviewDto>
+public interface IReviewService : IBaseService<Review, ReviewReadDto,ReviewCreateDto,ReviewUpdateDto>
 {
 
 }

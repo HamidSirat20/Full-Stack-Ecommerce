@@ -1,3 +1,8 @@
+C:\Users\sirat\OneDrive\Desktop\Integfiy Folder\fs15_Fullstack\backend\backend.Controller\obj\Debug\net7.0\backend.Controller.csproj.AssemblyReference.cache
+C:\Users\sirat\OneDrive\Desktop\Integfiy Folder\fs15_Fullstack\backend\backend.Controller\obj\Debug\net7.0\backend.Controller.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\sirat\OneDrive\Desktop\Integfiy Folder\fs15_Fullstack\backend\backend.Controller\obj\Debug\net7.0\backend.Controller.AssemblyInfoInputs.cache
+C:\Users\sirat\OneDrive\Desktop\Integfiy Folder\fs15_Fullstack\backend\backend.Controller\obj\Debug\net7.0\backend.Controller.AssemblyInfo.cs
+C:\Users\sirat\OneDrive\Desktop\Integfiy Folder\fs15_Fullstack\backend\backend.Controller\obj\Debug\net7.0\backend.Controller.csproj.CoreCompileInputs.cache
 C:\Users\sirat\OneDrive\Desktop\Integfiy Folder\fs15_Fullstack\backend\backend.Controller\bin\Debug\net7.0\backend.Controller.deps.json
 C:\Users\sirat\OneDrive\Desktop\Integfiy Folder\fs15_Fullstack\backend\backend.Controller\bin\Debug\net7.0\backend.Controller.dll
 C:\Users\sirat\OneDrive\Desktop\Integfiy Folder\fs15_Fullstack\backend\backend.Controller\bin\Debug\net7.0\backend.Controller.pdb
@@ -5,11 +10,6 @@ C:\Users\sirat\OneDrive\Desktop\Integfiy Folder\fs15_Fullstack\backend\backend.C
 C:\Users\sirat\OneDrive\Desktop\Integfiy Folder\fs15_Fullstack\backend\backend.Controller\bin\Debug\net7.0\backend.Domain.dll
 C:\Users\sirat\OneDrive\Desktop\Integfiy Folder\fs15_Fullstack\backend\backend.Controller\bin\Debug\net7.0\backend.Domain.pdb
 C:\Users\sirat\OneDrive\Desktop\Integfiy Folder\fs15_Fullstack\backend\backend.Controller\bin\Debug\net7.0\backend.Business.pdb
-C:\Users\sirat\OneDrive\Desktop\Integfiy Folder\fs15_Fullstack\backend\backend.Controller\obj\Debug\net7.0\backend.Controller.csproj.AssemblyReference.cache
-C:\Users\sirat\OneDrive\Desktop\Integfiy Folder\fs15_Fullstack\backend\backend.Controller\obj\Debug\net7.0\backend.Controller.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\sirat\OneDrive\Desktop\Integfiy Folder\fs15_Fullstack\backend\backend.Controller\obj\Debug\net7.0\backend.Controller.AssemblyInfoInputs.cache
-C:\Users\sirat\OneDrive\Desktop\Integfiy Folder\fs15_Fullstack\backend\backend.Controller\obj\Debug\net7.0\backend.Controller.AssemblyInfo.cs
-C:\Users\sirat\OneDrive\Desktop\Integfiy Folder\fs15_Fullstack\backend\backend.Controller\obj\Debug\net7.0\backend.Controller.csproj.CoreCompileInputs.cache
 C:\Users\sirat\OneDrive\Desktop\Integfiy Folder\fs15_Fullstack\backend\backend.Controller\obj\Debug\net7.0\backend.Controller.csproj.CopyComplete
 C:\Users\sirat\OneDrive\Desktop\Integfiy Folder\fs15_Fullstack\backend\backend.Controller\obj\Debug\net7.0\backend.Controller.dll
 C:\Users\sirat\OneDrive\Desktop\Integfiy Folder\fs15_Fullstack\backend\backend.Controller\obj\Debug\net7.0\refint\backend.Controller.dll
