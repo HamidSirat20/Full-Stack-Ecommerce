@@ -6,7 +6,6 @@ namespace backend.WebApi.src.Database;
 
 public class DatabaseContext : DbContext
 {
-
     private readonly IConfiguration _configuration;
     public DbSet<User> Users { get; set; }
     public DbSet<Product> Products { get; set; }
@@ -14,6 +13,7 @@ public class DatabaseContext : DbContext
     public DbSet<Order> Orders { get; set; }
     public DbSet<OrderItem> OrderItems { get; set; }
     public DbSet<Category> Categories { get; set; }
+    public DbSet<Image> Images { get; set; }
 
     static DatabaseContext()
     {
@@ -31,8 +31,12 @@ public class DatabaseContext : DbContext
             _configuration.GetConnectionString("DefaultConnection")
         );
         builder.MapEnum<Role>();
-       // optionsBuilder.AddInterceptors(new TimeStampInterceptor());
-        optionsBuilder.UseNpgsql(builder.Build());
-        //.UseSnakeCaseNamingConvention();
+        //optionsBuilder.AddInterceptors(new TimeStampInterceptor());
+        optionsBuilder.UseNpgsql(builder.Build()).UseSnakeCaseNamingConvention();
+    }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
     }
 }
