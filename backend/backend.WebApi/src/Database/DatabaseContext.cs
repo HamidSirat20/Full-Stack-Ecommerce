@@ -31,12 +31,15 @@ public class DatabaseContext : DbContext
             _configuration.GetConnectionString("DefaultConnection")
         );
         builder.MapEnum<Role>();
-        //optionsBuilder.AddInterceptors(new TimeStampInterceptor());
+        optionsBuilder.AddInterceptors(new TimestampInterceptor());
         optionsBuilder.UseNpgsql(builder.Build()).UseSnakeCaseNamingConvention();
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.HasPostgresEnum<Role>();
         base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<User>().HasIndex(u => u.Email).IsUnique();
     }
 }

@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "nWPYO3QbgNH43OnPrZSiJzplIQ2/pdwXu5HbbXmtUAMVxLsASg9fzfW8aq4yl/FSyAhiMX+uDA84cxnssb72Lw==",
+  "dgSpecHash": "EYRbVBSM7T8nQckf6XU0Hb2rwXfV5MqioBjrkXThArRebD5MUahwEOcFePW0+qE0InPsAjQCoGDGlD8BiFgwRg==",
   "success": true,
   "projectFilePath": "C:\\Users\\sirat\\OneDrive\\Desktop\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.WebApi\\backend.WebApi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\sirat\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
+    "C:\\Users\\sirat\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",
     "C:\\Users\\sirat\\.nuget\\packages\\efcore.namingconventions\\7.0.2\\efcore.namingconventions.7.0.2.nupkg.sha512",
     "C:\\Users\\sirat\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\sirat\\.nuget\\packages\\microsoft.aspnetcore.antiforgery\\2.2.0\\microsoft.aspnetcore.antiforgery.2.2.0.nupkg.sha512",

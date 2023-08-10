@@ -1,4 +1,8 @@
+using backend.Business.src.Implementations;
+using backend.Business.src.Interfaces;
+using backend.Domain.src.RepoInterfaces;
 using backend.WebApi.src.Database;
+using backend.WebApi.src.RepoImplementations;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -9,8 +13,12 @@ var builder = WebApplication.CreateBuilder(args);
 //Add database
 builder.Services.AddDbContext<DatabaseContext>();
 
-//Add
+//Add Service
+builder.Services.AddScoped<IUserRepo, UserRepo>();
+builder.Services.AddScoped<IUserService, UserService>();
 
+//Add Automapper
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 // Add services to the container.
 
