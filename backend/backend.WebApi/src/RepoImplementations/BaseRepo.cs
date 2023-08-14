@@ -18,56 +18,57 @@ public class BaseRepo<T> : IBaseRepo<T>
         _context = dbContext;
     }
 
-    public async Task<T> CreateOne(T newEntity)
+    public virtual async Task<T> CreateOne(T newEntity)
     {
-        var entityEntry = await _dbSet.AddAsync(newEntity);
+        await _dbSet.AddAsync(newEntity);
         await _context.SaveChangesAsync();
-        return entityEntry.Entity;
+        return newEntity;
     }
 
     public async Task<bool> DeleteOneById(T newEntity)
     {
         _dbSet.Remove(newEntity);
-        var rowsAffected = await _context.SaveChangesAsync();
-        return rowsAffected > 0;
+        await _context.SaveChangesAsync();
+        return true;
     }
 
     public async Task<IEnumerable<T>> GetAll(QueryParameters queryParameters)
     {
-        var entities = _dbSet.AsQueryable();
-        if (!string.IsNullOrWhiteSpace(queryParameters.Search))
-        {
-            entities = entities.Where(
-                entity =>
-                    entity
-                        .ToString()
-                        .Contains(queryParameters.Search, StringComparison.OrdinalIgnoreCase)
-            );
-        }
-        var propertyInfo = typeof(T).GetProperty(
-            queryParameters.OrderBy,
-            BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance
-        );
-        if (propertyInfo != null)
-        {
-            entities = queryParameters.OrderByDescending
-                ? entities.OrderByDescending(entity => propertyInfo.GetValue(entity))
-                : entities.OrderBy(entity => propertyInfo.GetValue(entity));
-        }
-        entities = entities.Skip(queryParameters.Offset - 1).Take(queryParameters.Limit);
+        return await _dbSet.ToArrayAsync();
+        // var entities = _dbSet.AsQueryable();
+        // if (!string.IsNullOrWhiteSpace(queryParameters.Search))
+        // {
+        //     entities = entities.Where(
+        //         entity =>
+        //             entity
+        //                 .ToString()
+        //                 .Contains(queryParameters.Search, StringComparison.OrdinalIgnoreCase)
+        //     );
+        // }
+        // var propertyInfo = typeof(T).GetProperty(
+        //     queryParameters.OrderBy,
+        //     BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance
+        // );
+        // if (propertyInfo != null)
+        // {
+        //     entities = queryParameters.OrderByDescending
+        //         ? entities.OrderByDescending(entity => propertyInfo.GetValue(entity))
+        //         : entities.OrderBy(entity => propertyInfo.GetValue(entity));
+        // }
+        // entities = entities.Skip(queryParameters.Offset - 1).Take(queryParameters.Limit);
 
-        return await entities.ToListAsync();
+        // return await entities.ToListAsync();
     }
 
-    public async Task<T> GetOneById(string id)
+    public async Task<T> GetOneById(Guid id)
     {
         return await _dbSet.FindAsync(id);
     }
 
-    public async Task<T> UpdateOneById(T foundEntity, T newEntity)
+    public async Task<T> UpdateOneById(T newEntity)
     {
-        _context.Entry(foundEntity).CurrentValues.SetValues(newEntity);
+        _dbSet.Update(newEntity);
         await _context.SaveChangesAsync();
-        return foundEntity;
+        return newEntity;
     }
 }

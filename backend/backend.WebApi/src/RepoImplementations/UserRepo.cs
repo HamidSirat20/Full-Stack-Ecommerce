@@ -19,26 +19,27 @@ public class UserRepo : BaseRepo<User>, IUserRepo
 
     public async Task<User> CreateAdmin(User user)
     {
-        var adminCreated = await _dbSet.AddAsync(user);
-        _context.SaveChanges();
-        return adminCreated.Entity;
+        user.Role = Role.Admin;
+        await _dbSet.AddAsync(user);
+        await _context.SaveChangesAsync();
+        return user;
     }
 
-    public async Task<User> FindUserByEmail(string email)
+    public async Task<User?> FindUserByEmail(string email)
     {
-        var userFound = await _dbSet.FindAsync(email);
-        return userFound;
+        return await _dbSet.FirstOrDefaultAsync(u => u.Email == email);
     }
 
-    public async Task<User> UpdatePassword(User user, string newPassword)
+    public async Task<User> UpdatePassword(User user)
     {
-        var foundUser = _dbSet.FirstOrDefault(u => u.Id == user.Id);
-        if (foundUser != null)
-        {
-            foundUser.Password = newPassword;
-            await _context.SaveChangesAsync();
-        }
+        _dbSet.Update(user);
+        await _context.SaveChangesAsync();
+        return user;
+    }
 
-        return foundUser;
+    public override Task<User> CreateOne(User entity)
+    {
+        entity.Role = Role.Client;
+        return base.CreateOne(entity);
     }
 }

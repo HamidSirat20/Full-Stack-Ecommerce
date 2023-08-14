@@ -1,3 +1,4 @@
+using System.Text;
 using backend.Business.src.Implementations;
 using backend.Business.src.Interfaces;
 using backend.Domain.src.RepoInterfaces;
@@ -10,15 +11,27 @@ using Swashbuckle.AspNetCore.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
+//Add AutoMapper DI
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
+
 //Add database
 builder.Services.AddDbContext<DatabaseContext>();
 
-//Add Service
-builder.Services.AddScoped<IUserRepo, UserRepo>();
-builder.Services.AddScoped<IUserService, UserService>();
+//Add Service DI
+builder.Services
+    .AddScoped<IUserRepo, UserRepo>()
+    .AddScoped<IUserService, UserService>()
+    .AddScoped<IProductRepo, ProductRepo>()
+    .AddScoped<IProductService, ProductService>()
+    .AddScoped<IOrderRepo, OrderRepo>()
+    .AddScoped<IOrderService, OrderService>()
+    .AddScoped<IOrderItemRepo, OrderItemRepo>()
+    .AddScoped<IOrderItemService, OrderItemService>()
+    .AddScoped<IImageRepo, ImageRepo>()
+    .AddScoped<IImageService, ImageService>()
+    .AddScoped<IAuthService, AuthService>();
 
-//Add Automapper
-builder.Services.AddAutoMapper(typeof(Program).Assembly);
+
 
 // Add services to the container.
 
@@ -33,10 +46,8 @@ builder.Services.AddSwaggerGen(options =>
         new OpenApiSecurityScheme
         {
             Description = "Bearer token authentication",
-            Name = "Authorization",
-            In = ParameterLocation.Header,
-            Type = SecuritySchemeType.ApiKey,
-            Scheme = "Bearer"
+            Name = "Authentication",
+            In = ParameterLocation.Header
         }
     );
     options.OperationFilter<SecurityRequirementsOperationFilter>();
@@ -48,20 +59,25 @@ builder.Services.Configure<RouteOptions>(options =>
     options.LowercaseUrls = true;
 });
 
-// Config the authentication
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-.AddJwtBearer(options =>
-{
-    options.TokenValidationParameters = new TokenValidationParameters
+//Config the authentication
+builder.Services
+    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
     {
-        ValidateIssuer = true,
-        ValidIssuer = "ecommerce-backend",
-        IssuerSigningKey = new JsonWebKey("my-secret-key"),
-        ValidateIssuerSigningKey = true
-    };
-});
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidIssuer = "ecommerce",
+            ValidateAudience = false,
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes("my-secret-key-is-unique-and-should-keep-it-safe")
+            ),
+            ValidateIssuerSigningKey = true
+        };
+    });
 
 var app = builder.Build();
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

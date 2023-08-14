@@ -5,31 +5,27 @@ using backend.Domain.src.Entities;
 namespace backend.WebApi.src.Database;
 
 public class TimestampInterceptor : SaveChangesInterceptor
-    {
-        public override InterceptionResult<int> SavingChanges(DbContextEventData eventData, InterceptionResult<int> result)
+{
+   public override ValueTask<InterceptionResult<int>> SavingChangesAsync(DbContextEventData eventData, InterceptionResult<int> result, CancellationToken cancellationToken = default)
         {
-            var addedEntries = eventData.Context.ChangeTracker.Entries()
-            .Where(e => e.State == EntityState.Added);
-
-            foreach (var entry in addedEntries)
+            var addedEntries = eventData.Context!.ChangeTracker.Entries().Where(e => e.State == EntityState.Added);
+            foreach (var trackEntry in addedEntries)
             {
-                if (entry.Entity is Timestamp hasTimestamp)
+                if(trackEntry.Entity is BaseEntity entity)
                 {
-                    hasTimestamp.CreatedAt = new DateTime();
-                    hasTimestamp.ModifiedAt = new DateTime();
+                    entity.CreatedAt = DateTime.Now.Date;
+                    entity.ModifiedAt = DateTime.Now.Date;
                 }
             }
 
-            var modifiedEntries = eventData.Context.ChangeTracker.Entries()
-           .Where(e => e.State == EntityState.Modified);
-
-            foreach (var entry in modifiedEntries)
+            var updatedEntries = eventData.Context.ChangeTracker.Entries().Where(e => e.State == EntityState.Modified);
+            foreach (var trackEntry in updatedEntries)
             {
-                if (entry.Entity is Timestamp hasTimestamp)
+                if (trackEntry.Entity is BaseEntity entity)
                 {
-                    hasTimestamp.ModifiedAt = new DateTime();
+                    entity.ModifiedAt = DateTime.Now.Date;
                 }
             }
-            return base.SavingChanges(eventData, result);
+            return base.SavingChangesAsync(eventData, result, cancellationToken);
         }
-    }
+}

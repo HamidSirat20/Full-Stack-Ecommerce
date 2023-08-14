@@ -13,7 +13,7 @@ using backend.WebApi.src.Database;
 namespace backend.WebApi.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20230810073424_CreateDatabase")]
+    [Migration("20230812164835_CreateDatabase")]
     partial class CreateDatabase
     {
         /// <inheritdoc />
@@ -27,32 +27,6 @@ namespace backend.WebApi.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "role", new[] { "client", "admin" });
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("backend.Domain.src.Entities.Category", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
-
-                    b.Property<string>("CategoryName")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("category_name");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at");
-
-                    b.Property<DateTime>("ModifiedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("modified_at");
-
-                    b.HasKey("Id")
-                        .HasName("pk_categories");
-
-                    b.ToTable("categories", (string)null);
-                });
-
             modelBuilder.Entity("backend.Domain.src.Entities.Image", b =>
                 {
                     b.Property<Guid>("Id")
@@ -60,12 +34,8 @@ namespace backend.WebApi.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
-                    b.Property<Guid?>("CategoryId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("category_id");
-
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("created_at");
 
                     b.Property<string>("ImageUrls")
@@ -74,7 +44,7 @@ namespace backend.WebApi.Migrations
                         .HasColumnName("image_urls");
 
                     b.Property<DateTime>("ModifiedAt")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("modified_at");
 
                     b.Property<Guid?>("ProductId")
@@ -83,9 +53,6 @@ namespace backend.WebApi.Migrations
 
                     b.HasKey("Id")
                         .HasName("pk_images");
-
-                    b.HasIndex("CategoryId")
-                        .HasDatabaseName("ix_images_category_id");
 
                     b.HasIndex("ProductId")
                         .HasDatabaseName("ix_images_product_id");
@@ -101,11 +68,11 @@ namespace backend.WebApi.Migrations
                         .HasColumnName("id");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("created_at");
 
                     b.Property<DateTime>("ModifiedAt")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("modified_at");
 
                     b.Property<string>("ShippingAddress")
@@ -145,11 +112,11 @@ namespace backend.WebApi.Migrations
                         .HasColumnName("amount");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("created_at");
 
                     b.Property<DateTime>("ModifiedAt")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("modified_at");
 
                     b.HasKey("OrderId", "ProductId")
@@ -168,12 +135,8 @@ namespace backend.WebApi.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
-                    b.Property<Guid>("CategoryId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("category_id");
-
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("created_at");
 
                     b.Property<string>("Description")
@@ -186,7 +149,7 @@ namespace backend.WebApi.Migrations
                         .HasColumnName("inventory");
 
                     b.Property<DateTime>("ModifiedAt")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("modified_at");
 
                     b.Property<decimal>("Price")
@@ -201,54 +164,7 @@ namespace backend.WebApi.Migrations
                     b.HasKey("Id")
                         .HasName("pk_products");
 
-                    b.HasIndex("CategoryId")
-                        .HasDatabaseName("ix_products_category_id");
-
                     b.ToTable("products", (string)null);
-                });
-
-            modelBuilder.Entity("backend.Domain.src.Entities.Review", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
-
-                    b.Property<string>("Comment")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("comment");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at");
-
-                    b.Property<DateTime>("ModifiedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("modified_at");
-
-                    b.Property<Guid>("ProductId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("product_id");
-
-                    b.Property<int>("Rating")
-                        .HasColumnType("integer")
-                        .HasColumnName("rating");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("user_id");
-
-                    b.HasKey("Id")
-                        .HasName("pk_reviews");
-
-                    b.HasIndex("ProductId")
-                        .HasDatabaseName("ix_reviews_product_id");
-
-                    b.HasIndex("UserId")
-                        .HasDatabaseName("ix_reviews_user_id");
-
-                    b.ToTable("reviews", (string)null);
                 });
 
             modelBuilder.Entity("backend.Domain.src.Entities.User", b =>
@@ -264,7 +180,7 @@ namespace backend.WebApi.Migrations
                         .HasColumnName("avatar");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("created_at");
 
                     b.Property<string>("Email")
@@ -283,7 +199,7 @@ namespace backend.WebApi.Migrations
                         .HasColumnName("last_name");
 
                     b.Property<DateTime>("ModifiedAt")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("modified_at");
 
                     b.Property<string>("Password")
@@ -312,13 +228,8 @@ namespace backend.WebApi.Migrations
 
             modelBuilder.Entity("backend.Domain.src.Entities.Image", b =>
                 {
-                    b.HasOne("backend.Domain.src.Entities.Category", null)
-                        .WithMany("ImagesUrl")
-                        .HasForeignKey("CategoryId")
-                        .HasConstraintName("fk_images_categories_category_id");
-
                     b.HasOne("backend.Domain.src.Entities.Product", null)
-                        .WithMany("ImagesUrl")
+                        .WithMany("Images")
                         .HasForeignKey("ProductId")
                         .HasConstraintName("fk_images_products_product_id");
                 });
@@ -356,46 +267,6 @@ namespace backend.WebApi.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("backend.Domain.src.Entities.Product", b =>
-                {
-                    b.HasOne("backend.Domain.src.Entities.Category", "Category")
-                        .WithMany("Products")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_products_categories_category_id");
-
-                    b.Navigation("Category");
-                });
-
-            modelBuilder.Entity("backend.Domain.src.Entities.Review", b =>
-                {
-                    b.HasOne("backend.Domain.src.Entities.Product", "Product")
-                        .WithMany("Reviews")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_reviews_products_product_id");
-
-                    b.HasOne("backend.Domain.src.Entities.User", "User")
-                        .WithMany("Reviews")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_reviews_users_user_id");
-
-                    b.Navigation("Product");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("backend.Domain.src.Entities.Category", b =>
-                {
-                    b.Navigation("ImagesUrl");
-
-                    b.Navigation("Products");
-                });
-
             modelBuilder.Entity("backend.Domain.src.Entities.Order", b =>
                 {
                     b.Navigation("OrderItems");
@@ -403,18 +274,14 @@ namespace backend.WebApi.Migrations
 
             modelBuilder.Entity("backend.Domain.src.Entities.Product", b =>
                 {
-                    b.Navigation("ImagesUrl");
+                    b.Navigation("Images");
 
                     b.Navigation("OrderItems");
-
-                    b.Navigation("Reviews");
                 });
 
             modelBuilder.Entity("backend.Domain.src.Entities.User", b =>
                 {
                     b.Navigation("Orders");
-
-                    b.Navigation("Reviews");
                 });
 #pragma warning restore 612, 618
         }
