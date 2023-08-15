@@ -3,7 +3,7 @@ using backend.Domain.src.Entities;
 
 namespace backend.Business.src.Interfaces;
 
-public interface ICategoryService : IBaseService<Category, CategoryReadDto,CategoryCreateDto,CategoryUpdateDto>
+public interface IImageService : IBaseService<Image,ImageReadDto,ImageCreateDto,ImageUpdateDto>
 {
 
 }

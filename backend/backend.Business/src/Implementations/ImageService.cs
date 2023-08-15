@@ -6,9 +6,9 @@ using backend.Domain.src.RepoInterfaces;
 
 namespace backend.Business.src.Implementations;
 
-public class CategoryService : BaseService<Category, CategoryReadDto,CategoryCreateDto,CategoryUpdateDto>,ICategoryService
+public class ImageService : BaseService<Image, ImageReadDto, ImageCreateDto, ImageUpdateDto>, IImageService
 {
-    public CategoryService(ICategoryRepo categoryRepo, IMapper mapper) : base(categoryRepo, mapper)
+    public ImageService(IImageRepo baseRepo, IMapper mapper) : base(baseRepo, mapper)
     {
     }
 }

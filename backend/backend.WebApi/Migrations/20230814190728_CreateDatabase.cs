@@ -13,6 +13,7 @@ namespace backend.WebApi.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterDatabase()
+                .Annotation("Npgsql:Enum:order_status", "pending,processing,shipped,delivered,cancelled")
                 .Annotation("Npgsql:Enum:role", "client,admin");
 
             migrationBuilder.CreateTable(
@@ -58,7 +59,8 @@ namespace backend.WebApi.Migrations
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     image_urls = table.Column<string>(type: "text", nullable: false),
-                    product_id = table.Column<Guid>(type: "uuid", nullable: true),
+                    proudct_id = table.Column<string>(type: "text", nullable: false),
+                    product_id = table.Column<Guid>(type: "uuid", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     modified_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
@@ -69,7 +71,8 @@ namespace backend.WebApi.Migrations
                         name: "fk_images_products_product_id",
                         column: x => x.product_id,
                         principalTable: "products",
-                        principalColumn: "id");
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -78,7 +81,7 @@ namespace backend.WebApi.Migrations
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     shipping_address = table.Column<string>(type: "text", nullable: false),
-                    status = table.Column<int>(type: "integer", nullable: false),
+                    status = table.Column<OrderStatus>(type: "order_status", nullable: false),
                     user_id = table.Column<Guid>(type: "uuid", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     modified_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)

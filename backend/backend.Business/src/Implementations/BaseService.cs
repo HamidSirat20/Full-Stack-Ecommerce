@@ -1,4 +1,5 @@
 using AutoMapper;
+using backend.Business.src.Common;
 using backend.Business.src.Interfaces;
 using backend.Domain.src.Common;
 using backend.Domain.src.RepoInterfaces;
@@ -19,71 +20,86 @@ public class BaseService<T, TReadDto, TCreateDto, TUpdateDto>
 
     public virtual async Task<TReadDto> CreateOne(TCreateDto newEntity)
     {
-        var entity = await _baseRepo.CreateOne(_mapper.Map<T>(newEntity));
-        return _mapper.Map<TReadDto>(entity);
-    }
-
-    public async Task<bool> DeleteOneById(string id)
-    {
-        //! original code
-        // var foundEntity = _baseRepo.GetOneById(id);
-        // if (foundEntity != null)
-        // {
-        //     _baseRepo.DeleteOneById(foundEntity);
-        //     return true;
-        // }
-        // return false;
         try
         {
-            var foundEntity = await _baseRepo.GetOneById(id);
-            if (foundEntity != null)
-            {
-                await _baseRepo.DeleteOneById(foundEntity);
-                return true;
-            }
-            else
-            {
-                throw new Exception($"Entity with ID '{id}' not found.");
-                return false;
-            }
+            var entity = await _baseRepo.CreateOne(_mapper.Map<T>(newEntity));
+            return _mapper.Map<TReadDto>(entity);
         }
         catch (Exception ex)
         {
-            throw;
+            throw CustomErrorHandler.CreateEntityException();
         }
+    }
+
+    public async Task<bool> DeleteOneById(Guid id)
+    {
+        var foundItem = await _baseRepo.GetOneById(id);
+        if (foundItem is not null)
+        {
+            await _baseRepo.DeleteOneById(foundItem);
+            return true;
+        }
+        throw CustomErrorHandler.NotFoundException();
     }
 
     public async Task<IEnumerable<TReadDto>> GetAll(QueryParameters queryParameters)
     {
-        IEnumerable<TReadDto> getAllEntity =
-            (IEnumerable<TReadDto>)await _baseRepo.GetAll(queryParameters);
-        return getAllEntity;
+        try
+        {
+            var entities = await _baseRepo.GetAll(queryParameters);
+            var dtoEntities = _mapper.Map<IEnumerable<TReadDto>>(entities);
+
+            if (dtoEntities.Any())
+            {
+                return dtoEntities;
+            }
+            else
+            {
+                throw CustomErrorHandler.NotFoundException("There is no item in the Repo");
+            }
+        }
+        catch (System.Exception)
+        {
+            throw CustomErrorHandler.NotFoundException();
+        }
     }
 
-    public async Task<TReadDto> GetOneById(string id)
+    public async Task<TReadDto> GetOneById(Guid id)
     {
-        var foundEntity = await _baseRepo.GetOneById(id);
-        if (foundEntity != null)
+        try
         {
-            return _mapper.Map<TReadDto>(foundEntity);
+            var entity = _mapper.Map<TReadDto>(await _baseRepo.GetOneById(id));
+            if (entity is not null)
+            {
+                return entity;
+            }
+            else
+            {
+                throw new Exception($"item with {id} id not found");
+            }
         }
-        else
+        catch (System.Exception)
         {
-            throw new Exception($"Entity with ID '{id}' not found.");
+            throw CustomErrorHandler.NotFoundException();
         }
     }
 
-    public async Task<TReadDto> UpdateOneById(string id, TUpdateDto newEntity)
+    public async Task<TReadDto> UpdateOneById(Guid id, TUpdateDto newEntity)
     {
-        var foundEntity = await _baseRepo.GetOneById(id);
-        if (foundEntity == null)
+        try
         {
-            throw new Exception($"Item with {id} id not found");
+            var foundItem = await _baseRepo.GetOneById(id);
+            if (foundItem == null)
+            {
+                throw new Exception($"Item with {id} id not found");
+            }
+            _mapper.Map(newEntity, foundItem);
+            await _baseRepo.UpdateOneById(foundItem);
+            return _mapper.Map<TReadDto>(foundItem);
         }
-        else
+        catch (System.Exception)
         {
-            var updated = await _baseRepo.UpdateOneById(foundEntity, _mapper.Map<T>(newEntity));
-            return _mapper.Map<TReadDto>(updated);
+            throw CustomErrorHandler.NotFoundException();
         }
     }
 }

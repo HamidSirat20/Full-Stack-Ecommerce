@@ -26,6 +26,8 @@
   <ItemGroup>
     <ProjectReference Include="..\backend.Domain\backend.Domain.csproj" />
     <ProjectReference Include="..\backend.Business\backend.Business.csproj" />
+    <ProjectReference Include="..\backend.WebApi\backend.WebApi.csproj" />
+    <ProjectReference Include="..\backend.Controller\backend.Controller.csproj" />
   </ItemGroup>
 
 </Project>

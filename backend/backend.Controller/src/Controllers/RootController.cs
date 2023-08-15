@@ -1,5 +1,6 @@
 using backend.Business.src.Interfaces;
 using backend.Domain.src.Common;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controller.src.Controllers;
@@ -20,25 +21,12 @@ public class RootController<T, TReadDto, TCreateDto, TUpdateDto> : ControllerBas
         [FromQuery] QueryParameters queryParameters
     )
     {
-        try
-        {
-            var result = await _baseService.GetAll(queryParameters);
-
-            if (result == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(result);
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, "An error occurred while processing the request.");
-        }
+        var result = (await _baseService.GetAll(queryParameters)).ToArray();
+        return Ok(result);
     }
 
-    [HttpGet("{id}")]
-    public virtual async Task<ActionResult<TReadDto>> GetOneById([FromRoute] string id)
+    [HttpGet("{id:Guid}")]
+    public virtual async Task<ActionResult<TReadDto>> GetOneById([FromRoute] Guid id)
     {
         var foundEntity = await _baseService.GetOneById(id);
 
@@ -51,39 +39,24 @@ public class RootController<T, TReadDto, TCreateDto, TUpdateDto> : ControllerBas
     }
 
     [HttpPost]
-    public virtual  async Task<ActionResult<TReadDto>> CreateOne([FromBody] TCreateDto createDto)
+    public virtual async Task<ActionResult<TReadDto>> CreateOne([FromBody] TCreateDto createDto)
     {
-        try
-        {
-            var createdItem = await _baseService.CreateOne(createDto);
-            return CreatedAtAction("Created", createdItem);
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, "An error occurred while processing the request.");
-        }
+        var createdObject = await _baseService.CreateOne(createDto);
+        return CreatedAtAction(nameof(CreateOne), createdObject);
     }
 
-    [HttpPatch("{id}")]
+    [HttpPatch("{id:Guid}")]
     public virtual async Task<ActionResult<TReadDto>> UpdateOne(
-        [FromRoute] string id,
+        [FromRoute] Guid id,
         [FromBody] TUpdateDto updateDto
     )
     {
-        var updatedEntity = await _baseService.UpdateOneById(id, updateDto);
-        return new AcceptedResult("Updated", updatedEntity);
+        return await _baseService.UpdateOneById(id, updateDto);
     }
 
-    [HttpDelete("{id}")]
-    public virtual async Task<ActionResult<bool>> DeleteOneById([FromRoute] string id)
+    [HttpDelete("{id:Guid}")]
+    public virtual async Task<ActionResult<bool>> DeleteOneById([FromRoute] Guid id)
     {
-        var objToBeDeleted = await _baseService.DeleteOneById(id);
-
-        if (objToBeDeleted == null)
-        {
-            return NotFound();
-        }
-
-        return NoContent();
+        return StatusCode(204, await _baseService.DeleteOneById(id));
     }
 }

@@ -7,7 +7,6 @@ public class ProductReadDto
     public string Title { get; set; }
     public string Description { get; set; } = "";
     public decimal Price { get; set; }
-    public List<Image> ImagesUrl { get; set; }
 }
 
 public class ProductCreateDto
@@ -16,7 +15,6 @@ public class ProductCreateDto
     public string Description { get; set; } = "";
     public decimal Price { get; set; }
     public int Inventory { get; set; }
-    public List<Image> ImagesUrl { get; set; }
 }
 
 public class ProductUpdateDto
@@ -25,5 +23,4 @@ public class ProductUpdateDto
     public string Description { get; set; } = "";
     public decimal Price { get; set; }
     public int Inventory { get; set; }
-    public List<Image> ImagesUrl { get; set; }
 }

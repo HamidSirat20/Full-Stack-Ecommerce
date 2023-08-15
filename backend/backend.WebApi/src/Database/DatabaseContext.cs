@@ -32,6 +32,7 @@ public class DatabaseContext : DbContext
             _configuration.GetConnectionString("DefaultConnection")
         );
         builder.MapEnum<Role>();
+        builder.MapEnum<OrderStatus>();
         optionsBuilder.AddInterceptors(new TimestampInterceptor());
         optionsBuilder.UseNpgsql(builder.Build()).UseSnakeCaseNamingConvention();
     }
@@ -39,6 +40,7 @@ public class DatabaseContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.HasPostgresEnum<Role>();
+        modelBuilder.HasPostgresEnum<OrderStatus>();
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.Entity<User>().HasIndex(u => u.Email).IsUnique();

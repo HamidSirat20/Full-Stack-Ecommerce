@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using AutoMapper;
 using backend.Business.src.Dtos;
 using backend.Business.src.Interfaces;
 using backend.Domain.src.Common;
@@ -11,12 +8,18 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controller.src.Controllers;
 
-[Authorize]
 public class ProductController
     : RootController<Product, ProductReadDto, ProductCreateDto, ProductUpdateDto>
 {
-    public ProductController(IProductService baseService)
-        : base(baseService) { }
+    private readonly IProductService _productService;
+    private readonly IMapper _mapper;
+
+    public ProductController(IProductService baseService, IMapper mapper)
+        : base(baseService)
+    {
+        _productService = baseService;
+        _mapper = mapper;
+    }
 
     [AllowAnonymous]
     public override async Task<ActionResult<IEnumerable<ProductReadDto>>> GetAll(
@@ -41,7 +44,7 @@ public class ProductController
     }
 
     [AllowAnonymous]
-    public override async Task<ActionResult<ProductReadDto>> GetOneById([FromRoute] string id)
+    public override async Task<ActionResult<ProductReadDto>> GetOneById([FromRoute] Guid id)
     {
         var foundEntity = await base.GetOneById(id);
 
@@ -51,5 +54,29 @@ public class ProductController
         }
 
         return Ok(foundEntity);
+    }
+
+    // [Authorize(Roles = "Admin")]
+    public override async Task<ActionResult<ProductReadDto>> CreateOne(
+        [FromBody] ProductCreateDto createDto
+    )
+    {
+        var createdObject = await _productService.CreateOne(createDto);
+        return CreatedAtAction(nameof(CreateOne), createdObject);
+    }
+
+    [Authorize(Roles = "Admin")]
+    public override async Task<ActionResult<ProductReadDto>> UpdateOne(
+        [FromRoute] Guid id,
+        [FromBody] ProductUpdateDto updateDto
+    )
+    {
+        return await _productService.UpdateOneById(id, updateDto);
+    }
+
+    [Authorize(Roles = "Admin")]
+    public override async Task<ActionResult<bool>> DeleteOneById([FromRoute] Guid id)
+    {
+        return StatusCode(204, await _productService.DeleteOneById(id));
     }
 }

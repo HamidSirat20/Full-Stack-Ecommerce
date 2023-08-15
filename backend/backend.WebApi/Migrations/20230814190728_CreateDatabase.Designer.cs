@@ -13,7 +13,7 @@ using backend.WebApi.src.Database;
 namespace backend.WebApi.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20230812164835_CreateDatabase")]
+    [Migration("20230814190728_CreateDatabase")]
     partial class CreateDatabase
     {
         /// <inheritdoc />
@@ -24,6 +24,7 @@ namespace backend.WebApi.Migrations
                 .HasAnnotation("ProductVersion", "7.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "order_status", new[] { "pending", "processing", "shipped", "delivered", "cancelled" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "role", new[] { "client", "admin" });
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
@@ -47,14 +48,19 @@ namespace backend.WebApi.Migrations
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("modified_at");
 
-                    b.Property<Guid?>("ProductId")
+                    b.Property<string>("ProudctId")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("proudct_id");
+
+                    b.Property<Guid>("productId")
                         .HasColumnType("uuid")
                         .HasColumnName("product_id");
 
                     b.HasKey("Id")
                         .HasName("pk_images");
 
-                    b.HasIndex("ProductId")
+                    b.HasIndex("productId")
                         .HasDatabaseName("ix_images_product_id");
 
                     b.ToTable("images", (string)null);
@@ -80,8 +86,8 @@ namespace backend.WebApi.Migrations
                         .HasColumnType("text")
                         .HasColumnName("shipping_address");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("integer")
+                    b.Property<OrderStatus>("Status")
+                        .HasColumnType("order_status")
                         .HasColumnName("status");
 
                     b.Property<Guid>("UserId")
@@ -228,10 +234,14 @@ namespace backend.WebApi.Migrations
 
             modelBuilder.Entity("backend.Domain.src.Entities.Image", b =>
                 {
-                    b.HasOne("backend.Domain.src.Entities.Product", null)
+                    b.HasOne("backend.Domain.src.Entities.Product", "product")
                         .WithMany("Images")
-                        .HasForeignKey("ProductId")
+                        .HasForeignKey("productId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
                         .HasConstraintName("fk_images_products_product_id");
+
+                    b.Navigation("product");
                 });
 
             modelBuilder.Entity("backend.Domain.src.Entities.Order", b =>

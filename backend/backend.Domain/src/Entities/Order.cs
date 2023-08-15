@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace backend.Domain.src.Entities;
 
 public class Order : BaseEntity
@@ -7,6 +9,8 @@ public class Order : BaseEntity
     public User User { get; set; }
     public ICollection<OrderItem> OrderItems { get; set; }
 }
+
+[JsonConverter(typeof(JsonStringEnumConverter))]
 public enum OrderStatus
 {
     Pending,

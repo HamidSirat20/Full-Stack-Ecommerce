@@ -1,21 +1,35 @@
 using System.Security.Cryptography;
 using System.Text;
 
+using backend.Business.src.Interfaces;
+
 namespace backend.Business.src.Common;
 
-public class PasswordService
-{
-    public static void HashPassword(string oldPassword, out string hashedPassword, out byte[] salt)
+public class PasswordService : IPasswordService
     {
-        var hmac = new HMACSHA256();
-        salt = hmac.Key;
-        hashedPassword = hmac.ComputeHash(Encoding.UTF8.GetBytes(oldPassword)).ToString();
-    }
+        public void HashPassword(
+            string originalPassword,
+            out string hashedPassword,
+            out byte[] salt
+        )
+        {
+            using (var hmac = new HMACSHA256())
+            {
+                salt = hmac.Key;
+                hashedPassword = Encoding.UTF8.GetString(
+                    hmac.ComputeHash(Encoding.UTF8.GetBytes(originalPassword))
+                );
+            }
+        }
 
-    public static bool VerifyPassword(string oldPassword, string hashedPassword, byte[] salt)
-    {
-        var hmac = new HMACSHA256(salt);
-        var hashNewPassword = hmac.ComputeHash(Encoding.UTF8.GetBytes(oldPassword)).ToString();
-        return hashNewPassword == hashedPassword;
+        public bool VerifyPassword(string originalPassword, string hashedPassword, byte[] salt)
+        {
+            using (var hmac = new HMACSHA256(salt))
+            {
+                var hashedOriginal = Encoding.UTF8.GetString(
+                    hmac.ComputeHash(Encoding.UTF8.GetBytes(originalPassword))
+                );
+                return hashedOriginal == hashedPassword;
+            }
+        }
     }
-}

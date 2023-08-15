@@ -5,8 +5,8 @@ namespace backend.Business.src.Interfaces;
 public interface IBaseService<T,TReadDto,TCreateDto,TUpdateDto>
 {
     Task<IEnumerable<TReadDto>> GetAll(QueryParameters queryParameters);
-    Task<TReadDto> GetOneById(string id);
-    Task<TReadDto> UpdateOneById(string id,TUpdateDto newEntity);
-    Task<bool> DeleteOneById(string id);
+    Task<TReadDto> GetOneById(Guid id);
+    Task<TReadDto> UpdateOneById(Guid id,TUpdateDto newEntity);
+    Task<bool> DeleteOneById(Guid id);
     Task<TReadDto> CreateOne(TCreateDto newEntity);
 }

@@ -1,8 +1,11 @@
 using System.Text;
+using backend.Business.src.Common;
 using backend.Business.src.Implementations;
 using backend.Business.src.Interfaces;
 using backend.Domain.src.RepoInterfaces;
+using backend.WebApi.src.AuthorizationRequirements;
 using backend.WebApi.src.Database;
+using backend.WebApi.src.Middlewares;
 using backend.WebApi.src.RepoImplementations;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -29,9 +32,8 @@ builder.Services
     .AddScoped<IOrderItemService, OrderItemService>()
     .AddScoped<IImageRepo, ImageRepo>()
     .AddScoped<IImageService, ImageService>()
-    .AddScoped<IAuthService, AuthService>();
-
-
+    .AddScoped<IAuthService, AuthService>()
+    .AddScoped<IPasswordService,PasswordService>();
 
 // Add services to the container.
 
@@ -53,6 +55,11 @@ builder.Services.AddSwaggerGen(options =>
     options.OperationFilter<SecurityRequirementsOperationFilter>();
 });
 
+//add policy based requirement handler
+builder.Services
+.AddSingleton<ErrorHandlerMiddleware>()
+.AddSingleton<ResourceOwnerAuthorization>();
+
 //Config route
 builder.Services.Configure<RouteOptions>(options =>
 {
@@ -60,21 +67,26 @@ builder.Services.Configure<RouteOptions>(options =>
 });
 
 //Config the authentication
-builder.Services
-    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
     {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidIssuer = "ecommerce",
-            ValidateAudience = false,
-            IssuerSigningKey = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes("my-secret-key-is-unique-and-should-keep-it-safe")
-            ),
-            ValidateIssuerSigningKey = true
-        };
-    });
+        ValidateIssuer = true,
+        ValidIssuer = "backend",
+        ValidateAudience = false,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("my-secret-key-is-unique-and-should-keep-it-safe")),
+        ValidateIssuerSigningKey = true
+    };
+});
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy(
+        "OwnerOnly",
+        policy => policy.Requirements.Add(new ResourceOwnerAuthorization())
+    );
+});
 
 var app = builder.Build();
 
@@ -87,8 +99,10 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
+app.UseMiddleware<ErrorHandlerMiddleware>();
 app.UseAuthentication();
+app.UseAuthorization();
+
 
 app.MapControllers();
 

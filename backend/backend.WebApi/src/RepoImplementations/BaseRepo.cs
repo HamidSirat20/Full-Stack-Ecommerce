@@ -1,5 +1,6 @@
 using System.Reflection;
 using backend.Domain.src.Common;
+using backend.Domain.src.Entities;
 using backend.Domain.src.RepoInterfaces;
 using backend.WebApi.src.Database;
 using Microsoft.EntityFrameworkCore;
@@ -35,29 +36,80 @@ public class BaseRepo<T> : IBaseRepo<T>
     public async Task<IEnumerable<T>> GetAll(QueryParameters queryParameters)
     {
         return await _dbSet.ToArrayAsync();
-        // var entities = _dbSet.AsQueryable();
-        // if (!string.IsNullOrWhiteSpace(queryParameters.Search))
-        // {
-        //     entities = entities.Where(
-        //         entity =>
-        //             entity
-        //                 .ToString()
-        //                 .Contains(queryParameters.Search, StringComparison.OrdinalIgnoreCase)
-        //     );
-        // }
-        // var propertyInfo = typeof(T).GetProperty(
-        //     queryParameters.OrderBy,
-        //     BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance
-        // );
-        // if (propertyInfo != null)
-        // {
-        //     entities = queryParameters.OrderByDescending
-        //         ? entities.OrderByDescending(entity => propertyInfo.GetValue(entity))
-        //         : entities.OrderBy(entity => propertyInfo.GetValue(entity));
-        // }
-        // entities = entities.Skip(queryParameters.Offset - 1).Take(queryParameters.Limit);
+        // var query = _dbSet.AsQueryable();
 
-        // return await entities.ToListAsync();
+        // if (!string.IsNullOrEmpty(queryParameters.Search))
+        // {
+        //     if (typeof(T) == typeof(Product))
+        //     {
+        //         query = query.Where(
+        //             e => ((Product)(object)e).Title.Contains(queryParameters.Search)
+        //         );
+        //     }
+        //     else if (typeof(T) == typeof(User))
+        //     {
+        //         query = query.Where(
+        //             e =>
+        //                 ((User)(object)e).FirstName.Contains(queryParameters.Search)
+        //                 || ((User)(object)e).LastName.Contains(queryParameters.Search)
+        //         );
+        //     }
+        //     else if (typeof(T) == typeof(Order))
+        //     {
+        //         query = query.Where(
+        //             e => ((Order)(object)e).OrderItems!.ToString().Contains(queryParameters.Search)
+        //         );
+        //     }
+        // }
+
+        // if (queryParameters.OrderByDescending)
+        // {
+        //     if (typeof(T) == typeof(Product))
+        //     {
+        //         query = query.OrderByDescending(
+        //             e => EF.Property<DateTime>((Product)(object)e, queryParameters.OrderBy)
+        //         );
+        //     }
+        //     else if (typeof(T) == typeof(User))
+        //     {
+        //         query = query.OrderByDescending(
+        //             e => EF.Property<DateTime>((User)(object)e, queryParameters.OrderBy)
+        //         );
+        //     }
+        //     else if (typeof(T) == typeof(Order))
+        //     {
+        //         query = query.OrderByDescending(
+        //             e => EF.Property<DateTime>((Order)(object)e, queryParameters.OrderBy)
+        //         );
+        //     }
+        // }
+        // else
+        // {
+        //     if (typeof(T) == typeof(Product))
+        //     {
+        //         query = query.OrderBy(
+        //             e => EF.Property<DateTime>((Product)(object)e, queryParameters.OrderBy)
+        //         );
+        //     }
+        //     else if (typeof(T) == typeof(User))
+        //     {
+        //         query = query.OrderBy(
+        //             e => EF.Property<DateTime>((User)(object)e, queryParameters.OrderBy)
+        //         );
+        //     }
+        //     else if (typeof(T) == typeof(Order))
+        //     {
+        //         query = query.OrderBy(
+        //             e => EF.Property<DateTime>((Order)(object)e, queryParameters.OrderBy)
+        //         );
+        //     }
+        // }
+
+        // query = query
+        //     .Skip((queryParameters.Offset - 1) * queryParameters.Limit)
+        //     .Take(queryParameters.Limit);
+
+        // return await query.ToListAsync();
     }
 
     public async Task<T> GetOneById(Guid id)
