@@ -1,4 +1,3 @@
-using System.Reflection;
 using backend.Domain.src.Common;
 using backend.Domain.src.Entities;
 using backend.Domain.src.RepoInterfaces;
@@ -33,85 +32,6 @@ public class BaseRepo<T> : IBaseRepo<T>
         return true;
     }
 
-    public async Task<IEnumerable<T>> GetAll(QueryParameters queryParameters)
-    {
-        return await _dbSet.ToArrayAsync();
-        // var query = _dbSet.AsQueryable();
-
-        // if (!string.IsNullOrEmpty(queryParameters.Search))
-        // {
-        //     if (typeof(T) == typeof(Product))
-        //     {
-        //         query = query.Where(
-        //             e => ((Product)(object)e).Title.Contains(queryParameters.Search)
-        //         );
-        //     }
-        //     else if (typeof(T) == typeof(User))
-        //     {
-        //         query = query.Where(
-        //             e =>
-        //                 ((User)(object)e).FirstName.Contains(queryParameters.Search)
-        //                 || ((User)(object)e).LastName.Contains(queryParameters.Search)
-        //         );
-        //     }
-        //     else if (typeof(T) == typeof(Order))
-        //     {
-        //         query = query.Where(
-        //             e => ((Order)(object)e).OrderItems!.ToString().Contains(queryParameters.Search)
-        //         );
-        //     }
-        // }
-
-        // if (queryParameters.OrderByDescending)
-        // {
-        //     if (typeof(T) == typeof(Product))
-        //     {
-        //         query = query.OrderByDescending(
-        //             e => EF.Property<DateTime>((Product)(object)e, queryParameters.OrderBy)
-        //         );
-        //     }
-        //     else if (typeof(T) == typeof(User))
-        //     {
-        //         query = query.OrderByDescending(
-        //             e => EF.Property<DateTime>((User)(object)e, queryParameters.OrderBy)
-        //         );
-        //     }
-        //     else if (typeof(T) == typeof(Order))
-        //     {
-        //         query = query.OrderByDescending(
-        //             e => EF.Property<DateTime>((Order)(object)e, queryParameters.OrderBy)
-        //         );
-        //     }
-        // }
-        // else
-        // {
-        //     if (typeof(T) == typeof(Product))
-        //     {
-        //         query = query.OrderBy(
-        //             e => EF.Property<DateTime>((Product)(object)e, queryParameters.OrderBy)
-        //         );
-        //     }
-        //     else if (typeof(T) == typeof(User))
-        //     {
-        //         query = query.OrderBy(
-        //             e => EF.Property<DateTime>((User)(object)e, queryParameters.OrderBy)
-        //         );
-        //     }
-        //     else if (typeof(T) == typeof(Order))
-        //     {
-        //         query = query.OrderBy(
-        //             e => EF.Property<DateTime>((Order)(object)e, queryParameters.OrderBy)
-        //         );
-        //     }
-        // }
-
-        // query = query
-        //     .Skip((queryParameters.Offset - 1) * queryParameters.Limit)
-        //     .Take(queryParameters.Limit);
-
-        // return await query.ToListAsync();
-    }
-
     public async Task<T> GetOneById(Guid id)
     {
         return await _dbSet.FindAsync(id);
@@ -122,5 +42,49 @@ public class BaseRepo<T> : IBaseRepo<T>
         _dbSet.Update(newEntity);
         await _context.SaveChangesAsync();
         return newEntity;
+    }
+
+    public async Task<IEnumerable<T>> GetAll(QueryParameters queryParameters)
+    {
+        //return await _dbSet.AsNoTracking().ToArrayAsync();
+        var items = _dbSet.AsEnumerable();
+
+        if (!string.IsNullOrWhiteSpace(queryParameters.Search))
+        {
+            items = items.Where(e =>
+            {
+                if (e is User user && !string.IsNullOrEmpty(user.FirstName))
+                {
+                    return user.FirstName.ToLower().Contains(queryParameters.Search.ToLower());
+                }
+                else if (e is Product product && !string.IsNullOrEmpty(product.Title))
+                {
+                    return product.Title.ToLower().Contains(queryParameters.Search.ToLower());
+                }
+                 else if (e is Order order && !string.IsNullOrEmpty(order.Status.ToString()))
+                {
+                    return order.Status.ToString().Contains(queryParameters.Search.ToLower());
+                }
+                return false;
+            });
+        }
+
+        if (!string.IsNullOrWhiteSpace(queryParameters.OrderBy))
+        {
+            var orderByProperty = typeof(T).GetProperty(queryParameters.OrderBy);
+
+            if (orderByProperty != null)
+            {
+                items = queryParameters.OrderByDescending
+                    ? items.OrderByDescending(e => orderByProperty.GetValue(e))
+                    : items.OrderBy(e => orderByProperty.GetValue(e));
+            }
+        }
+
+        items = items
+            .Skip((queryParameters.Offset - 1) * queryParameters.Limit)
+            .Take(queryParameters.Limit);
+
+        return items.ToList();
     }
 }

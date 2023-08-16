@@ -45,19 +45,14 @@ namespace backend.WebApi.Migrations
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("modified_at");
 
-                    b.Property<string>("ProudctId")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("proudct_id");
-
-                    b.Property<Guid>("productId")
+                    b.Property<Guid>("ProductId")
                         .HasColumnType("uuid")
                         .HasColumnName("product_id");
 
                     b.HasKey("Id")
                         .HasName("pk_images");
 
-                    b.HasIndex("productId")
+                    b.HasIndex("ProductId")
                         .HasDatabaseName("ix_images_product_id");
 
                     b.ToTable("images", (string)null);
@@ -231,14 +226,14 @@ namespace backend.WebApi.Migrations
 
             modelBuilder.Entity("backend.Domain.src.Entities.Image", b =>
                 {
-                    b.HasOne("backend.Domain.src.Entities.Product", "product")
+                    b.HasOne("backend.Domain.src.Entities.Product", "Product")
                         .WithMany("Images")
-                        .HasForeignKey("productId")
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_images_products_product_id");
 
-                    b.Navigation("product");
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("backend.Domain.src.Entities.Order", b =>

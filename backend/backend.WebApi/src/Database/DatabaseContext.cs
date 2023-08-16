@@ -44,5 +44,6 @@ public class DatabaseContext : DbContext
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.Entity<User>().HasIndex(u => u.Email).IsUnique();
+
     }
 }

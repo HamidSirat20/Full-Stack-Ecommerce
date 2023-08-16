@@ -33,7 +33,7 @@ builder.Services
     .AddScoped<IImageRepo, ImageRepo>()
     .AddScoped<IImageService, ImageService>()
     .AddScoped<IAuthService, AuthService>()
-    .AddScoped<IPasswordService,PasswordService>();
+    .AddScoped<IPasswordService, PasswordService>();
 
 // Add services to the container.
 
@@ -67,18 +67,21 @@ builder.Services.Configure<RouteOptions>(options =>
 });
 
 //Config the authentication
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-.AddJwtBearer(options =>
-{
-    options.TokenValidationParameters = new TokenValidationParameters
+builder.Services
+    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
     {
-        ValidateIssuer = true,
-        ValidIssuer = "backend",
-        ValidateAudience = false,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("my-secret-key-is-unique-and-should-keep-it-safe")),
-        ValidateIssuerSigningKey = true
-    };
-});
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidIssuer = "backend",
+            ValidateAudience = false,
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes("my-secret-key-is-unique-and-should-keep-it-safe")
+            ),
+            ValidateIssuerSigningKey = true
+        };
+    });
 
 builder.Services.AddAuthorization(options =>
 {
@@ -102,7 +105,6 @@ app.UseHttpsRedirection();
 app.UseMiddleware<ErrorHandlerMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();
-
 
 app.MapControllers();
 

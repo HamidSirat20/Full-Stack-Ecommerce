@@ -59,7 +59,6 @@ namespace backend.WebApi.Migrations
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     image_urls = table.Column<string>(type: "text", nullable: false),
-                    proudct_id = table.Column<string>(type: "text", nullable: false),
                     product_id = table.Column<Guid>(type: "uuid", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     modified_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)

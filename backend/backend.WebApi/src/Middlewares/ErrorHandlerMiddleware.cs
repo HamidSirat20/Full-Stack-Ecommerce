@@ -11,15 +11,15 @@ public class ErrorHandlerMiddleware : IMiddleware
         {
             await next(context);
         }
+        catch (DbUpdateException e)
+        {
+            context.Response.StatusCode = 500;
+            await context.Response.WriteAsJsonAsync(e.Message);
+        }
         catch (CustomErrorHandler e)
         {
             context.Response.StatusCode = e.StatusCode;
             await context.Response.WriteAsJsonAsync(e.ErrorMessage);
-        }
-        catch (DbUpdateException e)
-        {
-            context.Response.StatusCode = 500;
-            await context.Response.WriteAsJsonAsync(e.InnerException!.Message);
         }
         catch (Exception e)
         {
