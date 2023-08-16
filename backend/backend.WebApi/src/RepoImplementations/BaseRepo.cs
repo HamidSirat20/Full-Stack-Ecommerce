@@ -32,7 +32,7 @@ public class BaseRepo<T> : IBaseRepo<T>
         return true;
     }
 
-    public async Task<T> GetOneById(Guid id)
+    public virtual async Task<T> GetOneById(Guid id)
     {
         return await _dbSet.FindAsync(id);
     }

@@ -33,7 +33,11 @@ builder.Services
     .AddScoped<IImageRepo, ImageRepo>()
     .AddScoped<IImageService, ImageService>()
     .AddScoped<IAuthService, AuthService>()
-    .AddScoped<IPasswordService, PasswordService>();
+    .AddScoped<IPasswordService, PasswordService>()
+    .AddScoped<IReviewRepo,ReviewRepo>()
+    .AddScoped<IReviewService, ReviewService>()
+    .AddScoped<ICategoryRepo,CategoryRepo>()
+    .AddScoped<ICategoryService, CategoryService>();
 
 // Add services to the container.
 

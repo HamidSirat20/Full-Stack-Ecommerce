@@ -19,9 +19,8 @@ public class ImageRepo : BaseRepo<Image>, IImageRepo
 
     public override async Task<Image> CreateOne(Image image)
     {
-        System.Console.WriteLine("here is product id");
-        System.Console.WriteLine(image.Product);
         await _dbSet.AddAsync(image);
+        await _context.SaveChangesAsync();
         return image;
     }
 }

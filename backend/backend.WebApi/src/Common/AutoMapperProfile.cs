@@ -36,11 +36,25 @@ public class AutoMapperProfile : Profile
         CreateMap<OrderItem, OrderItemUpdateDto>();
         CreateMap<OrderItemUpdateDto, OrderItem>();
 
-         CreateMap<Image, ImageReadDto>();
+        CreateMap<Image, ImageReadDto>();
         CreateMap<ImageReadDto, Image>();
         CreateMap<Image, ImageCreateDto>();
         CreateMap<ImageCreateDto, Image>();
         CreateMap<Image, ImageUpdateDto>();
         CreateMap<ImageUpdateDto, Image>();
+
+        CreateMap<Review, ReviewReadDto>();
+        CreateMap<ReviewReadDto, Review>();
+        CreateMap<Review, ReviewCreateDto>();
+        CreateMap<ReviewCreateDto, Review>();
+        CreateMap<Review, ReviewUpdateDto>();
+        CreateMap<ReviewUpdateDto, Review>();
+
+        CreateMap<Category, CategoryReadDto>();
+        CreateMap<CategoryReadDto, Category>();
+        CreateMap<Category, CategoryCreateDto>();
+        CreateMap<CategoryCreateDto, Category>();
+        CreateMap<Category, CategoryUpdateDto>();
+        CreateMap<CategoryUpdateDto, Category>();
     }
 }
