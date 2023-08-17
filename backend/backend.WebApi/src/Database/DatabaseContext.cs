@@ -44,6 +44,7 @@ public class DatabaseContext : DbContext
         modelBuilder.HasPostgresEnum<Role>();
         modelBuilder.HasPostgresEnum<OrderStatus>();
         modelBuilder.Entity<User>().HasIndex(u => u.Email).IsUnique();
+        modelBuilder.Entity<Category>().HasIndex(u => u.CategoryName).IsUnique();
         base.OnModelCreating(modelBuilder);
     }
 }

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using backend.Domain.src.Entities;
@@ -12,9 +13,11 @@ using backend.WebApi.src.Database;
 namespace backend.WebApi.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20230816201352_ImageAddedToCategory")]
+    partial class ImageAddedToCategory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,10 +55,6 @@ namespace backend.WebApi.Migrations
 
                     b.HasKey("Id")
                         .HasName("pk_categories");
-
-                    b.HasIndex("CategoryName")
-                        .IsUnique()
-                        .HasDatabaseName("ix_categories_category_name");
 
                     b.ToTable("categories", (string)null);
                 });

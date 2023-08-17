@@ -25,7 +25,7 @@ public class BaseRepo<T> : IBaseRepo<T>
         return newEntity;
     }
 
-    public async Task<bool> DeleteOneById(T newEntity)
+    public virtual async Task<bool> DeleteOneById(T newEntity)
     {
         _dbSet.Remove(newEntity);
         await _context.SaveChangesAsync();
@@ -37,14 +37,14 @@ public class BaseRepo<T> : IBaseRepo<T>
         return await _dbSet.FindAsync(id);
     }
 
-    public async Task<T> UpdateOneById(T newEntity)
+    public virtual async Task<T> UpdateOneById(T newEntity)
     {
         _dbSet.Update(newEntity);
         await _context.SaveChangesAsync();
         return newEntity;
     }
 
-    public async Task<IEnumerable<T>> GetAll(QueryParameters queryParameters)
+    public virtual async Task<IEnumerable<T>> GetAll(QueryParameters queryParameters)
     {
         //return await _dbSet.AsNoTracking().ToArrayAsync();
         var items = _dbSet.AsEnumerable();
@@ -53,17 +53,35 @@ public class BaseRepo<T> : IBaseRepo<T>
         {
             items = items.Where(e =>
             {
-                if (e is User user && !string.IsNullOrEmpty(user.FirstName))
+                if (
+                    e is User user
+                    && !string.IsNullOrEmpty(user.FirstName)
+                    && !string.IsNullOrEmpty(user.LastName)
+                    && (
+                        user.FirstName.ToLower().Contains(queryParameters.Search.ToLower())
+                        || user.LastName.ToLower().Contains(queryParameters.Search.ToLower())
+                    )
+                )
                 {
-                    return user.FirstName.ToLower().Contains(queryParameters.Search.ToLower());
+                    return true;
                 }
                 else if (e is Product product && !string.IsNullOrEmpty(product.Title))
                 {
                     return product.Title.ToLower().Contains(queryParameters.Search.ToLower());
                 }
-                 else if (e is Order order && !string.IsNullOrEmpty(order.Status.ToString()))
+                else if (e is Order order && !string.IsNullOrEmpty(order.Status.ToString()))
                 {
                     return order.Status.ToString().Contains(queryParameters.Search.ToLower());
+                }
+                else if (e is Review review && !string.IsNullOrEmpty(review.Comment.ToString()))
+                {
+                    return review.Comment.ToString().Contains(queryParameters.Search.ToLower());
+                }
+                else if (
+                    e is Category categ && !string.IsNullOrEmpty(categ.CategoryName.ToString())
+                )
+                {
+                    return categ.CategoryName.ToString().Contains(queryParameters.Search.ToLower());
                 }
                 return false;
             });
