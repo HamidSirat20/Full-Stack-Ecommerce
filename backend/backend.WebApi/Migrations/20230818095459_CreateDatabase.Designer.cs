@@ -13,7 +13,7 @@ using backend.WebApi.src.Database;
 namespace backend.WebApi.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20230816132632_CreateDatabase")]
+    [Migration("20230818095459_CreateDatabase")]
     partial class CreateDatabase
     {
         /// <inheritdoc />
@@ -44,12 +44,21 @@ namespace backend.WebApi.Migrations
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("created_at");
 
+                    b.Property<string>("Image")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("image");
+
                     b.Property<DateTime>("ModifiedAt")
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("modified_at");
 
                     b.HasKey("Id")
                         .HasName("pk_categories");
+
+                    b.HasIndex("CategoryName")
+                        .IsUnique()
+                        .HasDatabaseName("ix_categories_category_name");
 
                     b.ToTable("categories", (string)null);
                 });

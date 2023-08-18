@@ -46,7 +46,6 @@ public class BaseRepo<T> : IBaseRepo<T>
 
     public virtual async Task<IEnumerable<T>> GetAll(QueryParameters queryParameters)
     {
-        //return await _dbSet.AsNoTracking().ToArrayAsync();
         var items = _dbSet.AsEnumerable();
 
         if (!string.IsNullOrWhiteSpace(queryParameters.Search))
@@ -87,17 +86,67 @@ public class BaseRepo<T> : IBaseRepo<T>
             });
         }
 
-        if (!string.IsNullOrWhiteSpace(queryParameters.OrderBy))
-        {
-            var orderByProperty = typeof(T).GetProperty(queryParameters.OrderBy);
+        // if (typeof(T) == typeof(Product))
+        // {
+        //     if (queryParameters.OrderByDescending)
+        //     {
+        //         items = items.OrderByDescending(
+        //             e => EF.Property<DateTime>((Product)(object)e, queryParameters.OrderBy)
+        //         );
+        //     }
+        //     else
+        //     {
+        //         items = items.OrderBy(
+        //             e => EF.Property<DateTime>((Product)(object)e, queryParameters.OrderBy)
+        //         );
+        //     }
+        // }
+        // else if (typeof(T) == typeof(User))
+        // {
+        //     if (!string.IsNullOrWhiteSpace(queryParameters.OrderBy))
+        //     {
+        //         var orderByProperty = typeof(User).GetProperty(queryParameters.OrderBy);
 
-            if (orderByProperty != null)
-            {
-                items = queryParameters.OrderByDescending
-                    ? items.OrderByDescending(e => orderByProperty.GetValue(e))
-                    : items.OrderBy(e => orderByProperty.GetValue(e));
-            }
-        }
+        //         if (orderByProperty != null)
+        //         {
+        //             if (queryParameters.OrderByDescending)
+        //             {
+        //                 items = items.OrderByDescending(
+        //                     e => EF.Property<DateTime>(e, queryParameters.OrderBy)
+        //                 );
+        //             }
+        //             else
+        //             {
+        //                 items = items.OrderBy(
+        //                     e => EF.Property<DateTime>(e, queryParameters.OrderBy)
+        //                 );
+        //             }
+        //         }
+        //     }
+        // }
+        // else if (typeof(T) == typeof(Order))
+        // {
+        //     if (!string.IsNullOrWhiteSpace(queryParameters.OrderBy))
+        //     {
+        //         var orderByProperty = typeof(Order).GetProperty(queryParameters.OrderBy);
+
+        //         if (orderByProperty != null)
+        //         {
+        //             if (queryParameters.OrderByDescending)
+        //             {
+        //                 items = items.OrderByDescending(
+        //                     e => EF.Property<DateTime>(e, queryParameters.OrderBy)
+        //                 );
+        //             }
+        //             else
+        //             {
+        //                 items = items.OrderBy(
+        //                     e => EF.Property<DateTime>(e, queryParameters.OrderBy)
+        //                 );
+        //             }
+        //         }
+        //     }
+        // }
 
         items = items
             .Skip((queryParameters.Offset - 1) * queryParameters.Limit)

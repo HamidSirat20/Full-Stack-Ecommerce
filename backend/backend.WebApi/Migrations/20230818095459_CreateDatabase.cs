@@ -22,6 +22,7 @@ namespace backend.WebApi.Migrations
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     category_name = table.Column<string>(type: "text", nullable: false),
+                    image = table.Column<string>(type: "text", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     modified_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
@@ -172,6 +173,12 @@ namespace backend.WebApi.Migrations
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "ix_categories_category_name",
+                table: "categories",
+                column: "category_name",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "ix_images_product_id",

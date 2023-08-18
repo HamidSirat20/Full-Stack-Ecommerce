@@ -42,4 +42,9 @@ public class UserRepo : BaseRepo<User>, IUserRepo
         entity.Role = Role.Client;
         return base.CreateOne(entity);
     }
+
+    public override async Task<User> GetOneById(Guid id)
+    {
+        return await _dbSet.FindAsync(id);
+    }
 }

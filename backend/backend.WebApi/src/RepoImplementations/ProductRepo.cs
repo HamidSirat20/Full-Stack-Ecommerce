@@ -19,44 +19,87 @@ public class ProductRepo : BaseRepo<Product>, IProductRepo
     public override async Task<Product?> GetOneById(Guid id)
     {
         return await _dbSet
-            .Include(rev => rev.Reviews)
-            .Include(prodId => prodId.Id)
-            .Include(orderItem => orderItem.OrderItems)
+            .Include(p => p.Images)
+            // .Include(p => p.Reviews)
+            .Include(p => p.OrderItems) // Include order items
             .FirstOrDefaultAsync(i => i.Id == id);
     }
 
     public override async Task<IEnumerable<Product>> GetAll(QueryParameters queryParameters)
     {
         var items = _dbSet
-            .Include(r => r.Reviews)
-            .ThenInclude(r => r.User)
-            //.Include(i=>i.Images)
-            .AsEnumerable();
+
+        // .ThenInclude(p => p.Product)
+        // .Include(p=>p.Reviews)
+        // .Include(p => p.OrderItems)
+        .AsEnumerable();
+
         if (!string.IsNullOrWhiteSpace(queryParameters.Search))
         {
-            items = items
-                .Where(e =>
-                {
-                    if (e is Product product && !string.IsNullOrEmpty(product.Title))
-                    {
-                        return product.Title.ToLower().Contains(queryParameters.Search.ToLower());
-                    }
-                    return false;
-                })
-                .ToList();
+            items = items.Where(e => e.Title.ToLower().Contains(queryParameters.Search.ToLower()));
         }
 
-        if (!string.IsNullOrWhiteSpace(queryParameters.OrderBy))
-        {
-            var orderByProperty = typeof(Product).GetProperty(queryParameters.OrderBy);
+        // if (typeof(T) == typeof(Product))
+        // {
+        //     if (queryParameters.OrderByDescending)
+        //     {
+        //         items = items.OrderByDescending(
+        //             e => EF.Property<DateTime>((Product)(object)e, queryParameters.OrderBy)
+        //         );
+        //     }
+        //     else
+        //     {
+        //         items = items.OrderBy(
+        //             e => EF.Property<DateTime>((Product)(object)e, queryParameters.OrderBy)
+        //         );
+        //     }
+        // }
+        // else if (typeof(T) == typeof(User))
+        // {
+        //     if (!string.IsNullOrWhiteSpace(queryParameters.OrderBy))
+        //     {
+        //         var orderByProperty = typeof(User).GetProperty(queryParameters.OrderBy);
 
-            if (orderByProperty != null)
-            {
-                items = queryParameters.OrderByDescending
-                    ? items.OrderByDescending(e => orderByProperty.GetValue(e))
-                    : items.OrderBy(e => orderByProperty.GetValue(e));
-            }
-        }
+        //         if (orderByProperty != null)
+        //         {
+        //             if (queryParameters.OrderByDescending)
+        //             {
+        //                 items = items.OrderByDescending(
+        //                     e => EF.Property<DateTime>(e, queryParameters.OrderBy)
+        //                 );
+        //             }
+        //             else
+        //             {
+        //                 items = items.OrderBy(
+        //                     e => EF.Property<DateTime>(e, queryParameters.OrderBy)
+        //                 );
+        //             }
+        //         }
+        //     }
+        // }
+        // else if (typeof(T) == typeof(Order))
+        // {
+        //     if (!string.IsNullOrWhiteSpace(queryParameters.OrderBy))
+        //     {
+        //         var orderByProperty = typeof(Order).GetProperty(queryParameters.OrderBy);
+
+        //         if (orderByProperty != null)
+        //         {
+        //             if (queryParameters.OrderByDescending)
+        //             {
+        //                 items = items.OrderByDescending(
+        //                     e => EF.Property<DateTime>(e, queryParameters.OrderBy)
+        //                 );
+        //             }
+        //             else
+        //             {
+        //                 items = items.OrderBy(
+        //                     e => EF.Property<DateTime>(e, queryParameters.OrderBy)
+        //                 );
+        //             }
+        //         }
+        //     }
+        // }
 
         items = items
             .Skip((queryParameters.Offset - 1) * queryParameters.Limit)
