@@ -73,14 +73,14 @@
         }
       }
     },
-    "C:\\Users\\sirat\\OneDrive\\Desktop\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Controller\\backend.Controller.csproj": {
+    "c:\\Users\\sirat\\OneDrive\\Desktop\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Controller\\backend.Controller.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\sirat\\OneDrive\\Desktop\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Controller\\backend.Controller.csproj",
+        "projectUniqueName": "c:\\Users\\sirat\\OneDrive\\Desktop\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Controller\\backend.Controller.csproj",
         "projectName": "backend.Controller",
-        "projectPath": "C:\\Users\\sirat\\OneDrive\\Desktop\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Controller\\backend.Controller.csproj",
+        "projectPath": "c:\\Users\\sirat\\OneDrive\\Desktop\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Controller\\backend.Controller.csproj",
         "packagesPath": "C:\\Users\\sirat\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\sirat\\OneDrive\\Desktop\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Controller\\obj\\",
+        "outputPath": "c:\\Users\\sirat\\OneDrive\\Desktop\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Controller\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\sirat\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -234,8 +234,8 @@
               "C:\\Users\\sirat\\OneDrive\\Desktop\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Business\\backend.Business.csproj": {
                 "projectPath": "C:\\Users\\sirat\\OneDrive\\Desktop\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Business\\backend.Business.csproj"
               },
-              "C:\\Users\\sirat\\OneDrive\\Desktop\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Controller\\backend.Controller.csproj": {
-                "projectPath": "C:\\Users\\sirat\\OneDrive\\Desktop\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Controller\\backend.Controller.csproj"
+              "c:\\Users\\sirat\\OneDrive\\Desktop\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Controller\\backend.Controller.csproj": {
+                "projectPath": "c:\\Users\\sirat\\OneDrive\\Desktop\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Controller\\backend.Controller.csproj"
               },
               "C:\\Users\\sirat\\OneDrive\\Desktop\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Domain\\backend.Domain.csproj": {
                 "projectPath": "C:\\Users\\sirat\\OneDrive\\Desktop\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Domain\\backend.Domain.csproj"
