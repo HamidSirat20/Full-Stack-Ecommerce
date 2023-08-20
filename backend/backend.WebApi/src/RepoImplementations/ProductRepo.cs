@@ -1,3 +1,4 @@
+using System.Reflection;
 using backend.Domain.src.Common;
 using backend.Domain.src.Entities;
 using backend.Domain.src.RepoInterfaces;
@@ -39,9 +40,20 @@ public class ProductRepo : BaseRepo<Product>, IProductRepo
         {
             items = items.Where(e => e.Title.ToLower().Contains(queryParameters.Search.ToLower()));
         }
-        items = items
-            .Skip((queryParameters.Offset - 1) * queryParameters.Limit)
-            .Take(queryParameters.Limit);
+        if (!string.IsNullOrWhiteSpace(queryParameters.OrderBy))
+        {
+            var propertyInfo = typeof(Product).GetProperty(
+                queryParameters.OrderBy,
+                BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance
+            );
+            if (propertyInfo != null)
+            {
+                items = queryParameters.OrderByDescending
+                    ? items.OrderByDescending(p => propertyInfo.GetValue(p, null))
+                    : items.OrderBy(p => propertyInfo.GetValue(p, null));
+            }
+        }
+        items = items.Skip(queryParameters.Offset - 1).Take(queryParameters.Limit);
 
         return items.ToList();
     }
