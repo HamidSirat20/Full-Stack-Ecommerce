@@ -13,7 +13,7 @@ using backend.WebApi.src.Database;
 namespace backend.WebApi.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20230818095459_CreateDatabase")]
+    [Migration("20230823134832_CreateDatabase")]
     partial class CreateDatabase
     {
         /// <inheritdoc />

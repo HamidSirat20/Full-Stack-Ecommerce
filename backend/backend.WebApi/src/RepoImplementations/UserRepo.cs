@@ -37,10 +37,14 @@ public class UserRepo : BaseRepo<User>, IUserRepo
         return user;
     }
 
-    public override Task<User> CreateOne(User entity)
+    public override async Task<User> CreateOne(User entity)
     {
         entity.Role = Role.Client;
-        return base.CreateOne(entity);
+
+        var entry = await _dbSet.AddAsync(entity);
+        await _context.SaveChangesAsync();
+
+        return entry.Entity;
     }
 
     public override async Task<User> GetOneById(Guid id)

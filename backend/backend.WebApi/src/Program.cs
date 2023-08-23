@@ -11,9 +11,21 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
-using Microsoft.AspNetCore.Cors.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        builder
+        .WithOrigins("http://localhost:5049")
+        .AllowAnyHeader()
+        .AllowAnyMethod();
+    });
+});
+
+builder.Services.AddControllers();
 
 //Add AutoMapper DI
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
@@ -35,14 +47,10 @@ builder.Services
     .AddScoped<IImageService, ImageService>()
     .AddScoped<IAuthService, AuthService>()
     .AddScoped<IPasswordService, PasswordService>()
-    .AddScoped<IReviewRepo,ReviewRepo>()
+    .AddScoped<IReviewRepo, ReviewRepo>()
     .AddScoped<IReviewService, ReviewService>()
-    .AddScoped<ICategoryRepo,CategoryRepo>()
+    .AddScoped<ICategoryRepo, CategoryRepo>()
     .AddScoped<ICategoryService, CategoryService>();
-
-// Add services to the container.
-
-builder.Services.AddControllers();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -59,21 +67,9 @@ builder.Services.AddSwaggerGen(options =>
     );
     options.OperationFilter<SecurityRequirementsOperationFilter>();
 });
-//add CORS policy
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowAnyOrigin", policy =>
-    {
-        policy.AllowAnyOrigin()
-              .AllowAnyHeader()
-              .AllowAnyMethod();
-    });
-});
 
 //add policy based requirement handler
-builder.Services
-.AddSingleton<ErrorHandlerMiddleware>()
-.AddSingleton<ResourceOwnerAuthorization>();
+builder.Services.AddSingleton<ErrorHandlerMiddleware>().AddSingleton<ResourceOwnerAuthorization>();
 
 //Config route
 builder.Services.Configure<RouteOptions>(options =>
@@ -108,19 +104,23 @@ builder.Services.AddAuthorization(options =>
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// app.UseHttpsRedirection();
+app.UseForwardedHeaders();
+
+// Apply CORS policy
+app.UseCors();
+
+app.UseMiddleware<ErrorHandlerMiddleware>();
+
+//Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-// Apply CORS policy
-app.UseCors("AllowAnyOrigin");
 
-app.UseHttpsRedirection();
-
-app.UseMiddleware<ErrorHandlerMiddleware>();
 app.UseAuthentication();
+
 app.UseAuthorization();
 
 app.MapControllers();

@@ -20,7 +20,6 @@ public class ProductRepo : BaseRepo<Product>, IProductRepo
     public override async Task<Product?> GetOneById(Guid id)
     {
         return _dbSet
-            .Include(p => p.OrderItems)
             .Include(p => p.Reviews)
             .Include(p => p.Category)
             .Include(p => p.Images)
@@ -30,7 +29,6 @@ public class ProductRepo : BaseRepo<Product>, IProductRepo
     public override async Task<IEnumerable<Product>> GetAll(QueryParameters queryParameters)
     {
         var items = _dbSet
-            .Include(p => p.OrderItems)
             .Include(p => p.Reviews)
             .Include(p => p.Category)
             .Include(p => p.Images)
