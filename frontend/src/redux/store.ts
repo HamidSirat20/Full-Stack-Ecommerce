@@ -6,11 +6,12 @@ import cartReducer from "./reducers/cartReducer";
 import sliderReducer from "./reducers/sliderReducer";
 import categoryReducer, { catReducer } from "./reducers/categoryReducer";
 import drawerReducer from "./reducers/drawerReducer";
+import userReducer from "./reducers/usersReducer";
 
 const store = configureStore({
   reducer: {
     productsReducer,
-    usersReducers,
+    userReducer,
     cartReducer,
     sliderReducer,
     categoryReducer,

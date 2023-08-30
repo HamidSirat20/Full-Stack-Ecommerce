@@ -1,87 +1,46 @@
-import React from "react";
-import {
-  AppBar,
-  Button,
-  IconButton,
-  Stack,
-  Toolbar,
-  Typography,
-} from "@mui/material";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import { NavLink, Outlet } from "react-router-dom";
+import React from 'react';
+import { Link, Outlet } from 'react-router-dom';
+import { AppBar, Toolbar, Typography, IconButton } from '@mui/material';
+import HomeIcon from '@mui/icons-material/Home';
+import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
+import PersonIcon from '@mui/icons-material/Person';
+import StorefrontIcon from '@mui/icons-material/Storefront';
+import InfoIcon from '@mui/icons-material/Info';
 
-import useAppSelector from "../hooks/useAppSelector";
-import useAppDispatch from "../hooks/useAppDispatch";
-import { isCartVisible } from "../redux/reducers/drawerReducer";
-
-const NavBar = () => {
-  const toggle = useAppSelector((state) => state.drawerReducer.isCartVisible);
-  const cartProduct = useAppSelector((state) => state.cartReducer.cartItems);
-  const totalQuantity = cartProduct.reduce((accumulator, currentProduct) => {
-    return accumulator + currentProduct.quantity;
-  }, 0);
-  const dispatch = useAppDispatch();
-  const handleCartToggle = () => {
-    dispatch(isCartVisible());
-  };
+const Navbar = () => {
   return (
-    <>
-      <AppBar>
-        <Toolbar>
-          <Typography
-            color="white"
-            variant="h5"
-            component="div"
-            sx={{ flexGrow: 1 }}
-          >
-            <NavLink to="/">
-              <Button
-                color="inherit"
-                sx={{ color: "white", fontWeight: "bold" }}
-              >
-                PrimePicks
-              </Button>
-            </NavLink>
-          </Typography>
-          <Stack direction="row" spacing={2}>
-            <NavLink to="/">
-              <Button
-                color="inherit"
-                sx={{ color: "white", fontWeight: "bold" }}
-              >
-                Home
-              </Button>
-            </NavLink>
-            <NavLink to="/products">
-              <Button
-                color="inherit"
-                sx={{ color: "white", fontWeight: "bold" }}
-              >
-                Products
-              </Button>
-            </NavLink>
-            <IconButton onClick={handleCartToggle}>
-              <ShoppingCartIcon
-                fontSize="large"
-                color="inherit"
-                aria-aria-label="shopping-cart"
-              ></ShoppingCartIcon>
-              <Typography
-                sx={{
-                  background: "orange",
-                  borderRadius: "50%",
-                  width: "27px",
-                }}
-              >
-                {totalQuantity}
-              </Typography>
-            </IconButton>
-          </Stack>
-        </Toolbar>
-      </AppBar>
-      <Outlet />
-    </>
+   <>
+    <AppBar position="fixed">
+      <Toolbar>
+        {/* Left side */}
+        <Typography variant="h6" sx={{ flexGrow: 1 }}>
+          <Link to="/" style={{ color: 'white', textDecoration: 'none' }}>
+            pinnacleMall
+          </Link>
+        </Typography>
+
+        {/* Right side */}
+        <IconButton component={Link} to="/" color="inherit">
+          <HomeIcon />
+        </IconButton>
+        <IconButton component={Link} to="/products" color="inherit">
+          <StorefrontIcon />
+        </IconButton>
+        <IconButton component={Link} to="/about" color="inherit">
+          <InfoIcon />
+        </IconButton>
+        <IconButton component={Link} to="/cart" color="inherit">
+          <ShoppingBasketIcon />
+        </IconButton>
+        <IconButton component={Link} to="/signup" color="inherit">
+          <PersonIcon />
+        </IconButton>
+      </Toolbar>
+    </AppBar>
+    <Outlet/>
+   </>
+
   );
 };
 
-export default NavBar;
+export default Navbar;

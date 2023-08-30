@@ -6,14 +6,13 @@ public class OrderItemReadDto
 {
     public Guid ProductId { get; set; }
     public int Amount { get; set; }
-    public Guid OrderId { get; set; }
+
 }
 
 public class OrderItemCreateDto
 {
     public Guid ProductId { get; set; }
     public int Amount { get; set; }
-    public Guid OrderId { get; set; }
 }
 
 public class OrderItemUpdateDto

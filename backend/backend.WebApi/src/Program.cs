@@ -14,18 +14,6 @@ using Swashbuckle.AspNetCore.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
-builder.Services.AddCors(options =>
-{
-    options.AddDefaultPolicy(builder =>
-    {
-        builder
-        .AllowAnyOrigin()
-        .AllowAnyMethod()
-        .AllowAnyHeader();
-    });
-});
-
 builder.Services.AddControllers();
 
 //Add AutoMapper DI
@@ -72,12 +60,6 @@ builder.Services.AddSwaggerGen(options =>
 //add policy based requirement handler
 builder.Services.AddSingleton<ErrorHandlerMiddleware>().AddSingleton<ResourceOwnerAuthorization>();
 
-//Config route
-builder.Services.Configure<RouteOptions>(options =>
-{
-    options.LowercaseUrls = true;
-});
-
 //Config the authentication
 builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -95,6 +77,30 @@ builder.Services
         };
     });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(
+        name: "Mypolicy",
+        policy =>
+        {
+            policy
+                .WithOrigins(
+                    "http://localhost:3000",
+                    "https://orderlyonclick.netlify.app",
+                    "https://hilarious-pasca-58c602.netlify.app"
+                )
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        }
+    );
+});
+
+//Config route
+builder.Services.Configure<RouteOptions>(options =>
+{
+    options.LowercaseUrls = true;
+});
+
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy(
@@ -109,7 +115,7 @@ var app = builder.Build();
 app.UseForwardedHeaders();
 
 // Apply CORS policy
-app.UseCors();
+app.UseCors("Mypolicy");
 
 app.UseMiddleware<ErrorHandlerMiddleware>();
 

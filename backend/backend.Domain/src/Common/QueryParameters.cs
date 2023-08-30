@@ -6,5 +6,5 @@ public class QueryParameters
     public string OrderBy { get; set; } = "ModifiedAt";
     public bool OrderByDescending { get; set; } = false;
     public int Offset { get; set; } = 0;
-    public int Limit { get; set; } = 10;
+    public int Limit { get; set; } = 30;
 }

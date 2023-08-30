@@ -5,7 +5,7 @@ import Product from "../../types/Product";
 import { NewProduct } from "../../types/NewProduct";
 import { UpdateSingleProduct } from "../../types/UpdateSingleProduct";
 
-const baseUrl ="https://pinnaclemall.azurewebsites.net/api/v1"
+const baseUrl = "https://pinnaclemall.azurewebsites.net/api/v1";
 interface RetrieveProducts {
   loading: boolean;
   error: string;
@@ -68,9 +68,7 @@ export const searchByCategories = createAsyncThunk(
   "searchByCategories",
   async (id: string) => {
     try {
-      const fetchProducts = axios.get<Product[]>(
-        `baseUrl/categories/${id}`
-      );
+      const fetchProducts = axios.get<Product[]>(`baseUrl/categories/${id}`);
       return (await fetchProducts).data;
     } catch (e) {
       const error = e as AxiosError;
@@ -98,10 +96,7 @@ export const updateSingleProduct = createAsyncThunk(
   async (updateProduct: UpdateSingleProduct) => {
     const { id, update } = updateProduct;
     try {
-      const result = await axios.put(
-        `baseUrl/products/${id}`,
-        update
-      );
+      const result = await axios.put(`baseUrl/products/${id}`, update);
       return result.data;
     } catch (e) {
       const error = e as AxiosError;
@@ -222,7 +217,9 @@ const productsSlice = createSlice({
       })
       .addCase(updateSingleProduct.fulfilled, (state, action) => {
         const updatedProduct = action.payload;
-        const index = state.products.findIndex(product => product.id === updatedProduct.id);
+        const index = state.products.findIndex(
+          (product) => product.id === updatedProduct.id
+        );
 
         if (index !== -1) {
           state.products[index] = updatedProduct;
