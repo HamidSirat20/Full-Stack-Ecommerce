@@ -28,7 +28,7 @@ public class ProductController
     {
         try
         {
-            var result = await base.GetAll(queryParameters);
+            var result = await _productService.GetAll(queryParameters);
 
             if (result == null)
             {
@@ -46,7 +46,7 @@ public class ProductController
     [AllowAnonymous]
     public override async Task<ActionResult<ProductReadDto>> GetOneById([FromRoute] Guid id)
     {
-        var foundEntity = await base.GetOneById(id);
+        var foundEntity = await _productService.GetOneById(id);
 
         if (foundEntity == null)
         {

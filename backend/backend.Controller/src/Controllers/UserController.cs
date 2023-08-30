@@ -5,10 +5,9 @@ using backend.Domain.src.Common;
 using backend.Domain.src.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace backend.Controller.src.Controllers;
-
-// [Authorize]
 public class UserController : RootController<User, UserReadDto, UserCreateDto, UserUpdateDto>
 {
     private readonly IUserService _userService;
@@ -52,7 +51,7 @@ public class UserController : RootController<User, UserReadDto, UserCreateDto, U
         return CreatedAtAction(nameof(CreateAdmin), createdObject);
     }
 
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public override async Task<ActionResult<IEnumerable<UserReadDto>>> GetAll(
         [FromQuery] QueryParameters queryParameters
     )

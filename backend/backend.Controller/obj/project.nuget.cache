@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "6uc7dyVIzLJrjwwkB4W3Hqo+Fy8cRrotqczqgkyPvK34omGsQOLtLAtRaj14TBFdTeAT7WXPDIV13qTHGSdqKQ==",
+  "dgSpecHash": "eWnnkPEq+XkCkODrL8NHVEIlNZwWhxvJD8yKo7OfqDl9oR7hWm+ZKxZF0kQxn3HWuYVErkWD9BVl/YDkDI396Q==",
   "success": true,
-  "projectFilePath": "C:\\Users\\sirat\\OneDrive\\Desktop\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Controller\\backend.Controller.csproj",
+  "projectFilePath": "D:\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Controller\\backend.Controller.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\sirat\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\sirat\\.nuget\\packages\\microsoft.aspnetcore.antiforgery\\2.2.0\\microsoft.aspnetcore.antiforgery.2.2.0.nupkg.sha512",

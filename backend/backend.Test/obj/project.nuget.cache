@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "W/KmPsCbZn5+OebX7nVJRG27jWVMKFLwAH+zWBanE1QAGg0w5Bc6rNrCSKiGYZQFHUV1Cn5A1yDPUvYWh+77WA==",
+  "dgSpecHash": "/Lqr9Q7xmThTLqoD/tvNDjQTXc4OVJka06XmoIN2VlGwHqVZV9/tk5ssRNSqxlD75NOWWCR6v7PoiTCBNoK0oQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\sirat\\OneDrive\\Desktop\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Test\\backend.Test.csproj",
+  "projectFilePath": "d:\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Test\\backend.Test.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\sirat\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\sirat\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",

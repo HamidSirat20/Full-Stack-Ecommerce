@@ -1,9 +1,18 @@
-import React from 'react'
+import { Sign } from "crypto";
+import CreateProduct from "./components/CreateProduct";
+import DeleteProduct from "./components/DeleteProduct";
+import Product from "./components/Product";
+import Signin from "./components/Signin";
 
 const App = () => {
   return (
-    <div>App</div>
-  )
-}
+    <>
+    {/* <DeleteProduct></DeleteProduct> */}
+    {/* <CreateProduct></CreateProduct> */}
+      {/* <Product></Product> */}
+      <Signin></Signin>
+    </>
+  );
+};
 
-export default App
+export default App;

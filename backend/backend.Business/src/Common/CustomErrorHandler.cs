@@ -11,7 +11,7 @@ public class CustomErrorHandler : Exception
         ErrorMessage = message;
     }
 
-    public static CustomErrorHandler NotFoundException(string message = "Item not found")
+    public static CustomErrorHandler NotFoundException(string message = "Item not found with the given Id")
     {
         throw new CustomErrorHandler(500, message);
     }

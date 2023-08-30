@@ -2,6 +2,7 @@ using backend.Business.src.Interfaces;
 using backend.Domain.src.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace backend.Controller.src.Controllers;
 
@@ -41,8 +42,16 @@ public class RootController<T, TReadDto, TCreateDto, TUpdateDto> : ControllerBas
     [HttpPost]
     public virtual async Task<ActionResult<TReadDto>> CreateOne([FromBody] TCreateDto createDto)
     {
-        var createdObject = await _baseService.CreateOne(createDto);
-        return CreatedAtAction(nameof(CreateOne), createdObject);
+        try
+        {
+             var createdObject = await _baseService.CreateOne(createDto);
+            return CreatedAtAction(nameof(CreateOne), createdObject);
+        }
+        catch (DbUpdateException ex)
+        {
+            var innerException = ex.InnerException;
+            return StatusCode(500, "An error occurred while saving the entity changes."+innerException);
+        }
     }
 
     [HttpPatch("{id:Guid}")]

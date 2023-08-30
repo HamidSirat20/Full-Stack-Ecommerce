@@ -27,7 +27,7 @@ public class BaseService<T, TReadDto, TCreateDto, TUpdateDto>
         }
         catch (Exception ex)
         {
-            throw CustomErrorHandler.CreateEntityException();
+            throw CustomErrorHandler.CreateEntityException(ex.Message);
         }
     }
 
@@ -42,7 +42,7 @@ public class BaseService<T, TReadDto, TCreateDto, TUpdateDto>
         throw CustomErrorHandler.NotFoundException();
     }
 
-    public async Task<IEnumerable<TReadDto>> GetAll(QueryParameters queryParameters)
+    public virtual async Task<IEnumerable<TReadDto>> GetAll(QueryParameters queryParameters)
     {
         try
         {
@@ -64,7 +64,7 @@ public class BaseService<T, TReadDto, TCreateDto, TUpdateDto>
         }
     }
 
-    public async Task<TReadDto> GetOneById(Guid id)
+    public virtual async Task<TReadDto> GetOneById(Guid id)
     {
         try
         {
@@ -84,18 +84,18 @@ public class BaseService<T, TReadDto, TCreateDto, TUpdateDto>
         }
     }
 
-    public async Task<TReadDto> UpdateOneById(Guid id, TUpdateDto newEntity)
+    public virtual async Task<TReadDto> UpdateOneById(Guid id, TUpdateDto newEntity)
     {
         try
         {
             var foundItem = await _baseRepo.GetOneById(id);
-            if (foundItem == null)
+            if (foundItem is null)
             {
-                throw new Exception($"Item with {id} id not found");
+                await _baseRepo.DeleteOneById(foundItem);
             }
-            _mapper.Map(newEntity, foundItem);
-            await _baseRepo.UpdateOneById(foundItem);
-            return _mapper.Map<TReadDto>(foundItem);
+
+            var updatedEntity = _baseRepo.UpdateOneById(_mapper.Map<T>(newEntity));
+            return _mapper.Map<TReadDto>(updatedEntity);
         }
         catch (System.Exception)
         {

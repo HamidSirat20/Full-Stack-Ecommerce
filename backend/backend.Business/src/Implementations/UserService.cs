@@ -1,5 +1,4 @@
 using AutoMapper;
-using backend.Business.src.Common;
 using backend.Business.src.Dtos;
 using backend.Business.src.Interfaces;
 using backend.Domain.src.Entities;
@@ -53,4 +52,6 @@ public class UserService
         var created = await _userRepo.CreateAdmin(entity);
         return _mapper.Map<UserReadDto>(created);
     }
+
+
 }

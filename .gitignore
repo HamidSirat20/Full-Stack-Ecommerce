@@ -8,6 +8,8 @@ backend/bin/
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/
+.bin/
+.obj/
 
 # .NET
 project.lock.json
@@ -61,6 +63,7 @@ artifacts/
 # NuGet v3's project.json files produces more ignorable files
 *.nuget.props
 *.nuget.targets
+Http/
 
 
 ### Ignore unnecessary files in frontend
@@ -98,5 +101,11 @@ frontend/package-*.json
 .DS_Store
 .AppleDouble
 .LSOverride
-appsettings.json
-appsettings.Development.json
+bin/
+obj/
+.vscode
+appSettings.json
+appSettings.Development.json
+*.rest
+
+.fake

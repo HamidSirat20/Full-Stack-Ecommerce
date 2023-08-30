@@ -99,7 +99,7 @@ namespace backend.Test.src
         {
             // Arrange
             var itemId = Guid.NewGuid();
-            _userRepositoryMock.Setup(repo => repo.GetOneById(itemId)).ReturnsAsync((User)null);
+            _userRepositoryMock.Setup(repo => repo.GetOneById(itemId))!.ReturnsAsync((User)null);
 
             // Act and Assert
             await Assert.ThrowsAsync<CustomErrorHandler>(() => _userService.DeleteOneById(itemId));
@@ -124,5 +124,6 @@ namespace backend.Test.src
             Assert.NotNull(result);
             Assert.Same(expectedDto, result);
         }
+
     }
 }

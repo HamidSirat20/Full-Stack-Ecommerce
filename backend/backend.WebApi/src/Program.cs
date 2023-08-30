@@ -14,14 +14,15 @@ using Swashbuckle.AspNetCore.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(builder =>
     {
         builder
-        .WithOrigins("http://localhost:5049")
-        .AllowAnyHeader()
-        .AllowAnyMethod();
+        .AllowAnyOrigin()
+        .AllowAnyMethod()
+        .AllowAnyHeader();
     });
 });
 
