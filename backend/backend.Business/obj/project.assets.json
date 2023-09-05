@@ -1390,11 +1390,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "d:\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Business\\backend.Business.csproj",
+      "projectUniqueName": "D:\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Business\\backend.Business.csproj",
       "projectName": "backend.Business",
-      "projectPath": "d:\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Business\\backend.Business.csproj",
+      "projectPath": "D:\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Business\\backend.Business.csproj",
       "packagesPath": "C:\\Users\\sirat\\.nuget\\packages\\",
-      "outputPath": "d:\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Business\\obj\\",
+      "outputPath": "D:\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Business\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\sirat\\AppData\\Roaming\\NuGet\\NuGet.Config",

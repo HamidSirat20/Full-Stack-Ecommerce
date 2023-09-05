@@ -16,7 +16,7 @@ public class OrderCreateDto
 {
     public string ShippingAddress { get; set; }
     public OrderStatus Status { get; set; }
-    public Guid UserId { get; set; }
+    // public Guid UserId { get; set; }
     public List<OrderItemCreateDto> OrderProducts { get; set; } = new List<OrderItemCreateDto>();
 }
 

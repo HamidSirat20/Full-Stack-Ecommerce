@@ -1,5 +1,4 @@
 using AutoMapper;
-using backend.Business.src.Common;
 using backend.Business.src.Dtos;
 using backend.Business.src.Interfaces;
 using backend.Domain.src.Entities;
@@ -12,62 +11,43 @@ public class OrderService
         IOrderService
 {
     private readonly IOrderRepo _orderRepo;
-    private readonly IUserRepo _userRepo;
-    private readonly IOrderItemService _orderItemService;
-    private readonly IProductRepo _productRepo;
     private readonly IOrderItemRepo _orderItemRepo;
 
-    public OrderService(
-        IOrderRepo orderRepo,
-        IMapper mapper,
-        IUserRepo userRepo,
-        IOrderItemRepo orderItemRepo,
-        IOrderItemService orderItemService,
-        IProductRepo productRepo
-    )
+    public OrderService(IOrderRepo orderRepo, IOrderItemRepo orderItemRepo, IMapper mapper)
         : base(orderRepo, mapper)
     {
         _orderRepo = orderRepo;
-        _userRepo = userRepo;
         _orderItemRepo = orderItemRepo;
-        _productRepo = productRepo;
-        _orderItemService = orderItemService;
     }
 
-    public override async Task<OrderReadDto> CreateOne(OrderCreateDto entity)
+    public async Task<OrderReadDto> CreateOne(Guid userId, OrderCreateDto orderDto)
     {
-        var user = await _userRepo.GetOneById(entity.UserId);
-            if (user == null)
-            {
-                throw CustomErrorHandler.NotFoundException();
-            }
-
-            var order = new Order
-            {
-                User = user,
-                Status = OrderStatus.Pending,
-                OrderItems = new List<OrderItem>()
-            };
-
+        try
+        {
+            var order = new Order { UserId = userId, Status = orderDto.Status };
             var createdOrder = await _orderRepo.CreateOne(order);
 
-            var orderProducts = _mapper.Map<List<OrderItem>>(entity.OrderProducts);
+            createdOrder.OrderItems = new List<OrderItem>();
+            foreach (var item in orderDto.OrderProducts)
+            {
+                var orderProduct = new OrderItem
+                {
+                    ProductId = item.ProductId,
+                    Amount = item.Amount,
+                    OrderId = createdOrder.Id
+                };
+                createdOrder.OrderItems.Add(orderProduct);
 
-            for(int i = 0; i < orderProducts.Count(); i++ ) {
-                var orderProductAtCurrentIndex = orderProducts.ElementAt(i);
-                orderProductAtCurrentIndex.Order = createdOrder;
-                orderProductAtCurrentIndex.Product = await _productRepo.GetOneById(entity.OrderProducts.ElementAt(i).ProductId);
-
-                await _orderItemService.CreateOrderItem(orderProductAtCurrentIndex);
+                var createdOrderProduct = await _orderItemRepo.CreateOne(orderProduct);
             }
 
-            var orderReadDto = new OrderReadDto {
-                UserId = order.User.Id,
-                Status = order.Status,
-                orderItems = _mapper.Map<List<OrderItemCreateDto>>(order.OrderItems)
-            };
+            var returnOrder = _mapper.Map<OrderReadDto>(createdOrder);
 
-            return orderReadDto;
+            return returnOrder;
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("Not Created");
         }
     }
-
+}

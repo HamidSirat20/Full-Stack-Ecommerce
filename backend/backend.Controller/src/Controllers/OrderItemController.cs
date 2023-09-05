@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace backend.Controller.src.Controllers;
 
-[Authorize]
+// [Authorize]
 public class OrderItemController : RootController<OrderItem, OrderItemReadDto, OrderItemCreateDto, OrderItemUpdateDto>
 {
     public OrderItemController(IOrderItemService baseService) : base(baseService)

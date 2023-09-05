@@ -87,7 +87,8 @@ builder.Services.AddCors(options =>
                 .WithOrigins(
                     "http://localhost:3000",
                     "https://orderlyonclick.netlify.app",
-                    "https://hilarious-pasca-58c602.netlify.app"
+                    "https://hilarious-pasca-58c602.netlify.app",
+                    "http://localhost:5049"
                 )
                 .AllowAnyHeader()
                 .AllowAnyMethod();

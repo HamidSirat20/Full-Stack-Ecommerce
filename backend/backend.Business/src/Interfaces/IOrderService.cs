@@ -3,7 +3,7 @@ using backend.Domain.src.Entities;
 
 namespace backend.Business.src.Interfaces;
 
-public interface IOrderService :IBaseService<Order, OrderReadDto,OrderCreateDto,OrderUpdateDto>
+public interface IOrderService : IBaseService<Order, OrderReadDto, OrderCreateDto, OrderUpdateDto>
 {
-
+    Task<OrderReadDto> CreateOne(Guid userId, OrderCreateDto orderDto);
 }

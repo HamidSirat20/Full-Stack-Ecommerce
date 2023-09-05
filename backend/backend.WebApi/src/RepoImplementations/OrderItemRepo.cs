@@ -1,3 +1,4 @@
+using backend.Business.src.Dtos;
 using backend.Domain.src.Entities;
 using backend.Domain.src.RepoInterfaces;
 using backend.WebApi.src.Database;
@@ -17,13 +18,32 @@ public class OrderItemRepo : BaseRepo<OrderItem>, IOrderItemRepo
         _dbSet = dbContext.OrderItems;
     }
 
-    public override async Task<OrderItem> CreateOne(OrderItem entity)
+    public async Task<OrderItem> CreateOrderProduct(OrderItem orderItem)
     {
-        return await base.CreateOne(entity);
+        orderItem.CreatedAt = DateTime.UtcNow;
+        orderItem.ModifiedAt = DateTime.UtcNow;
+        await _dbSet.AddAsync(orderItem);
+        await _dbContext.SaveChangesAsync();
+
+        return orderItem;
     }
 
-    public async Task<IEnumerable<OrderItem>> GetAllOrderProduct()
+    public async Task<bool> DeleteOneById(OrderItem item)
     {
-        return await _dbSet.AsNoTracking().ToArrayAsync();
+        var foundOrderProduct = _dbSet.Remove(item);
+        if (foundOrderProduct != null)
+        {
+            _dbContext.SaveChanges();
+            return true;
+        }
+        throw new Exception("OrderProduct not found");
+    }
+    public OrderItem UpdateOneById(OrderItem originalEntity, OrderItemUpdateDto updatedEntity)
+    {
+        originalEntity.Amount = updatedEntity.Amount;
+        originalEntity.ProductId = updatedEntity.ProductId;
+        originalEntity.ModifiedAt = DateTime.UtcNow;
+        _dbContext.SaveChanges();
+        return originalEntity;
     }
 }

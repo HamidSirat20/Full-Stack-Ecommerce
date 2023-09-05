@@ -6,5 +6,5 @@ namespace backend.Business.src.Interfaces;
 public interface IOrderItemService
     : IBaseService<OrderItem, OrderItemReadDto, OrderItemCreateDto, OrderItemUpdateDto>
 {
-    Task<OrderItem> CreateOrderItem(OrderItem entity);
+    Task<OrderItemReadDto> CreateOrderItem(OrderItemCreateDto orderItemDto);
 }
