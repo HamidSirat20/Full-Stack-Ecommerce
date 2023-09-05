@@ -6,13 +6,15 @@ import ProductList from "./components/ProductList";
 import Home from "./components/Home";
 import About from "./components/About";
 import HeaderFooter from "./pages/HeaderFooter";
+import CreateProduct from "./components/CreateProduct";
+import DeleteProduct from "./components/DeleteProduct";
 
 const router = createBrowserRouter([
   {
-    path:'/',
-    element:<HeaderFooter/> ,
+    path: "/",
+    element: <HeaderFooter />,
     errorElement: <NotFound />,
-    children:[
+    children: [
       {
         path: "/",
         element: <Home />,
@@ -28,6 +30,14 @@ const router = createBrowserRouter([
       {
         path: "/products",
         element: <ProductList />,
+      },
+      {
+        path: "/products/add",
+        element: <CreateProduct />,
+      },
+      {
+        path: "/products/delete",
+        element: <DeleteProduct />,
       },
       {
         path: "/about",
@@ -62,10 +72,9 @@ const router = createBrowserRouter([
       //   path: "/your-orders",
       //   element: <ShipmentPage />
       // }
-    ]
+    ],
   },
-
-  ])
+]);
 
 const App = () => {
   return (

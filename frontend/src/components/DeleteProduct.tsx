@@ -16,7 +16,7 @@ export default function DeleteProduct() {
     try {
       await dispatch(deleteSignleProduct(productId));
       setLoading(false);
-      setProductId(''); // Clear the input
+      setProductId('');
       setError('');
     } catch (error) {
       setLoading(false);

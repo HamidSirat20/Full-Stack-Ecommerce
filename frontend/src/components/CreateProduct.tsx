@@ -31,10 +31,25 @@ export default function CreateProduct() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     dispatch(createNewProducts(newProduct));
+    setNewProduct({
+      Title: "",
+      Description: "",
+      Price: 0,
+      Inventory: 0,
+      CategoryId: "",
+    });
   };
 
   return (
-    <Container maxWidth="sm" sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
+    <Container
+      maxWidth="sm"
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh",
+      }}
+    >
       <form onSubmit={handleSubmit} style={{ width: "100%" }}>
         <h2>Create New Product</h2>
         {loading && <CircularProgress />}

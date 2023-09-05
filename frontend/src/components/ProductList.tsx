@@ -23,6 +23,7 @@ const ProductList = () => {
   useEffect(() => {
     dispatch(
       fetchAllProducts({
+        search:'',
         offset: 0,
         limit: 50,
       })
@@ -31,7 +32,7 @@ const ProductList = () => {
 
   const handleSearch = () => {
     const filteredProducts = allProducts.filter(
-      (product) => product.title.toLowerCase().includes(search.toLowerCase()) // Use search state
+      (product) => product.title.toLowerCase().includes(search.toLowerCase())
     );
     setProducts(filteredProducts);
   };
