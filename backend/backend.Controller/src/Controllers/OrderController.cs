@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controller.src.Controllers;
 
-// [Authorize]
+[Authorize]
 public class OrderController : RootController<Order, OrderReadDto, OrderCreateDto, OrderUpdateDto>
 {
     private readonly IAuthorizationService _authorizationService;
@@ -41,7 +41,7 @@ public class OrderController : RootController<Order, OrderReadDto, OrderCreateDt
         }
     }
 
-    // [Authorize]
+    [Authorize]
     public override async Task<ActionResult<OrderReadDto>> CreateOne(
         [FromBody] OrderCreateDto orderDto
     )

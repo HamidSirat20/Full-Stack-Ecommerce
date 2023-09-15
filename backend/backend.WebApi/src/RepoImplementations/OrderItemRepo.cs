@@ -18,7 +18,7 @@ public class OrderItemRepo : BaseRepo<OrderItem>, IOrderItemRepo
         _dbSet = dbContext.OrderItems;
     }
 
-    public async Task<OrderItem> CreateOrderProduct(OrderItem orderItem)
+    public override async Task<OrderItem> CreateOne(OrderItem orderItem)
     {
         orderItem.CreatedAt = DateTime.UtcNow;
         orderItem.ModifiedAt = DateTime.UtcNow;
@@ -38,6 +38,7 @@ public class OrderItemRepo : BaseRepo<OrderItem>, IOrderItemRepo
         }
         throw new Exception("OrderProduct not found");
     }
+
     public OrderItem UpdateOneById(OrderItem originalEntity, OrderItemUpdateDto updatedEntity)
     {
         originalEntity.Amount = updatedEntity.Amount;

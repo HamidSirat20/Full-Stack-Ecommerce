@@ -9,7 +9,7 @@ public class OrderReadDto
     public OrderStatus Status { get; set; }
     public Guid UserId { get; set; }
     public UserReadDto User { get; set; }
-    public List<OrderItemCreateDto> orderItems { get; set; }
+    public List<OrderItemReadDto> orderItems { get; set; }
 }
 
 public class OrderCreateDto

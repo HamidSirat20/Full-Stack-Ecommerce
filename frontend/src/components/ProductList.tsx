@@ -18,14 +18,18 @@ import Product from "../types/Product";
 const ProductList = () => {
   const [search, setSearch] = useState("");
   const [products, setProducts] = useState<Product[]>([]);
+  console.log(products)
   const allProducts = useAppSelector((state) => state.productsReducer.products);
+
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(
       fetchAllProducts({
-        search:'',
+        search: null,
+        orderBy: null,
+        orderByDescending: false,
         offset: 0,
-        limit: 50,
+        limit: 0
       })
     );
   }, []);

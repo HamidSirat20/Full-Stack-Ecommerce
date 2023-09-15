@@ -5,7 +5,7 @@ import Product from "../../types/Product";
 import { NewProduct } from "../../types/NewProduct";
 import { UpdateSingleProduct } from "../../types/UpdateSingleProduct";
 
-const baseUrl = "https://pinnaclemall.azurewebsites.net/api/v1";
+const baseUrl = "https://ecommerce-pinnaclemall.azurewebsites.net/api/v1";
 interface RetrieveProducts {
   loading: boolean;
   error: string;
@@ -16,39 +16,77 @@ const initialState: RetrieveProducts = {
   error: "",
   products: [],
 };
-interface Pagination {
-  search?: string;
-  orderBy?: string;
-  orderByDescending?: boolean;
-  offset?: number;
-  limit?: number;
+// interface Pagination {
+//   search?: string;
+//   orderBy?: string;
+//   orderByDescending?: boolean;
+//   offset?: number;
+//   limit?: number;
+// }
+export interface FetchAllParams {
+  search:  string | null
+  orderBy: string | null
+  orderByDescending: boolean
+  offset: number
+  limit: number
 }
 
 export const fetchAllProducts = createAsyncThunk(
-  "products/fetchAll",
-  async (pagination: Pagination) => {
-    const { search, orderBy, orderByDescending, offset, limit } = pagination;
-
-    try {
-      const response = await axios.get<Product[]>(
-        `http://localhost:5049/api/v1/products`,
-        {
-          params: {
-            Search: search,
-            OrderBy: orderBy,
-            OrderByDescending: orderByDescending,
-            offset,
-            limit,
-          },
-        }
-      );
-      return response.data;
-    } catch (error) {
-      const axiosError = error as AxiosError;
-      throw axiosError.message;
-    }
+  "fetchAllProducts",
+  async ({
+      search = null,
+      orderBy = "UpdatedAt",
+      orderByDescending = false,
+      offset = 1,
+      limit = 10,
+   }: FetchAllParams) => {
+      try {
+          const response = await axios.get<Product[]>(`${baseUrl}/products`, {
+              params: {
+                SearchKeyword: search,
+                SortBy: orderBy,
+                SortDescending: orderByDescending,
+                PageNumber: offset,
+                PageSize: limit,
+              },
+            });
+            console.log("products: ", response.data);
+          return response.data
+      }
+      catch (e) {
+          const error = e as AxiosError
+          if (error.response) {
+              return JSON.stringify(error.response.data)
+          }
+          return error.message
+      }
   }
-);
+)
+// export const fetchAllProducts = createAsyncThunk(
+//   "products/fetchAll",
+//   async (pagination: Pagination) => {
+//     const { search, orderBy, orderByDescending, offset, limit } = pagination;
+
+//     try {
+//       const response = await axios.get<Product[]>(
+//         `http://localhost:5049/api/v1/products`,
+//         {
+//           params: {
+//             Search: search,
+//             OrderBy: orderBy,
+//             OrderByDescending: orderByDescending,
+//             offset,
+//             limit,
+//           },
+//         }
+//       );
+//       return response.data;
+//     } catch (error) {
+//       const axiosError = error as AxiosError;
+//       throw axiosError.message;
+//     }
+//   }
+// );
 
 export const fetchSingleProduct = createAsyncThunk(
   "fetchSingleProduct",

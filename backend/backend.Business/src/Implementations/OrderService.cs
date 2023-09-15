@@ -24,7 +24,12 @@ public class OrderService
     {
         try
         {
-            var order = new Order { UserId = userId, Status = orderDto.Status };
+            var order = new Order
+            {
+                UserId = userId,
+                Status = orderDto.Status,
+                ShippingAddress = orderDto.ShippingAddress
+            };
             var createdOrder = await _orderRepo.CreateOne(order);
 
             createdOrder.OrderItems = new List<OrderItem>();
@@ -34,7 +39,8 @@ public class OrderService
                 {
                     ProductId = item.ProductId,
                     Amount = item.Amount,
-                    OrderId = createdOrder.Id
+                    OrderId = createdOrder.Id,
+                    UserId = createdOrder.UserId
                 };
                 createdOrder.OrderItems.Add(orderProduct);
 
@@ -47,7 +53,12 @@ public class OrderService
         }
         catch (Exception ex)
         {
-            throw new Exception("Not Created");
+            System.Console.WriteLine($"An error occurred while creating an order: {ex.Message}");
+            if (ex.InnerException != null)
+            {
+                System.Console.WriteLine($"Inner Exception: {ex.InnerException.Message}");
+            }
+            throw;
         }
     }
 }

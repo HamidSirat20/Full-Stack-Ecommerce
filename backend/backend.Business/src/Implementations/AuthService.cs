@@ -54,7 +54,7 @@ public class AuthService : IAuthService
         var securityTokenDescriptor = new SecurityTokenDescriptor
         {
             Issuer = "backend",
-            Expires = DateTime.UtcNow.AddMinutes(30),
+            Expires = DateTime.UtcNow.AddHours(2),
             Subject = new ClaimsIdentity(claims),
             SigningCredentials = signingCredentials
         };

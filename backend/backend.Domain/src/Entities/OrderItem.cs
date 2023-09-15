@@ -12,6 +12,7 @@ public class OrderItem : Timestamp
 
     [ForeignKey(nameof(Order))]
     public Guid OrderId { get; set; }
+    public Guid UserId { get; set; }
     public Order Order { get; set; }
     public Product Product { get; set; }
 }

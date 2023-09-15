@@ -18,6 +18,7 @@ public class ProductCreateDto
     public decimal Price { get; set; }
     public int Inventory { get; set; }
     public Guid CategoryId { get; set; }
+
 }
 
 public class ProductUpdateDto

@@ -1,8 +1,8 @@
 D:\Integfiy Folder\fs15_Fullstack\backend\backend.WebApi\bin\Debug\net7.0\appsettings.Development.json
 D:\Integfiy Folder\fs15_Fullstack\backend\backend.WebApi\bin\Debug\net7.0\appsettings.json
 D:\Integfiy Folder\fs15_Fullstack\backend\backend.WebApi\bin\Debug\net7.0\backend.WebApi.exe
-D:\Integfiy Folder\fs15_Fullstack\backend\backend.WebApi\bin\Debug\net7.0\backend.WebApi.deps.json
-D:\Integfiy Folder\fs15_Fullstack\backend\backend.WebApi\bin\Debug\net7.0\backend.WebApi.runtimeconfig.json
+d:\Integfiy Folder\fs15_Fullstack\backend\backend.WebApi\bin\Debug\net7.0\backend.WebApi.deps.json
+d:\Integfiy Folder\fs15_Fullstack\backend\backend.WebApi\bin\Debug\net7.0\backend.WebApi.runtimeconfig.json
 D:\Integfiy Folder\fs15_Fullstack\backend\backend.WebApi\bin\Debug\net7.0\backend.WebApi.dll
 D:\Integfiy Folder\fs15_Fullstack\backend\backend.WebApi\bin\Debug\net7.0\backend.WebApi.pdb
 D:\Integfiy Folder\fs15_Fullstack\backend\backend.WebApi\bin\Debug\net7.0\AutoMapper.dll
@@ -64,9 +64,9 @@ D:\Integfiy Folder\fs15_Fullstack\backend\backend.WebApi\obj\Debug\net7.0\static
 D:\Integfiy Folder\fs15_Fullstack\backend\backend.WebApi\obj\Debug\net7.0\staticwebassets.build.json
 D:\Integfiy Folder\fs15_Fullstack\backend\backend.WebApi\obj\Debug\net7.0\staticwebassets.development.json
 D:\Integfiy Folder\fs15_Fullstack\backend\backend.WebApi\obj\Debug\net7.0\scopedcss\bundle\backend.WebApi.styles.css
-D:\Integfiy Folder\fs15_Fullstack\backend\backend.WebApi\obj\Debug\net7.0\backend.WebApi.csproj.CopyComplete
+d:\Integfiy Folder\fs15_Fullstack\backend\backend.WebApi\obj\Debug\net7.0\backend.WebApi.csproj.CopyComplete
 D:\Integfiy Folder\fs15_Fullstack\backend\backend.WebApi\obj\Debug\net7.0\backend.WebApi.dll
 D:\Integfiy Folder\fs15_Fullstack\backend\backend.WebApi\obj\Debug\net7.0\refint\backend.WebApi.dll
 D:\Integfiy Folder\fs15_Fullstack\backend\backend.WebApi\obj\Debug\net7.0\backend.WebApi.pdb
-D:\Integfiy Folder\fs15_Fullstack\backend\backend.WebApi\obj\Debug\net7.0\backend.WebApi.genruntimeconfig.cache
-D:\Integfiy Folder\fs15_Fullstack\backend\backend.WebApi\obj\Debug\net7.0\ref\backend.WebApi.dll
+d:\Integfiy Folder\fs15_Fullstack\backend\backend.WebApi\obj\Debug\net7.0\backend.WebApi.genruntimeconfig.cache
+d:\Integfiy Folder\fs15_Fullstack\backend\backend.WebApi\obj\Debug\net7.0\ref\backend.WebApi.dll
