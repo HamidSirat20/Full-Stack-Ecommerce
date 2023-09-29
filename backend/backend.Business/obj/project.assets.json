@@ -1411,8 +1411,8 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "D:\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Domain\\backend.Domain.csproj": {
-              "projectPath": "D:\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Domain\\backend.Domain.csproj"
+            "d:\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Domain\\backend.Domain.csproj": {
+              "projectPath": "d:\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Domain\\backend.Domain.csproj"
             }
           }
         }

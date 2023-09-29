@@ -3,7 +3,7 @@ using backend.Domain.src.Entities;
 
 namespace backend.Business.src.Interfaces;
 
-public interface IImageService : IBaseService<Image,ImageReadDto,ImageCreateDto,ImageUpdateDto>
+public interface IImageService : IBaseService<Image, ImageReadDto, ImageCreateDto, ImageUpdateDto>
 {
 
 }

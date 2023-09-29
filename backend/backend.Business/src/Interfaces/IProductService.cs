@@ -5,5 +5,4 @@ namespace backend.Business.src.Interfaces;
 
 public interface IProductService : IBaseService<Product, ProductReadDto,ProductCreateDto,ProductUpdateDto>
 {
-
 }

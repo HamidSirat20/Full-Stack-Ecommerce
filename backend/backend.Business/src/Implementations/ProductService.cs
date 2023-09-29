@@ -14,12 +14,19 @@ public class ProductService
 {
     private readonly ICategoryRepo _categoryRepo;
     private readonly IProductRepo _productRepo;
+    private readonly IImageRepo _imageRepo;
 
-    public ProductService(IProductRepo ProductRepo, IMapper mapper, ICategoryRepo CategoryRepo)
+    public ProductService(
+        IProductRepo ProductRepo,
+        IImageRepo imageRepo,
+        IMapper mapper,
+        ICategoryRepo CategoryRepo
+    )
         : base(ProductRepo, mapper)
     {
         _productRepo = ProductRepo;
         _categoryRepo = CategoryRepo;
+        _imageRepo = imageRepo;
     }
 
     public override async Task<ProductReadDto> UpdateOneById(Guid id, ProductUpdateDto newProduct)
@@ -60,6 +67,53 @@ public class ProductService
         catch (Exception)
         {
             throw CustomErrorHandler.NotFoundException();
+        }
+    }
+
+    public override async Task<ProductReadDto> CreateOne(ProductCreateDto productCreateDto)
+    {
+        try
+        {
+            var categoryName = productCreateDto.CategoryName;
+            var foundCategory = await _categoryRepo.GetCategoryByName(categoryName);
+
+            if (foundCategory == null)
+            {
+                throw new Exception($"Category with name '{categoryName}' not found.");
+            }
+
+            var product = new Product
+            {
+                Title = productCreateDto.Title,
+                Description = productCreateDto.Description,
+                Price = productCreateDto.Price,
+                Inventory = productCreateDto.Inventory,
+                CategoryId = foundCategory.Id,
+            };
+            product.Category = foundCategory;
+
+            var createdProduct = await _productRepo.CreateOne(product);
+
+            foreach (var item in productCreateDto.Images)
+            {
+                var image = new Image { ImageUrls = item.ImageUrls, ProductId = product.Id };
+                image.Product = createdProduct;
+
+                await _imageRepo.CreateOne(image);
+            }
+
+            var returnProduct = _mapper.Map<ProductReadDto>(createdProduct);
+            return returnProduct;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"An error occurred while creating a product: {ex.Message}");
+            if (ex.InnerException != null)
+            {
+                Console.WriteLine($"Inner Exception: {ex.InnerException.Message}");
+            }
+
+            throw;
         }
     }
 }

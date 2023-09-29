@@ -50,7 +50,7 @@ public class RootController<T, TReadDto, TCreateDto, TUpdateDto> : ControllerBas
         catch (DbUpdateException ex)
         {
             var innerException = ex.InnerException;
-            return StatusCode(500, "An error occurred while saving the entity changes."+innerException);
+            return StatusCode(500, " Hahaha An error occurred while saving the entity changes."+innerException);
         }
     }
 

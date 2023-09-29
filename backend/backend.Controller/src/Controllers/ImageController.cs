@@ -21,7 +21,7 @@ public class ImageController : RootController<Image, ImageReadDto, ImageCreateDt
     }
 
     [HttpPost]
-    public override async Task<ActionResult<ImageReadDto>> CreateOne([FromBody] ImageCreateDto createDto)
+    public override async Task<ActionResult<ImageReadDto>> CreateOne( ImageCreateDto createDto)
     {
         var createdObject = await _imageService.CreateOne(createDto);
         return CreatedAtAction(nameof(CreateOne), createdObject);

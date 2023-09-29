@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.WebApi\\backend.WebApi.csproj": {}
+    "d:\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.WebApi\\backend.WebApi.csproj": {}
   },
   "projects": {
-    "D:\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Business\\backend.Business.csproj": {
+    "d:\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Business\\backend.Business.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Business\\backend.Business.csproj",
+        "projectUniqueName": "d:\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Business\\backend.Business.csproj",
         "projectName": "backend.Business",
-        "projectPath": "D:\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Business\\backend.Business.csproj",
+        "projectPath": "d:\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Business\\backend.Business.csproj",
         "packagesPath": "C:\\Users\\sirat\\.nuget\\packages\\",
-        "outputPath": "D:\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Business\\obj\\",
+        "outputPath": "d:\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Business\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\sirat\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -28,8 +28,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "D:\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Domain\\backend.Domain.csproj": {
-                "projectPath": "D:\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Domain\\backend.Domain.csproj"
+              "d:\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Domain\\backend.Domain.csproj": {
+                "projectPath": "d:\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Domain\\backend.Domain.csproj"
               }
             }
           }
@@ -97,11 +97,11 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "D:\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Business\\backend.Business.csproj": {
-                "projectPath": "D:\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Business\\backend.Business.csproj"
+              "d:\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Business\\backend.Business.csproj": {
+                "projectPath": "d:\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Business\\backend.Business.csproj"
               },
-              "D:\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Domain\\backend.Domain.csproj": {
-                "projectPath": "D:\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Domain\\backend.Domain.csproj"
+              "d:\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Domain\\backend.Domain.csproj": {
+                "projectPath": "d:\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Domain\\backend.Domain.csproj"
               }
             }
           }
@@ -141,14 +141,14 @@
         }
       }
     },
-    "D:\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Domain\\backend.Domain.csproj": {
+    "d:\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Domain\\backend.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Domain\\backend.Domain.csproj",
+        "projectUniqueName": "d:\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Domain\\backend.Domain.csproj",
         "projectName": "backend.Domain",
-        "projectPath": "D:\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Domain\\backend.Domain.csproj",
+        "projectPath": "d:\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Domain\\backend.Domain.csproj",
         "packagesPath": "C:\\Users\\sirat\\.nuget\\packages\\",
-        "outputPath": "D:\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Domain\\obj\\",
+        "outputPath": "d:\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\sirat\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -206,14 +206,14 @@
         }
       }
     },
-    "D:\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.WebApi\\backend.WebApi.csproj": {
+    "d:\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.WebApi\\backend.WebApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.WebApi\\backend.WebApi.csproj",
+        "projectUniqueName": "d:\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.WebApi\\backend.WebApi.csproj",
         "projectName": "backend.WebApi",
-        "projectPath": "D:\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.WebApi\\backend.WebApi.csproj",
+        "projectPath": "d:\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.WebApi\\backend.WebApi.csproj",
         "packagesPath": "C:\\Users\\sirat\\.nuget\\packages\\",
-        "outputPath": "D:\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.WebApi\\obj\\",
+        "outputPath": "d:\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.WebApi\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\sirat\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -231,14 +231,14 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "D:\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Business\\backend.Business.csproj": {
-                "projectPath": "D:\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Business\\backend.Business.csproj"
+              "d:\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Business\\backend.Business.csproj": {
+                "projectPath": "d:\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Business\\backend.Business.csproj"
               },
               "d:\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Controller\\backend.Controller.csproj": {
                 "projectPath": "d:\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Controller\\backend.Controller.csproj"
               },
-              "D:\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Domain\\backend.Domain.csproj": {
-                "projectPath": "D:\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Domain\\backend.Domain.csproj"
+              "d:\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Domain\\backend.Domain.csproj": {
+                "projectPath": "d:\\Integfiy Folder\\fs15_Fullstack\\backend\\backend.Domain\\backend.Domain.csproj"
               }
             }
           }
