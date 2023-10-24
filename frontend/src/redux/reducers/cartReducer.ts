@@ -1,91 +1,99 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import Product from "../../types/Product";
 import { toast } from "react-toastify";
+
 export interface CartItem {
   quantity: number;
   product: Product;
   totalPrice: number;
 }
-const initialState: {
+
+export interface CartState {
   cartItems: CartItem[];
-} = {
+  isCartOpen: boolean;
+}
+
+const initialState: CartState = {
   cartItems: [],
+  isCartOpen: false,
 };
+
 const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    addToCart: (state, action: PayloadAction<CartItem>) => {
-      const cartItem = state.cartItems.find(
-        (item) => item.product.id === action.payload.product.id
-      );
-      if (cartItem) {
-        cartItem.quantity++;
-        cartItem.totalPrice =
-          cartItem.totalPrice + action.payload.product.price;
-          toast.success("One product increase in your cart",{
-            position:'bottom-right'
-          })
-      } else {
-        state.cartItems.push(action.payload);
-        toast.success("A new product added to cart",{
-          position:'bottom-right'
-        })
-      }
-    },
-    removeFromCart: (state, action: PayloadAction<CartItem>) => {
-      const cartItem = state.cartItems.find(
-        (item) => item.product.id === action.payload.product.id
+    addToCart: (state, action: PayloadAction<Product>) => {
+      const { id, price } = action.payload;
+      const existingCartItem = state.cartItems.find(
+        (item) => item.product.id === id
       );
 
-      if (cartItem) {
-        state.cartItems = state.cartItems.filter(
-          (product) => product.product.id !== action.payload.product.id
-        );
-        toast.warning("You remove a product",{
-          position:'bottom-right'
-        })
+      if (existingCartItem) {
+        existingCartItem.quantity++;
+        existingCartItem.totalPrice += price;
+        toast.success("One product increased in your cart", {
+          position: "bottom-right",
+        });
+      } else {
+        state.cartItems.push({
+          product: action.payload,
+          quantity: 1,
+          totalPrice: price,
+        });
+        toast.success("A new product added to cart", {
+          position: "bottom-right",
+        });
       }
-      return state;
     },
-    decreaseAmount: (state, action: PayloadAction<CartItem>) => {
-      const cartItem = state.cartItems.find(
-        (item) => item.product.id === action.payload.product.id
+    removeFromCart: (state, action: PayloadAction<string>) => {
+      state.cartItems = state.cartItems.filter(
+        (item) => item.product.id !== action.payload
       );
-      if (cartItem?.quantity === 1) {
-        toast.info("You dropped an item",{
-          position:'bottom-right'
-        })
-        state.cartItems = state.cartItems.filter(
-          (product) => product.product.id !== action.payload.product.id
-        );
-      } else if (cartItem?.quantity) {
-        cartItem.quantity--;
-        cartItem.totalPrice -= action.payload.product.price;
-        toast.info("You dropped an item",{
-          position:'bottom-right'
-        })
-      }
-      return state;
+      toast.warning("You removed a product from the cart", {
+        position: "bottom-right",
+      });
     },
-    increaseAmount: (state, action: PayloadAction<CartItem>) => {
-      const cartItem = state.cartItems.find(
-        (item) => item.product.id === action.payload.product.id
+    decreaseCount: (state, action: PayloadAction<string>) => {
+      const existingCartItem = state.cartItems.find(
+        (item) => item.product.id === action.payload
       );
-      if (cartItem) {
-        toast.info("You added an item",{
-          position:'bottom-right'
-        })
-        cartItem.quantity++;
-        cartItem.totalPrice += action.payload.product.price;
+
+      if (existingCartItem && existingCartItem.quantity === 1) {
+        state.cartItems = state.cartItems.filter(
+          (item) => item.product.id !== action.payload
+        );
+        toast.info("You removed an item from the cart", {
+          position: "bottom-right",
+        });
+      } else if (existingCartItem && existingCartItem.quantity) {
+        existingCartItem.quantity--;
+        existingCartItem.totalPrice -= existingCartItem.product.price;
+        toast.info("You decreased the quantity of an item", {
+          position: "bottom-right",
+        });
       }
-      return state;
+    },
+    increaseCount: (state, action: PayloadAction<string>) => {
+      const existingCartItem = state.cartItems.find(
+        (item) => item.product.id === action.payload
+      );
+
+      if (existingCartItem) {
+        existingCartItem.quantity++;
+        existingCartItem.totalPrice += existingCartItem.product.price;
+        toast.info("You increased the quantity of an item", {
+          position: "bottom-right",
+        });
+      }
     },
     clearCart: (state) => {
       state.cartItems = [];
-      toast.warning("No Item in Cart",{
-        position:'bottom-right'
-      })
+      toast.warning("No items in the cart", {
+        position: "bottom-right",
+      });
+    },
+    setIsCartOpen: (state) => {
+      state.isCartOpen = !state.isCartOpen;
     },
   },
 });
@@ -93,9 +101,11 @@ const cartSlice = createSlice({
 export const {
   addToCart,
   removeFromCart,
-  increaseAmount,
-  decreaseAmount,
+  increaseCount,
+  decreaseCount,
   clearCart,
+  setIsCartOpen,
 } = cartSlice.actions;
+
 const cartReducer = cartSlice.reducer;
 export default cartReducer;

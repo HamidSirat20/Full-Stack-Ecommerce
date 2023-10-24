@@ -5,96 +5,48 @@ import Product from "../../types/Product";
 import { NewProduct } from "../../types/NewProduct";
 import { UpdateSingleProduct } from "../../types/UpdateSingleProduct";
 
-const baseUrl = "https://ecommerce-pinnaclemall.azurewebsites.net/api/v1";
+const baseUrl = "https://pinnaclemall.azurewebsites.net/api/v1";
+
 interface RetrieveProducts {
   loading: boolean;
   error: string;
   products: Product[];
+  createProduct?: NewProduct;
 }
 const initialState: RetrieveProducts = {
   loading: false,
   error: "",
   products: [],
 };
-// interface Pagination {
-//   search?: string;
-//   orderBy?: string;
-//   orderByDescending?: boolean;
-//   offset?: number;
-//   limit?: number;
-// }
+
 export interface FetchAllParams {
-  search:  string | null
-  orderBy: string | null
-  orderByDescending: boolean
-  offset: number
-  limit: number
+  search?: string;
+  orderBy?: string;
+  orderByDescending?: boolean;
+  offset: number;
+  limit: number;
 }
 
 export const fetchAllProducts = createAsyncThunk(
   "fetchAllProducts",
-  async ({
-      search = null,
-      orderBy = "UpdatedAt",
-      orderByDescending = false,
-      offset = 1,
-      limit = 10,
-   }: FetchAllParams) => {
-      try {
-          const response = await axios.get<Product[]>(`${baseUrl}/products`, {
-              params: {
-                SearchKeyword: search,
-                SortBy: orderBy,
-                SortDescending: orderByDescending,
-                PageNumber: offset,
-                PageSize: limit,
-              },
-            });
-            console.log("products: ", response.data);
-          return response.data
-      }
-      catch (e) {
-          const error = e as AxiosError
-          if (error.response) {
-              return JSON.stringify(error.response.data)
-          }
-          return error.message
-      }
+  async ({ offset, limit }: FetchAllParams) => {
+    try {
+      const fetchProducts = axios.get<Product[]>(
+        `${baseUrl}/products?offset=${offset}&limit=${limit}`
+      );
+      return (await fetchProducts).data;
+    } catch (e) {
+      const error = e as AxiosError;
+      return error.message;
+    }
   }
-)
-// export const fetchAllProducts = createAsyncThunk(
-//   "products/fetchAll",
-//   async (pagination: Pagination) => {
-//     const { search, orderBy, orderByDescending, offset, limit } = pagination;
-
-//     try {
-//       const response = await axios.get<Product[]>(
-//         `http://localhost:5049/api/v1/products`,
-//         {
-//           params: {
-//             Search: search,
-//             OrderBy: orderBy,
-//             OrderByDescending: orderByDescending,
-//             offset,
-//             limit,
-//           },
-//         }
-//       );
-//       return response.data;
-//     } catch (error) {
-//       const axiosError = error as AxiosError;
-//       throw axiosError.message;
-//     }
-//   }
-// );
+);
 
 export const fetchSingleProduct = createAsyncThunk(
   "fetchSingleProduct",
   async (id: string) => {
     try {
-      const fetchProducts = axios.get<Product>(
-        `http://localhost:5049/api/v1/products/${id}`
-      );
+      const fetchProducts = axios.get<Product>(`${baseUrl}/products/${id}`);
       return (await fetchProducts).data;
     } catch (e) {
       const error = e as AxiosError;
@@ -102,26 +54,18 @@ export const fetchSingleProduct = createAsyncThunk(
     }
   }
 );
-export const searchByCategories = createAsyncThunk(
-  "searchByCategories",
-  async (id: string) => {
-    try {
-      const fetchProducts = axios.get<Product[]>(`baseUrl/categories/${id}`);
-      return (await fetchProducts).data;
-    } catch (e) {
-      const error = e as AxiosError;
-      return error.message;
-    }
-  }
-);
+
 export const createNewProducts = createAsyncThunk(
   "createNewProducts",
   async (product: NewProduct) => {
     try {
-      const result = await axios.post(
-        "http://localhost:5049/api/v1/products",
-        product
-      );
+      const storedToken = localStorage.getItem("mytoken");
+      const token = storedToken ? storedToken.replace(/^"(.*)"$/, "$1") : null;
+      const result = await axios.post(`${baseUrl}/products`, product, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       return result.data;
     } catch (e) {
       const error = e as AxiosError;
@@ -129,6 +73,7 @@ export const createNewProducts = createAsyncThunk(
     }
   }
 );
+
 export const updateSingleProduct = createAsyncThunk(
   "updateSingleProduct",
   async (updateProduct: UpdateSingleProduct) => {
@@ -146,9 +91,7 @@ export const deleteSignleProduct = createAsyncThunk(
   "deleteSigleProduct",
   async (id: string) => {
     try {
-      const result = await axios.delete(
-        `http://localhost:5049/api/v1/products/${id}`
-      );
+      const result = await axios.delete(`${baseUrl}/products/${id}`);
       return result.data;
     } catch (e) {
       const error = e as AxiosError;
@@ -171,17 +114,6 @@ const productsSlice = createSlice({
         state.products.sort((a, b) => b.price - a.price);
       }
     },
-    sortByCategory: (state, action: PayloadAction<"asc" | "desc">) => {
-      if (action.payload === "asc") {
-        state.products.sort((a, b) =>
-          a.category.CategoryName.localeCompare(b.category.CategoryName)
-        );
-      } else {
-        state.products.sort((a, b) =>
-          b.category.CategoryName.localeCompare(a.category.CategoryName)
-        );
-      }
-    },
   },
   extraReducers: (build) => {
     build
@@ -193,7 +125,7 @@ const productsSlice = createSlice({
         state.error = "Cannot fetch this time, try later";
       })
       .addCase(fetchAllProducts.fulfilled, (state, action) => {
-        state.loading = true;
+        state.loading = false;
         if (typeof action.payload === "string") {
           state.error = action.payload;
         } else {
@@ -215,23 +147,9 @@ const productsSlice = createSlice({
           state.products = [action.payload];
         }
       })
-      .addCase(searchByCategories.pending, (state) => {
+      .addCase(createNewProducts.pending, (state) => {
         state.loading = true;
-      })
-      .addCase(searchByCategories.rejected, (state, action) => {
-        state.loading = false;
-        state.error = "Cannot fetch this time, try later";
-      })
-      .addCase(searchByCategories.fulfilled, (state, action) => {
-        state.loading = false;
-        if (typeof action.payload === "string") {
-          state.error = action.payload;
-        } else {
-          state.products = action.payload;
-        }
-      })
-      .addCase(createNewProducts.pending, (state, action) => {
-        state.loading = true;
+        state.error = "";
       })
       .addCase(createNewProducts.rejected, (state, action) => {
         state.loading = false;
@@ -242,19 +160,20 @@ const productsSlice = createSlice({
         if (typeof action.payload === "string") {
           state.error = action.payload;
         } else {
-          state.products.push(action.payload);
+          state.createProduct = action.payload;
         }
         state.loading = false;
       })
       .addCase(updateSingleProduct.pending, (state, action) => {
-        state.loading = false;
+        state.loading = true;
       })
       .addCase(updateSingleProduct.rejected, (state, action) => {
-        state.loading = true;
+        state.loading = false;
         state.error = "Cannot update the product now, try later";
       })
       .addCase(updateSingleProduct.fulfilled, (state, action) => {
         const updatedProduct = action.payload;
+        state.loading = false;
         const index = state.products.findIndex(
           (product) => product.id === updatedProduct.id
         );
@@ -281,6 +200,5 @@ const productsSlice = createSlice({
 });
 
 const productsReducer = productsSlice.reducer;
-export const { sortPrice, sortByCategory, emptyProductList } =
-  productsSlice.actions;
+export const { sortPrice, emptyProductList } = productsSlice.actions;
 export default productsReducer;

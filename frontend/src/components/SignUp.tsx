@@ -1,6 +1,13 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, TextField, Typography, Container, Link, Box } from "@mui/material";
+import {
+  Button,
+  TextField,
+  Typography,
+  Container,
+  Link,
+  Box,
+} from "@mui/material";
 
 import useAppDispatch from "../hooks/useAppDispatch";
 import useAppSelector from "../hooks/useAppSelector";
@@ -13,15 +20,26 @@ const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [password1, setPassword1] = useState("");
-  const [message, setMessage] = useState("");
   const [avatar, setAvatar] = useState("");
-  const [address, setAddress] = useState("");
+
+  const [message, setMessage] = useState("");
+
+  const canSave =
+    Boolean(fname) &&
+    Boolean(lname) &&
+    Boolean(email) &&
+    Boolean(password) &&
+    Boolean(password1);
+
   const { users } = useAppSelector((state) => state.userReducer);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
+  const focRef = useRef<HTMLInputElement | null>(null);
+
   useEffect(() => {
-    dispatch(getAllUsers());
+    focRef.current?.focus();
+    dispatch(getAllUsers({ limit: 30, offset: 0 }));
   }, []);
 
   const AddUser = () => {
@@ -52,11 +70,10 @@ const SignUp = () => {
               email: email,
               password: password,
               avatar: avatar,
-              address: address,
             },
           })
         );
-        navigate("/");
+        navigate("/signin");
       }
     } else {
       alert(`This email is already registered !`);
@@ -64,7 +81,11 @@ const SignUp = () => {
   };
 
   return (
-    <Container component="div" maxWidth="xs" sx={{marginTop:"4rem"}}>
+    <Container
+      component="div"
+      maxWidth="xs"
+      sx={{ marginTop: "4rem", paddingBottom: "4.4rem" }}
+    >
       <Typography variant="h4" align="center">
         Create account
       </Typography>
@@ -76,6 +97,7 @@ const SignUp = () => {
           margin="dense"
           value={fname}
           onChange={(e) => setFName(e.target.value)}
+          inputRef={focRef}
         />
         <div>
           <TextField
@@ -133,22 +155,17 @@ const SignUp = () => {
             onChange={(e) => setPassword1(e.target.value)}
           />
         </div>
-        <div>
-          <TextField
-            label="address"
-            type="address"
-            variant="outlined"
-            fullWidth
-            margin="dense"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-          />
-        </div>
       </div>
       <Typography variant="body2" color="error" align="center">
         {message}
       </Typography>
-      <Button variant="contained" color="primary" fullWidth onClick={AddUser}>
+      <Button
+        disabled={!canSave}
+        variant="contained"
+        color="primary"
+        fullWidth
+        onClick={AddUser}
+      >
         Sign Up
       </Button>
       <div>
@@ -158,14 +175,14 @@ const SignUp = () => {
         </Typography>
       </div>
       <Box sx={{ textAlign: "center", marginTop: 2 }}>
-          <Button
-            variant="outlined"
-            color="primary"
-            onClick={() => navigate("/login")}
-          >
-           Aready have an account?
-          </Button>
-        </Box>
+        <Button
+          variant="outlined"
+          color="primary"
+          onClick={() => navigate("/signin")}
+        >
+          Aready have an account?
+        </Button>
+      </Box>
       <footer>
         <Typography variant="body2" align="center">
           &#169; 2023, PinnacleMall.com

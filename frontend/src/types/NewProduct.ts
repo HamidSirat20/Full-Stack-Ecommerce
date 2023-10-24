@@ -1,7 +1,8 @@
 export interface NewProduct {
-  Title: string;
-  Description: string;
-  Price: number;
-  Inventory: number;
-  CategoryId: string;
+  title: string;
+  description: string;
+  price: number;
+  inventory: number;
+  images: string[];
+  categoryName: string;
 }

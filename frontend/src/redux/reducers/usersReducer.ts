@@ -27,7 +27,7 @@ import QueryParamters from "../../types/QueryParameters";
 // };
 
 const initialState: {
-  user?: User;
+  createUser?: CreateNewUser;
   users: User[];
   checkemail: boolean;
   loading: boolean;
@@ -42,69 +42,34 @@ const initialState: {
   token: "",
   authenticate: false,
 };
-const baseUrl = "http://localhost:5049/api/v1";
-const initialQueryParams: QueryParamters = {
-  Search: "",
-  OrderBy: "CreatedAt",
-  OrderByDescending: false,
-  Offset: 0,
-  Limit: 10,
-};
-// export const authenticate = createAsyncThunk(
-//   "authenticate",
-//   async (access_token: string) => {
-//     try {
-//       const authentication = await axios.get<User>(
-//         "https://api.escuelajs.co/api/v1/auth/profile",
-//         {
-//           headers: {
-//             Authorization: `Bearer ${access_token}`,
-//           },
-//         }
-//       );
-//       return authentication.data;
-//     } catch (e) {
-//       const error = e as AxiosError;
-//       return error;
-//     }
-//   }
-// );
-// export const login = createAsyncThunk(
-//   "login",
-//   async ({ email, password }: UserLogin, { dispatch }) => {
-//     try {
-//       const result = await axios.post<{ access_token: string }>(
-//         "http://localhost:5049/api/v1/users/auth",
-//         { email, password }
-//       );
-//       localStorage.setItem("token", result.data.access_token);
-//       const authentication = await dispatch(
-//         authenticate(result.data.access_token)
-//       );
-//       return authentication.payload as User;
-//     } catch (e) {
-//       const error = e as AxiosError;
-//       return error;
-//     }
-//   }
-// );
-
-interface Pagination {
+export interface FetchAllParams {
   search?: string;
   orderBy?: string;
   orderByDescending?: boolean;
-  offset?: number;
-  limit?: number;
+  offset: number;
+  limit: number;
 }
+
+const baseUrl = "https://pinnaclemall.azurewebsites.net/api/v1";
+
 export const getAllUsers = createAsyncThunk(
-  'fetchAllUser',
-  async () => {
+  "getallusers",
+  async ({ offset, limit }: FetchAllParams) => {
     try {
-      const result = await axios.get<User[]>('https://ecommerce-backend-fs15.azurewebsites.net/api/v1/users');
-      return result.data; // The returned result will be inside action.payload
+      const storedToken = localStorage.getItem("mytoken");
+      const token = storedToken ? storedToken.replace(/^"(.*)"$/, "$1") : null;
+      const fetchUsers = axios.get<User[]>(
+        `${baseUrl}/users?offset=${offset}&limit=${limit}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return (await fetchUsers).data;
     } catch (e) {
       const error = e as AxiosError;
-      return error;
+      return error.message;
     }
   }
 );
@@ -123,11 +88,13 @@ export const getOneUser = createAsyncThunk(
 );
 
 export const createUser = createAsyncThunk(
-  'createUser',
-  async ({userData}: { userData: CreateNewUser }) => {
+  "createNewUser",
+  async ({ userData }: { userData: CreateNewUser }) => {
     try {
-
-      const result = await axios.post<CreateNewUser>('http://localhost:5049/api/v1/users', userData);
+      const result = await axios.post<CreateNewUser>(
+        `${baseUrl}/users`,
+        userData
+      );
       return result.data;
     } catch (e) {
       const error = e as AxiosError;
@@ -135,6 +102,30 @@ export const createUser = createAsyncThunk(
     }
   }
 );
+
+export const createAdmin = createAsyncThunk(
+  "create/admin",
+  async ({ userData }: { userData: CreateNewUser }) => {
+    try {
+      const storedToken = localStorage.getItem("mytoken");
+      const token = storedToken ? storedToken.replace(/^"(.*)"$/, "$1") : null;
+      const result = await axios.post<CreateNewUser>(
+        `${baseUrl}/users/admin`,
+        userData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return result.data;
+    } catch (e) {
+      const error = e as AxiosError;
+      return error;
+    }
+  }
+);
+
 export const updateSingleUser = createAsyncThunk(
   "updateSingleUser",
   async (updateUser: UpdateNewUser) => {
@@ -152,140 +143,93 @@ export const updateSingleUser = createAsyncThunk(
   }
 );
 
-export const authenticate = createAsyncThunk(
-  "authenticate",
-  async (access_token: string) => {
-    try {
-      console.log("token", access_token);
-      const authentication = await axios.post<User>(
-        "http://localhost:5049/api/v1/auth",
-        access_token
-      );
-      return authentication.data;
-    } catch (e) {
-      const error = e as AxiosError;
-      return error;
-    }
-  }
-);
-
-export const login = createAsyncThunk(
-  "login",
-  async ({ email, password }: UserLogin, { dispatch }) => {
-    try {
-      const result = await axios.post<{ access_token: string }>(
-        "http://localhost:5049/api/v1/auth",
-        { email, password }
-      );
-      localStorage.setItem("token", result.data.access_token);
-      const authentication = await dispatch(
-        authenticate(result.data.access_token)
-      );
-      return authentication.payload as User;
-    } catch (e) {
-      const error = e as AxiosError;
-      return error;
-    }
-  }
-);
 const usersSlice = createSlice({
   name: "users",
   initialState: initialState,
   reducers: {
-    emptyUserInfo: (state) => {
-      state.user = {
-        id: "",
-        email: "",
-        password: "",
-        firstName: "",
-        address: "",
-        lastName: "",
-        Role: "Client",
-        avatar: "",
-      };
-    },
     cleanUpUserReducer: () => {
       return initialState;
     },
   },
   extraReducers: (build) => {
     build
-    .addCase(getAllUsers.fulfilled, (state, action) => {
-      if (action.payload instanceof AxiosError) {
-          state.error = action.payload.message
-      } else {
+      .addCase(getAllUsers.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(getAllUsers.rejected, (state, action) => {
+        state.loading = false;
+        state.error = "Cannot fetch this time, try later";
+      })
+      .addCase(getAllUsers.fulfilled, (state, action) => {
+        state.loading = false;
+        if (typeof action.payload === "string") {
+          state.error = action.payload;
+        } else {
           state.users = action.payload;
-      }
-      state.loading = false
-    })
-    .addCase(getOneUser.fulfilled, (state, action) => {
-        if (action.payload instanceof AxiosError) {
-            state.error = action.payload.message
-        } else {
-            state.user = action.payload;
-
         }
-        state.loading = false
-    })
-    .addCase(getOneUser.pending, (state, action) => {
-        state.loading = true
-    })
-    .addCase(getOneUser.rejected, (state, action) => {
-        state.error = "Cannot fetch data"
-    })
-    .addCase(createUser.fulfilled, (state, action) => {
-        if (action.payload instanceof AxiosError) {
-            state.error = action.payload.message
-        } else {
-           state.user = action.payload;
-        }
-        state.loading = false
-    })
-    .addCase(createUser.pending, (state) => {
-        state.loading = true
-    })
-    .addCase(createUser.rejected, (state) => {
-        state.error = "Cannot fetch data"
-    })
-    .addCase(updateSingleUser.fulfilled, (state, action:PayloadAction<CreateNewUser>) => {
-      if (action.payload instanceof AxiosError) {
-          state.error = action.payload.message
-      } else {
-         state.user = action.payload;
-      }
-      state.loading = false
-    })
-    .addCase(updateSingleUser.pending, (state, action) => {
-      state.loading = true
-    })
-    .addCase(updateSingleUser.rejected, (state, action) => {
-      state.error = "Cannot fetch data"
-    })
-      .addCase(login.fulfilled, (state, action) => {
-        if (action.payload instanceof AxiosError) {
-            state.error = action.payload.message
-        } else {
-            state.user = action.payload;
-        }
-        state.loading = false
       })
-      .addCase(authenticate.fulfilled, (state, action) => {
+      .addCase(getOneUser.fulfilled, (state, action) => {
+        if (action.payload instanceof AxiosError) {
+          state.error = action.payload.message;
+        } else {
+          state.users.push(action.payload);
+        }
+        state.loading = false;
+      })
+      .addCase(getOneUser.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(getOneUser.rejected, (state, action) => {
+        state.error = "Cannot fetch data";
+      })
+      .addCase(createUser.fulfilled, (state, action) => {
+        if (action.payload instanceof AxiosError) {
+          state.error = action.payload.message;
+        } else {
+          state.createUser = action.payload;
+        }
+        state.loading = false;
+      })
+      .addCase(createUser.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(createUser.rejected, (state) => {
+        state.error = "Cannot fetch data";
+      })
+      .addCase(createAdmin.fulfilled, (state, action) => {
+        if (action.payload instanceof AxiosError) {
+          state.error = action.payload.message;
+        } else {
+          state.createUser = action.payload;
+        }
+        state.loading = false;
+      })
+      .addCase(createAdmin.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(createAdmin.rejected, (state) => {
+        state.error = "Cannot fetch data";
+      })
+      .addCase(
+        updateSingleUser.fulfilled,
+        (state, action: PayloadAction<CreateNewUser>) => {
           if (action.payload instanceof AxiosError) {
-              state.error = action.payload.message
+            state.error = action.payload.message;
           } else {
-              state.user = action.payload
-              console.log(state.user);
-              state.authenticate = true
+            // state.users.push(action.payload);
           }
-          state.loading = false
+          state.loading = false;
+        }
+      )
+      .addCase(updateSingleUser.pending, (state, action) => {
+        state.loading = true;
       })
+      .addCase(updateSingleUser.rejected, (state, action) => {
+        state.error = "Cannot fetch data";
+      });
   },
 });
 
-const userReducer = usersSlice.reducer
-export const
-    {
-        emptyUserInfo,
-        cleanUpUserReducer
-    } = usersSlice.actions
+const userReducer = usersSlice.reducer;
+export const { cleanUpUserReducer } = usersSlice.actions;
 export default userReducer;

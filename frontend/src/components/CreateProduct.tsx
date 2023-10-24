@@ -1,43 +1,63 @@
-import { useState } from "react";
-import { TextField, Button, CircularProgress, Container } from "@mui/material";
-import { NewProduct } from "../types/NewProduct";
+import { useEffect, useRef, useState } from "react";
+import {
+  TextField,
+  Button,
+  CircularProgress,
+  Container,
+  MenuItem,
+  Select,
+  InputLabel,
+} from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import { createNewProducts } from "../redux/reducers/productsReducer";
-import useAppSelector from "../hooks/useAppSelector";
+import { fetchAllCategories } from "../redux/reducers/categoryReducer";
 import useAppDispatch from "../hooks/useAppDispatch";
+import useAppSelector from "../hooks/useAppSelector";
 
-export default function CreateProduct() {
+const CreateProduct = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [price, setPrice] = useState("");
+  const [inventory, setInventory] = useState("");
+  const [categoryName, setCategoryName] = useState("");
+  const [message, setMessage] = useState("");
+
+  const focRef = useRef<HTMLInputElement | null>(null);
+
   const loading = useAppSelector((state) => state.productsReducer.loading);
   const error = useAppSelector((state) => state.productsReducer.error);
+  const categories = useAppSelector((state) => state.categoryReducer.category);
 
-  const [newProduct, setNewProduct] = useState<NewProduct>({
-    Title: "",
-    Description: "",
-    Price: 0,
-    Inventory: 0,
-    CategoryId: "",
-  });
+  useEffect(() => {
+    dispatch(fetchAllCategories());
+    focRef.current?.focus();
+  }, [dispatch]);
 
-  const handleInputChange = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = event.target;
-    setNewProduct((prevProduct) => ({
-      ...prevProduct,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    dispatch(createNewProducts(newProduct));
-    setNewProduct({
-      Title: "",
-      Description: "",
-      Price: 0,
-      Inventory: 0,
-      CategoryId: "",
-    });
+  const AddProduct = () => {
+    if (
+      title === "" ||
+      description === "" ||
+      price === "" ||
+      inventory === "" ||
+      categoryName === ""
+    ) {
+      setMessage("Please enter all input");
+    } else {
+      dispatch(
+        createNewProducts({
+          title: title,
+          description: description,
+          price: Number(price),
+          inventory: Number(inventory),
+          categoryName: categoryName,
+          images: [],
+        })
+      );
+      navigate("/products");
+    }
   };
 
   return (
@@ -50,66 +70,83 @@ export default function CreateProduct() {
         height: "100vh",
       }}
     >
-      <form onSubmit={handleSubmit} style={{ width: "100%" }}>
+      <Container style={{ width: "100%" }}>
         <h2>Create New Product</h2>
-        {loading && <CircularProgress />}
         {error && <p>{error}</p>}
         <TextField
           label="Title"
           type="text"
-          name="Title"
-          value={newProduct.Title}
-          onChange={handleInputChange}
+          name="title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
           fullWidth
           margin="normal"
+          inputRef={focRef}
         />
         <TextField
           label="Description"
           multiline
           rows={4}
-          name="Description"
-          value={newProduct.Description}
-          onChange={handleInputChange}
+          name="description"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
           fullWidth
           margin="normal"
         />
         <TextField
           label="Price"
           type="number"
-          name="Price"
-          value={newProduct.Price}
-          onChange={handleInputChange}
+          name="price"
+          value={price}
+          onChange={(e) => setPrice(e.target.value)}
           fullWidth
           margin="normal"
+          inputProps={{ min: 1 }}
         />
         <TextField
           label="Inventory"
           type="number"
-          name="Inventory"
-          value={newProduct.Inventory}
-          onChange={handleInputChange}
+          name="inventory"
+          value={inventory}
+          onChange={(e) => setInventory(e.target.value)}
           fullWidth
           margin="normal"
+          inputProps={{ min: 1 }}
         />
-        <TextField
-          label="CategoryId"
-          type="text"
-          name="CategoryId"
-          value={newProduct.CategoryId}
-          onChange={handleInputChange}
+
+        <InputLabel htmlFor="category">Category: </InputLabel>
+        <Select
+          labelId="category-label"
+          id="category"
+          label="Category"
+          margin="dense"
           fullWidth
-          margin="normal"
-        />
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          // disabled={loading}
-          fullWidth
+          name="categoryName"
+          value={categoryName}
+          onChange={(e) => setCategoryName(e.target.value)}
+          style={{ marginBottom: "1.3rem" }}
         >
-          Create Product
-        </Button>
-      </form>
+          <MenuItem value="">Choose the Category</MenuItem>
+          {categories.map((category) => (
+            <MenuItem key={category.id} value={category.categoryName}>
+              {category.categoryName}
+            </MenuItem>
+          ))}
+        </Select>
+
+        <Container>
+          <Button
+            variant="contained"
+            color="primary"
+            fullWidth
+            onClick={AddProduct}
+          >
+            Create Product
+          </Button>
+        </Container>
+      </Container>
     </Container>
   );
-}
+};
+
+export default CreateProduct;

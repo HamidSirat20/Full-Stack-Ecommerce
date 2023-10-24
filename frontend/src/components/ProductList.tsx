@@ -1,165 +1,147 @@
 import {
   Button,
   Card,
-  CardContent,
+  CardActions,
   CardHeader,
+  CircularProgress,
   Container,
   Grid,
-  Rating,
-  TextareaAutosize,
+  Stack,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { useEffect } from "react";
 import useAppDispatch from "../hooks/useAppDispatch";
 import useAppSelector from "../hooks/useAppSelector";
 import { fetchAllProducts } from "../redux/reducers/productsReducer";
 import Product from "../types/Product";
+import { addToCart } from "../redux/reducers/cartReducer";
+import image1 from "../data/products/1.jpg";
+import image2 from "../data/products/2.jpg";
+import image3 from "../data/products/3.jpg";
+import image4 from "../data/products/4.jpg";
+import image5 from "../data/products/5.jpg";
+import image6 from "../data/products/6.jpg";
+import image7 from "../data/products/7.jpg";
+import image8 from "../data/products/8.jpg";
+import image9 from "../data/products/9.jpg";
+import image10 from "../data/products/10.jpg";
+import image11 from "../data/products/11.jpg";
+import image12 from "../data/products/12.jpg";
+import image13 from "../data/products/13.jpg";
+import image14 from "../data/products/14.jpg";
 
 const ProductList = () => {
-  const [search, setSearch] = useState("");
-  const [products, setProducts] = useState<Product[]>([]);
-  console.log(products)
-  const allProducts = useAppSelector((state) => state.productsReducer.products);
-
   const dispatch = useAppDispatch();
+  const fetchProducts = useAppSelector(
+    (state) => state.productsReducer.products
+  );
+  const loading = useAppSelector((state) => state.productsReducer.loading);
+
+  const prod = [
+    image1,
+    image2,
+    image3,
+    image4,
+    image5,
+    image6,
+    image7,
+    image8,
+    image9,
+    image10,
+    image11,
+    image12,
+    image13,
+    image14,
+  ];
   useEffect(() => {
-    dispatch(
-      fetchAllProducts({
-        search: null,
-        orderBy: null,
-        orderByDescending: false,
-        offset: 0,
-        limit: 0
-      })
-    );
+    dispatch(fetchAllProducts({ limit: 30, offset: 0 }));
   }, []);
 
-  const handleSearch = () => {
-    const filteredProducts = allProducts.filter(
-      (product) => product.title.toLowerCase().includes(search.toLowerCase())
-    );
-    setProducts(filteredProducts);
-  };
-
-  const [query, setQuery] = useState({
-    search: "",
-    orderBy: "",
-    orderByDescending: false,
-    offset: 0,
-    limit: 50,
-  });
-  const handleResetSearch = () => {
-    setQuery({ ...query, search: "" });
-    setSearch("");
-    setProducts(allProducts);
-  };
-  const [expandedReviews, setExpandedReviews] = useState<{
-    [key: string]: boolean;
-  }>({});
-
-  const handleExpandReviews = (productId: string) => {
-    setExpandedReviews((prevExpandedReviews) => ({
-      ...prevExpandedReviews,
-      [productId]: !prevExpandedReviews[productId],
-    }));
+  const add = (product: Product) => {
+    dispatch(addToCart(product));
   };
 
   return (
     <>
-      <Container maxWidth="lg">
-        <div>
-          <TextareaAutosize
-            minRows={2}
-            maxRows={4}
-            placeholder="Search products"
-            value={query.search}
-            onChange={(e) => setQuery({ ...query, search: e.target.value })}
-          />
-          <Button variant="contained" onClick={handleSearch}>
-            Search
-          </Button>
-          <Button variant="contained" onClick={handleResetSearch}>
-            Reset
-          </Button>
-        </div>
-        <Grid container spacing={3}>
-          {products.map((product) => (
-            <Grid item xs={12} sm={6} md={4} key={product.id}>
-              <Card>
-                <img
-                  src={product.images[0]?.imageUrls}
-                  alt={product.title}
-                  style={{ width: "100%", height: "auto" }}
-                />
-                <CardHeader
-                  title={product.title}
-                  subheader={`$${product.price}`}
-                />
-                <CardContent>
-                  <Typography variant="body2" color="textSecondary">
-                    {product.description}
-                  </Typography>
-                  <div
+      <Container
+        maxWidth="lg"
+        style={{
+          marginTop: "4.2rem",
+          paddingBottom: "5rem",
+          minHeight: "100vh",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: fetchProducts.length === 0 ? "center" : "flex-start", // Center content if products list is empty
+        }}
+      >
+        {loading ? (
+          <Container
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "100vh",
+            }}
+          >
+            <Stack
+              sx={{ color: "grey.500" }}
+              spacing={3}
+              direction="row"
+              justifyContent="center"
+            >
+              <CircularProgress color="secondary" />
+              <CircularProgress color="success" />
+              <CircularProgress color="inherit" />
+            </Stack>
+          </Container>
+        ) : (
+          <Grid container spacing={3} justifyContent="center">
+            {fetchProducts.map((product, index) => (
+              <Grid item xs={12} sm={6} md={3} key={product.id}>
+                <Card elevation={3}>
+                  <img
+                    src={prod[index]}
+                    alt={product.title}
                     style={{
-                      backgroundColor: "lightgray",
-                      padding: "10px",
-                      marginTop: "10px",
+                      width: "100%",
+                      height: "200px",
+                      objectFit: "cover",
+                      backgroundSize: "contained",
                     }}
-                  >
-                    {product.reviews.length > 0 ? (
-                      <div>
-                        <Typography variant="subtitle1">Reviews:</Typography>
-                        <Rating value={product.reviews[0].rating} readOnly />
-                        <Typography variant="body2">
-                          {product.reviews[0].comment}
-                        </Typography>
-                        {product.reviews.length > 1 && (
-                          <>
-                            {expandedReviews[product.id] ? (
-                              <>
-                                {product.reviews.slice(1).map((review) => (
-                                  <div key={review.id}>
-                                    <Rating value={review.rating} readOnly />
-                                    <Typography variant="body2">
-                                      {review.comment}
-                                    </Typography>
-                                  </div>
-                                ))}
-                                <Typography
-                                  variant="body2"
-                                  color="primary"
-                                  style={{ cursor: "pointer" }}
-                                  onClick={() =>
-                                    handleExpandReviews(product.id)
-                                  }
-                                >
-                                  See less
-                                </Typography>
-                              </>
-                            ) : (
-                              <Typography
-                                variant="body2"
-                                color="primary"
-                                style={{ cursor: "pointer" }}
-                                onClick={() => handleExpandReviews(product.id)}
-                              >
-                                See more
-                              </Typography>
-                            )}
-                          </>
-                        )}
-                      </div>
-                    ) : (
-                      <Typography variant="body2">
-                        No reviews available.
-                      </Typography>
-                    )}
-                  </div>
-                </CardContent>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
+                  />
+                  <CardHeader
+                    title={product.title}
+                    subheader={`$ ${product.price}`}
+                    subheaderTypographyProps={{
+                      variant: "h5",
+                      textAlign: "center",
+                    }}
+                    titleTypographyProps={{
+                      variant: "h5",
+                      textAlign: "center",
+                    }}
+                  />
+
+                  <CardActions style={{ justifyContent: "center" }}>
+                    <Link to={`/products/${product.id}`}>
+                      <Button variant="text" sx={{ marginLeft: "0.5rem" }}>
+                        View
+                      </Button>
+                    </Link>
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      onClick={() => add(product)}
+                    >
+                      Add To Cart
+                    </Button>
+                  </CardActions>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        )}
       </Container>
     </>
   );

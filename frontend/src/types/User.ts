@@ -1,12 +1,10 @@
 export interface User {
-  id?: string;
+  id: string;
   firstName: string;
   lastName: string;
   email: string;
-  address: string;
   avatar: string;
-  password: string;
-  Role?: "Client" | "Admin";
+  role?: string;
 }
 
 export interface CreateNewUser {
@@ -15,8 +13,20 @@ export interface CreateNewUser {
   email: string;
   avatar: string;
   password: string;
-  address: string;
 }
+export interface Login {
+  email: string;
+  password: string;
+}
+export interface UserProfile {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  avatar: string;
+  role: string;
+}
+
 export interface UpdateNewUser {
   id: string;
   update: {

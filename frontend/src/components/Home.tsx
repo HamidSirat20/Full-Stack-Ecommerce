@@ -1,5 +1,5 @@
 import { Box, Button, CardMedia, Stack, Typography } from "@mui/material";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { SvgIcon } from "@mui/material";
 
 import {
@@ -10,7 +10,6 @@ import {
 import useAppDispatch from "../hooks/useAppDispatch";
 import useAppSelector from "../hooks/useAppSelector";
 import { sliderData } from "../sliderData/sliderData";
-import Navbar from "./NavBar";
 
 const Home = () => {
   const slideIndex = useAppSelector((state) => state.sliderReducer.value);
@@ -31,7 +30,7 @@ const Home = () => {
   }, [dispatch, slideIndex]);
   return (
     <>
-      <Box position="relative" paddingBottom={1} paddingTop={6}>
+      <Box position="relative" marginTop={1} marginBottom={1}>
         <Box>
           {sliderData.map((item, index) => {
             return (
@@ -52,7 +51,7 @@ const Home = () => {
                     <CardMedia
                       sx={{
                         borderRadius: "10px 10px 0 0",
-                        height: "800px",
+                        height: "100vh",
                         width: "100% ",
                       }}
                       component="img"

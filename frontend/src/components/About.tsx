@@ -1,10 +1,18 @@
-import React from 'react';
-import { Container, Typography, Paper } from '@mui/material';
+import { Container, Typography, Paper } from "@mui/material";
 
 const About = () => {
   return (
-    <Container maxWidth="md" sx={{ marginTop: '9rem', padding: '1rem' }}>
-      <Paper elevation={3} sx={{ padding: '1rem', borderRadius: '10px' }}>
+    <Container
+      maxWidth="md"
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        height: "100vh",
+      }}
+    >
+      <Paper elevation={3} sx={{ padding: "1rem", borderRadius: "10px" }}>
         <Typography variant="h4" gutterBottom>
           Welcome to PinnacleMall
         </Typography>

@@ -1,15 +1,28 @@
-interface Product {
+import { Category } from "./Category";
+export interface Product {
   id: string;
   title: string;
   description: string;
   price: number;
-  images: [
-    {
-      id: string;
-      imageUrls: string;
-      productId: string;
-    }
-  ];
+  PictureUrl: string;
+  category: Category;
+  reviews: Review[];
+}
+
+export interface Review {
+  id: string;
+  comment: string;
+  rating: number;
+  productId: string;
+  userId: string;
+}
+
+interface ProductDetails {
+  id: string;
+  title: string;
+  description: string;
+  price: number;
+  image: string;
   category: Category;
   reviews: [
     {
@@ -20,11 +33,5 @@ interface Product {
       userId: string;
     }
   ];
-}
-
-export interface Category {
-  id: string;
-  CategoryName: string;
-  Image: string;
 }
 export default Product;

@@ -1,98 +1,108 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
+import { Category, CreateCategory } from "../../types/Category";
 
-import Product, { Category } from "../../types/Product";
+const baseUrl = "https://pinnaclemall.azurewebsites.net/api/v1";
 
-export const fetchAllCategories = createAsyncThunk('fetchAllCategories',
-async () => {
+export const fetchAllCategories = createAsyncThunk(
+  "fetch/Categories",
+  async () => {
     try {
-        const result = await axios.get('https://api.escuelajs.co/api/v1/categories');
-        return result.data
+      const fetchProducts = axios.get<Category[]>(`${baseUrl}/categories`);
+      return (await fetchProducts).data;
     } catch (e) {
-        const error = e as AxiosError
+      const error = e as AxiosError;
+      return error.message;
     }
-})
-export const fetchCatProducts = createAsyncThunk(
-    "fetchCatProducts",
-    async (catId: number) => {
-      try {
-        const fetchProducts = axios.get<Product[]>(
-            `https://api.escuelajs.co/api/v1/categories/${catId}/products`
+  }
+);
 
-        );
-        return (await fetchProducts).data;
-      } catch (e) {
-        const error = e as AxiosError;
-        return error.message;
-      }
+export const createNewCategory = createAsyncThunk(
+  "create/category",
+  async (category: CreateCategory) => {
+    try {
+      const storedToken = localStorage.getItem("mytoken");
+      const token = storedToken ? storedToken.replace(/^"(.*)"$/, "$1") : null;
+      const result = await axios.post(`${baseUrl}/categories`, category, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return result.data;
+    } catch (e) {
+      const error = e as AxiosError;
+      return error.message;
     }
-  );
+  }
+);
 
-  const initialState: {
-    category: Product[];
-  } = {
-    category: [],
-  };
+const initialState: {
+  category: Category[];
+  loading: boolean;
+  error: string;
+} = {
+  category: [],
+  loading: false,
+  error: "",
+};
 
 export const categorySlice = createSlice({
-    name: 'categorySlice',
-    initialState,
-    reducers: {
+  name: "categorySlice",
+  initialState,
+  reducers: {},
+  extraReducers: (build) => {
+    build
+      .addCase(fetchAllCategories.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(fetchAllCategories.rejected, (state, action) => {
+        state.loading = false;
+        state.error = "Cannot fetch this time, try later";
+      })
+      .addCase(fetchAllCategories.fulfilled, (state, action) => {
+        state.loading = true;
+        if (typeof action.payload === "string") {
+          state.error = action.payload;
+        } else {
+          state.category = action.payload;
+        }
+      })
+      .addCase(createNewCategory.pending, (state) => {
+        state.loading = true;
+        state.error = "";
+      })
+      .addCase(createNewCategory.rejected, (state, action) => {
+        state.loading = false;
+        state.error = "Cannot create new product, try later";
+      })
+      .addCase(createNewCategory.fulfilled, (state, action) => {
+        state.loading = false;
+        if (typeof action.payload === "string") {
+          state.error = action.payload;
+        } else {
+          state.category = action.payload;
+        }
+        state.loading = false;
+      });
+    // .addCase(fetchCatProducts.fulfilled, (state, action) => {
+    //     try {
+    //       const categoryId: number = action.meta.arg;
+    //       if (Array.isArray(action.payload)) {
+    //         const filteredCategory: Product[] = action.payload.filter(
+    //           (product: Product) => product.category.id == categoryId.toString()
+    //         );
+    //         state.category = filteredCategory;
+    //       } else {
+    //         // Handle the case when action.payload is a string (error message)
+    //         // You can choose to set an error state or handle it in any other way
+    //       }
+    //     } catch (e) {
+    //       const error = e as AxiosError;
 
-    },
-    extraReducers: (build) => {
-        build
-            .addCase(fetchAllCategories.fulfilled, (state, action) => {
-                if (action.payload instanceof AxiosError) {
-                    return state
-                } else {
-                    return action.payload
-                }
-            })
-            .addCase(fetchCatProducts.fulfilled, (state, action) => {
-                try {
-                  const categoryId: number = action.meta.arg;
-                  if (Array.isArray(action.payload)) {
-                    const filteredCategory: Product[] = action.payload.filter(
-                      (product: Product) => product.category.id == categoryId.toString()
-                    );
-                    state.category = filteredCategory;
-                  } else {
-                    // Handle the case when action.payload is a string (error message)
-                    // You can choose to set an error state or handle it in any other way
-                  }
-                } catch (e) {
-                  const error = e as AxiosError;
+    //     }
+    //   })
+  },
+});
 
-                }
-              })
-
-
-
-
-
-    },
-})
-const initialState2:Category [] =[]
-export const catSlice = createSlice({
-    name: 'catSlice',
-    initialState:initialState2,
-    reducers: {
-
-    },
-    extraReducers: (build) => {
-        build
-            .addCase(fetchAllCategories.fulfilled, (state, action) => {
-                if (action.payload instanceof AxiosError) {
-                    return state
-                } else {
-                    return action.payload
-                }
-            })
-
-    },
-})
-
-export const catReducer = catSlice.reducer
-const categoryReducer = categorySlice.reducer
-export default categoryReducer
+const categoryReducer = categorySlice.reducer;
+export default categoryReducer;

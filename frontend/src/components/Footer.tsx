@@ -1,4 +1,4 @@
-import { Typography, Box,Link } from "@mui/material";
+import { Typography, Box, Link } from "@mui/material";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import GitHubIcon from "@mui/icons-material/GitHub";
 
@@ -7,8 +7,9 @@ const Footer = () => {
     <Box
       component="footer"
       sx={{
-        backgroundColor: "#1976D2",
-        padding: "1rem",
+        backgroundColor: "#292b2c",
+        paddingRight: "4rem",
+        paddingTop: "1rem",
         textAlign: "center",
         width: "100%",
         position: "fixed",
@@ -19,7 +20,7 @@ const Footer = () => {
         justifyContent: "center",
       }}
     >
-      <Typography variant="body2" color="textSecondary">
+      <Typography variant="body2" color="white">
         Hamid &copy; 2023.
       </Typography>
       <Link
