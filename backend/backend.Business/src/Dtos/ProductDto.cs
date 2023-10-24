@@ -8,7 +8,7 @@ public class ProductReadDto
     public string Title { get; set; }
     public string Description { get; set; } = "";
     public decimal Price { get; set; }
-    public List<ImageReadDto> Images { get; set; }
+    public List<string> Images { get; set; }
     public CategoryReadDto Category { get; set; }
     public List<ReviewReadDto> Reviews { get; set; }
 }
@@ -19,7 +19,7 @@ public class ProductCreateDto
     public string Description { get; set; } = "";
     public decimal Price { get; set; }
     public int Inventory { get; set; }
-    public List<ImageCreateDto> Images { get; set; }
+    public List<string> Images { get; set; }
     public string? CategoryName { get; set; }
 }
 
@@ -30,4 +30,5 @@ public class ProductUpdateDto
     public decimal Price { get; set; }
     public int Inventory { get; set; }
     public Guid CategoryId { get; set; }
+    public List<string> Images { get; set; }
 }

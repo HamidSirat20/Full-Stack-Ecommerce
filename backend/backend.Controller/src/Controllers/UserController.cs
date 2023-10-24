@@ -5,9 +5,9 @@ using backend.Domain.src.Common;
 using backend.Domain.src.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace backend.Controller.src.Controllers;
+
 public class UserController : RootController<User, UserReadDto, UserCreateDto, UserUpdateDto>
 {
     private readonly IUserService _userService;

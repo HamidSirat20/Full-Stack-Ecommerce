@@ -5,6 +5,9 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
+   <PropertyGroup>
+    <UserSecretsId>9ndrA3cAB4O3kkhDzYlIjL_tqHY</UserSecretsId>
+  </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.1" />

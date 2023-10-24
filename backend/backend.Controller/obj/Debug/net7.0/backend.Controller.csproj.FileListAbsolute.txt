@@ -32,3 +32,20 @@ D:\Integfiy Folder\fs15_Fullstack\backend\backend.Controller\obj\Debug\net7.0\ba
 D:\Integfiy Folder\fs15_Fullstack\backend\backend.Controller\obj\Debug\net7.0\refint\backend.Controller.dll
 D:\Integfiy Folder\fs15_Fullstack\backend\backend.Controller\obj\Debug\net7.0\backend.Controller.pdb
 D:\Integfiy Folder\fs15_Fullstack\backend\backend.Controller\obj\Debug\net7.0\ref\backend.Controller.dll
+c:\Users\sirat\OneDrive\Desktop\fs15_Fullstack\backend\backend.Controller\bin\Debug\net7.0\backend.Controller.deps.json
+c:\Users\sirat\OneDrive\Desktop\fs15_Fullstack\backend\backend.Controller\bin\Debug\net7.0\backend.Controller.dll
+c:\Users\sirat\OneDrive\Desktop\fs15_Fullstack\backend\backend.Controller\bin\Debug\net7.0\backend.Controller.pdb
+c:\Users\sirat\OneDrive\Desktop\fs15_Fullstack\backend\backend.Controller\bin\Debug\net7.0\backend.Business.dll
+c:\Users\sirat\OneDrive\Desktop\fs15_Fullstack\backend\backend.Controller\bin\Debug\net7.0\backend.Domain.dll
+c:\Users\sirat\OneDrive\Desktop\fs15_Fullstack\backend\backend.Controller\bin\Debug\net7.0\backend.Domain.pdb
+c:\Users\sirat\OneDrive\Desktop\fs15_Fullstack\backend\backend.Controller\bin\Debug\net7.0\backend.Business.pdb
+c:\Users\sirat\OneDrive\Desktop\fs15_Fullstack\backend\backend.Controller\obj\Debug\net7.0\backend.Controller.csproj.AssemblyReference.cache
+c:\Users\sirat\OneDrive\Desktop\fs15_Fullstack\backend\backend.Controller\obj\Debug\net7.0\backend.Controller.GeneratedMSBuildEditorConfig.editorconfig
+c:\Users\sirat\OneDrive\Desktop\fs15_Fullstack\backend\backend.Controller\obj\Debug\net7.0\backend.Controller.AssemblyInfoInputs.cache
+c:\Users\sirat\OneDrive\Desktop\fs15_Fullstack\backend\backend.Controller\obj\Debug\net7.0\backend.Controller.AssemblyInfo.cs
+c:\Users\sirat\OneDrive\Desktop\fs15_Fullstack\backend\backend.Controller\obj\Debug\net7.0\backend.Controller.csproj.CoreCompileInputs.cache
+c:\Users\sirat\OneDrive\Desktop\fs15_Fullstack\backend\backend.Controller\obj\Debug\net7.0\backend.Controller.csproj.CopyComplete
+c:\Users\sirat\OneDrive\Desktop\fs15_Fullstack\backend\backend.Controller\obj\Debug\net7.0\backend.Controller.dll
+c:\Users\sirat\OneDrive\Desktop\fs15_Fullstack\backend\backend.Controller\obj\Debug\net7.0\refint\backend.Controller.dll
+c:\Users\sirat\OneDrive\Desktop\fs15_Fullstack\backend\backend.Controller\obj\Debug\net7.0\backend.Controller.pdb
+c:\Users\sirat\OneDrive\Desktop\fs15_Fullstack\backend\backend.Controller\obj\Debug\net7.0\ref\backend.Controller.dll

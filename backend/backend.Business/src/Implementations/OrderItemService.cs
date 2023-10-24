@@ -20,9 +20,9 @@ public class OrderItemService
         _mapper = mapper;
     }
 
-    public async Task<OrderItemReadDto> CreateOrderItem(OrderItemCreateDto orderItemDto)
-    {
-        var orderItem = _mapper.Map<OrderItem>(orderItemDto);
-        return _mapper.Map<OrderItemReadDto>(await _orderItemRepo.CreateOne(orderItem));
-    }
+    // public async Task<OrderItemReadDto> CreateOrderItem(OrderItemCreateDto orderItemDto)
+    // {
+    //     var orderItem = _mapper.Map<OrderItem>(orderItemDto);
+    //     return _mapper.Map<OrderItemReadDto>(await _orderItemRepo.CreateOne(orderItem));
+    // }
 }

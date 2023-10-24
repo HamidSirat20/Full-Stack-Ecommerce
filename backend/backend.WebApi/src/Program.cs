@@ -32,8 +32,6 @@ builder.Services
     .AddScoped<IOrderService, OrderService>()
     .AddScoped<IOrderItemRepo, OrderItemRepo>()
     .AddScoped<IOrderItemService, OrderItemService>()
-    .AddScoped<IImageRepo, ImageRepo>()
-    .AddScoped<IImageService, ImageService>()
     .AddScoped<IAuthService, AuthService>()
     .AddScoped<IPasswordService, PasswordService>()
     .AddScoped<IReviewRepo, ReviewRepo>()
@@ -84,12 +82,7 @@ builder.Services.AddCors(options =>
         policy =>
         {
             policy
-                .WithOrigins(
-                    "http://localhost:3000",
-                    "https://orderlyonclick.netlify.app",
-                    "https://hilarious-pasca-58c602.netlify.app",
-                    "http://localhost:5049"
-                )
+                .WithOrigins("http://localhost:3000", "https://pinnaclemall.netlify.app")
                 .AllowAnyHeader()
                 .AllowAnyMethod();
         }

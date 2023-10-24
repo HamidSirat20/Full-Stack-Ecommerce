@@ -28,3 +28,18 @@ D:\Integfiy Folder\fs15_Fullstack\backend\backend.Business\obj\Debug\net7.0\back
 D:\Integfiy Folder\fs15_Fullstack\backend\backend.Business\obj\Debug\net7.0\refint\backend.Business.dll
 D:\Integfiy Folder\fs15_Fullstack\backend\backend.Business\obj\Debug\net7.0\backend.Business.pdb
 d:\Integfiy Folder\fs15_Fullstack\backend\backend.Business\obj\Debug\net7.0\ref\backend.Business.dll
+c:\Users\sirat\OneDrive\Desktop\fs15_Fullstack\backend\backend.Business\bin\Debug\net7.0\backend.Business.deps.json
+c:\Users\sirat\OneDrive\Desktop\fs15_Fullstack\backend\backend.Business\bin\Debug\net7.0\backend.Business.dll
+c:\Users\sirat\OneDrive\Desktop\fs15_Fullstack\backend\backend.Business\bin\Debug\net7.0\backend.Business.pdb
+c:\Users\sirat\OneDrive\Desktop\fs15_Fullstack\backend\backend.Business\bin\Debug\net7.0\backend.Domain.dll
+c:\Users\sirat\OneDrive\Desktop\fs15_Fullstack\backend\backend.Business\bin\Debug\net7.0\backend.Domain.pdb
+c:\Users\sirat\OneDrive\Desktop\fs15_Fullstack\backend\backend.Business\obj\Debug\net7.0\backend.Business.csproj.AssemblyReference.cache
+c:\Users\sirat\OneDrive\Desktop\fs15_Fullstack\backend\backend.Business\obj\Debug\net7.0\backend.Business.GeneratedMSBuildEditorConfig.editorconfig
+c:\Users\sirat\OneDrive\Desktop\fs15_Fullstack\backend\backend.Business\obj\Debug\net7.0\backend.Business.AssemblyInfoInputs.cache
+c:\Users\sirat\OneDrive\Desktop\fs15_Fullstack\backend\backend.Business\obj\Debug\net7.0\backend.Business.AssemblyInfo.cs
+c:\Users\sirat\OneDrive\Desktop\fs15_Fullstack\backend\backend.Business\obj\Debug\net7.0\backend.Business.csproj.CoreCompileInputs.cache
+c:\Users\sirat\OneDrive\Desktop\fs15_Fullstack\backend\backend.Business\obj\Debug\net7.0\backend.Business.csproj.CopyComplete
+c:\Users\sirat\OneDrive\Desktop\fs15_Fullstack\backend\backend.Business\obj\Debug\net7.0\backend.Business.dll
+c:\Users\sirat\OneDrive\Desktop\fs15_Fullstack\backend\backend.Business\obj\Debug\net7.0\refint\backend.Business.dll
+c:\Users\sirat\OneDrive\Desktop\fs15_Fullstack\backend\backend.Business\obj\Debug\net7.0\backend.Business.pdb
+c:\Users\sirat\OneDrive\Desktop\fs15_Fullstack\backend\backend.Business\obj\Debug\net7.0\ref\backend.Business.dll

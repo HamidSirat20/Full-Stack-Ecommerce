@@ -4,7 +4,9 @@ using backend.Business.src.Interfaces;
 using backend.Domain.src.Common;
 using backend.Domain.src.Entities;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace backend.Controller.src.Controllers;
 
@@ -37,7 +39,7 @@ public class ProductController
 
             return Ok(result);
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             return StatusCode(500, "An error occurred while processing the request.");
         }
@@ -61,8 +63,19 @@ public class ProductController
         [FromBody] ProductCreateDto createDto
     )
     {
-        var createdObject = await _productService.CreateOne(createDto);
-        return CreatedAtAction(nameof(CreateOne), createdObject);
+        try
+        {
+            var createdObject = await _productService.CreateOne(createDto);
+            return CreatedAtAction(nameof(CreateOne), createdObject);
+        }
+        catch (DbUpdateException ex)
+        {
+            var innerException = ex.InnerException;
+            return StatusCode(
+                500,
+                " An error occurred while saving the entity changes." + innerException
+            );
+        }
     }
 
     [Authorize(Roles = "Admin")]

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
 using backend.Domain.src.Entities;
 
@@ -22,7 +23,7 @@ namespace backend.WebApi.Migrations
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     category_name = table.Column<string>(type: "text", nullable: false),
-                    image = table.Column<string>(type: "text", nullable: false),
+                    image = table.Column<string>(type: "text", nullable: true),
                     created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     modified_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
@@ -60,6 +61,7 @@ namespace backend.WebApi.Migrations
                     description = table.Column<string>(type: "text", nullable: false),
                     price = table.Column<decimal>(type: "numeric", nullable: false),
                     inventory = table.Column<int>(type: "integer", nullable: false),
+                    images = table.Column<List<string>>(type: "text[]", nullable: false),
                     category_id = table.Column<Guid>(type: "uuid", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     modified_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
@@ -93,27 +95,6 @@ namespace backend.WebApi.Migrations
                         name: "fk_orders_users_user_id",
                         column: x => x.user_id,
                         principalTable: "users",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "images",
-                columns: table => new
-                {
-                    id = table.Column<Guid>(type: "uuid", nullable: false),
-                    image_urls = table.Column<string>(type: "text", nullable: false),
-                    product_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    modified_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("pk_images", x => x.id);
-                    table.ForeignKey(
-                        name: "fk_images_products_product_id",
-                        column: x => x.product_id,
-                        principalTable: "products",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -154,6 +135,7 @@ namespace backend.WebApi.Migrations
                     product_id = table.Column<Guid>(type: "uuid", nullable: false),
                     order_id = table.Column<Guid>(type: "uuid", nullable: false),
                     amount = table.Column<int>(type: "integer", nullable: false),
+                    user_id = table.Column<Guid>(type: "uuid", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     modified_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
@@ -179,11 +161,6 @@ namespace backend.WebApi.Migrations
                 table: "categories",
                 column: "category_name",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "ix_images_product_id",
-                table: "images",
-                column: "product_id");
 
             migrationBuilder.CreateIndex(
                 name: "ix_order_items_product_id",
@@ -220,9 +197,6 @@ namespace backend.WebApi.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "images");
-
             migrationBuilder.DropTable(
                 name: "order_items");
 

@@ -14,7 +14,7 @@ public class AuthService : IAuthService
     private readonly IUserRepo _userRepo;
     private readonly IPasswordService _passwordService;
 
-    public AuthService(IUserRepo userRepo,IPasswordService passwordService)
+    public AuthService(IUserRepo userRepo, IPasswordService passwordService)
     {
         _userRepo = userRepo;
         _passwordService = passwordService;
@@ -54,7 +54,7 @@ public class AuthService : IAuthService
         var securityTokenDescriptor = new SecurityTokenDescriptor
         {
             Issuer = "backend",
-            Expires = DateTime.UtcNow.AddHours(2),
+            Expires = DateTime.UtcNow.AddMinutes(30),
             Subject = new ClaimsIdentity(claims),
             SigningCredentials = signingCredentials
         };

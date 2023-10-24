@@ -22,3 +22,15 @@ D:\Integfiy Folder\fs15_Fullstack\backend\backend.Domain\obj\Debug\net7.0\backen
 D:\Integfiy Folder\fs15_Fullstack\backend\backend.Domain\obj\Debug\net7.0\refint\backend.Domain.dll
 D:\Integfiy Folder\fs15_Fullstack\backend\backend.Domain\obj\Debug\net7.0\backend.Domain.pdb
 d:\Integfiy Folder\fs15_Fullstack\backend\backend.Domain\obj\Debug\net7.0\ref\backend.Domain.dll
+c:\Users\sirat\OneDrive\Desktop\fs15_Fullstack\backend\backend.Domain\bin\Debug\net7.0\backend.Domain.deps.json
+c:\Users\sirat\OneDrive\Desktop\fs15_Fullstack\backend\backend.Domain\bin\Debug\net7.0\backend.Domain.dll
+c:\Users\sirat\OneDrive\Desktop\fs15_Fullstack\backend\backend.Domain\bin\Debug\net7.0\backend.Domain.pdb
+c:\Users\sirat\OneDrive\Desktop\fs15_Fullstack\backend\backend.Domain\obj\Debug\net7.0\backend.Domain.csproj.AssemblyReference.cache
+c:\Users\sirat\OneDrive\Desktop\fs15_Fullstack\backend\backend.Domain\obj\Debug\net7.0\backend.Domain.GeneratedMSBuildEditorConfig.editorconfig
+c:\Users\sirat\OneDrive\Desktop\fs15_Fullstack\backend\backend.Domain\obj\Debug\net7.0\backend.Domain.AssemblyInfoInputs.cache
+c:\Users\sirat\OneDrive\Desktop\fs15_Fullstack\backend\backend.Domain\obj\Debug\net7.0\backend.Domain.AssemblyInfo.cs
+c:\Users\sirat\OneDrive\Desktop\fs15_Fullstack\backend\backend.Domain\obj\Debug\net7.0\backend.Domain.csproj.CoreCompileInputs.cache
+c:\Users\sirat\OneDrive\Desktop\fs15_Fullstack\backend\backend.Domain\obj\Debug\net7.0\backend.Domain.dll
+c:\Users\sirat\OneDrive\Desktop\fs15_Fullstack\backend\backend.Domain\obj\Debug\net7.0\refint\backend.Domain.dll
+c:\Users\sirat\OneDrive\Desktop\fs15_Fullstack\backend\backend.Domain\obj\Debug\net7.0\backend.Domain.pdb
+c:\Users\sirat\OneDrive\Desktop\fs15_Fullstack\backend\backend.Domain\obj\Debug\net7.0\ref\backend.Domain.dll

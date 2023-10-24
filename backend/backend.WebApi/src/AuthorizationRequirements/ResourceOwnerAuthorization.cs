@@ -17,7 +17,6 @@ public class ResourceOwnerAuthorizationHandler
     {
         var owner = context.User;
         var userId = owner.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
         if (resource.User.Id.ToString() == userId)
         {
             context.Succeed(requirement);

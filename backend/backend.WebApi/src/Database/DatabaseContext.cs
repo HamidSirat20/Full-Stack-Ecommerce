@@ -14,8 +14,6 @@ public class DatabaseContext : DbContext
     public DbSet<Category> Categories { get; set; }
     public DbSet<Review> Reviews { get; set; }
 
-    public DbSet<Image> Images { get; set; }
-
     static DatabaseContext()
     {
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
@@ -45,6 +43,7 @@ public class DatabaseContext : DbContext
         modelBuilder.HasPostgresEnum<OrderStatus>();
         modelBuilder.Entity<User>().HasIndex(u => u.Email).IsUnique();
         modelBuilder.Entity<Category>().HasIndex(u => u.CategoryName).IsUnique();
+        modelBuilder.Entity<Category>().Property(u => u.CategoryName).IsRequired();
         base.OnModelCreating(modelBuilder);
     }
 }

@@ -56,14 +56,10 @@ public class BaseRepo<T> : IBaseRepo<T>
                 if (
                     e is User user
                     && !string.IsNullOrEmpty(user.FirstName)
-                    && !string.IsNullOrEmpty(user.LastName)
-                    && (
-                        user.FirstName.ToLower().Contains(queryParameters.Search.ToLower())
-                        || user.LastName.ToLower().Contains(queryParameters.Search.ToLower())
-                    )
+                    && (user.FirstName.ToLower().Contains(queryParameters.Search.ToLower()))
                 )
                 {
-                    return true;
+                    return user.FirstName.ToLower().Contains(queryParameters.Search.ToLower());
                 }
                 else if (e is Product product && !string.IsNullOrEmpty(product.Title))
                 {

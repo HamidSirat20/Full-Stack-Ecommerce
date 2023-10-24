@@ -10,11 +10,13 @@ namespace backend.WebApi.src.RepoImplementations;
 public class ProductRepo : BaseRepo<Product>, IProductRepo
 {
     private readonly DbSet<Product> _dbSet;
+    private readonly DatabaseContext _dbContext;
 
     public ProductRepo(DatabaseContext dbContext)
         : base(dbContext)
     {
         _dbSet = dbContext.Products;
+        _dbContext = dbContext;
     }
 
     public override async Task<Product?> GetOneById(Guid id)
@@ -22,17 +24,12 @@ public class ProductRepo : BaseRepo<Product>, IProductRepo
         return _dbSet
             .Include(p => p.Reviews)
             .Include(p => p.Category)
-            .Include(p => p.Images)
             .FirstOrDefault(i => i.Id == id);
     }
 
     public override async Task<IEnumerable<Product>> GetAll(QueryParameters queryParameters)
     {
-        var items = _dbSet
-            .Include(p => p.Reviews)
-            .Include(p => p.Category)
-            .Include(p => p.Images)
-            .AsEnumerable();
+        var items = _dbSet.Include(p => p.Reviews).Include(p => p.Category).AsEnumerable();
 
         if (!string.IsNullOrWhiteSpace(queryParameters.Search))
         {
@@ -54,5 +51,14 @@ public class ProductRepo : BaseRepo<Product>, IProductRepo
         items = items.Skip(queryParameters.Offset - 1).Take(queryParameters.Limit);
 
         return items.ToList();
+    }
+
+    public override async Task<Product> CreateOne(Product product)
+    {
+        product.CreatedAt = DateTime.UtcNow;
+        product.ModifiedAt = DateTime.UtcNow;
+        await _dbSet.AddAsync(product);
+        await _dbContext.SaveChangesAsync();
+        return product;
     }
 }

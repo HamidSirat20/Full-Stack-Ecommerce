@@ -44,7 +44,7 @@ public class OrderService
                 };
                 createdOrder.OrderItems.Add(orderProduct);
 
-                var createdOrderProduct = await _orderItemRepo.CreateOne(orderProduct);
+                 await _orderItemRepo.CreateOne(orderProduct);
             }
 
             var returnOrder = _mapper.Map<OrderReadDto>(createdOrder);

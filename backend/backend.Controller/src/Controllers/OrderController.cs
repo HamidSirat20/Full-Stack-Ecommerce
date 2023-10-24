@@ -30,7 +30,6 @@ public class OrderController : RootController<Order, OrderReadDto, OrderCreateDt
         var user = HttpContext.User;
         var order = await _orderService.GetOneById(id);
         var authorizeOwner = await _authorizationService.AuthorizeAsync(user, order, "OwnerOnly");
-        Console.WriteLine("authorizeOwner " + authorizeOwner.Succeeded);
         if (authorizeOwner.Succeeded)
         {
             return await base.UpdateOne(id, update);
@@ -60,8 +59,13 @@ public class OrderController : RootController<Order, OrderReadDto, OrderCreateDt
         [FromQuery] QueryParameters queryParameters
     )
     {
-        var result = (await _orderService.GetAll(queryParameters)).ToArray();
-        return Ok(result);
+        var user = HttpContext.User;
+        var orders = await _orderService.GetAll(queryParameters);
+
+        string? userIdFromUser = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+        var userOrders = orders.Where(o => o.UserId.ToString() == userIdFromUser).ToArray();
+        return Ok(userOrders);
     }
 
     [Authorize]
