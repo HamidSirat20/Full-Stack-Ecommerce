@@ -29,6 +29,7 @@ ASP .NET Core 7, Entity Framework Core, PostgreSQL
 - User Management:
   Users can register for an account and log in. Users cannot register themselves as admin.
 - Browse Products: Users can view all available products, view single product details.
+- Signed in user can write a reviews to products.
 - Add to Cart: Users can add products to a shopping cart and manage the cart.
 - Checkout: Users can place orders.
 

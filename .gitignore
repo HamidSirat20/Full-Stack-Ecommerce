@@ -3,14 +3,22 @@
 # User-specific files
 backend/appsettings.json
 backend/appsettings.*.json
-backend/obj/
-backend/bin/
-
+backend/backend.WebApi/obj
+backend/backend.WebApi/bin
+backend/backend.Domain/obj
+backend/backend.Domain/bin
+backend/backend.Business/obj
+backend/backend.Business/bin
+backend/backend.Controller/obj
+backend/backend.Controller/bin
+node_modules/
 # Visual Studio 2015/2017 cache/options directory
 .vs/
 .bin/
 .obj/
-
+node_modules/
+.backend/backend.Business/bin
+.backend/backend.Business/obj
 # .NET
 project.lock.json
 project.fragment.lock.json
