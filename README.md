@@ -6,7 +6,7 @@
 ![.NET Core](https://img.shields.io/badge/.NET%20Core-v.7-purple)
 ![EF Core](https://img.shields.io/badge/EF%20Core-v.7-cyan)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-v.14-drakblue)
-![Microsoft Azure](https://img.shields.io/badge/PostgreSQL-v.14-darkblue)
+![Microsoft Azure](https://img.shields.io/badge/Microsoft-Azure-v.14-darkblue)
 
 ### Live site: https://pinnaclemall.netlify.app/
 

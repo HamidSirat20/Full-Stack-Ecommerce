@@ -1,4 +1,4 @@
-import { Link, Outlet } from "react-router-dom";
+import { Link, NavLink, Outlet } from "react-router-dom";
 import {
   AppBar,
   Toolbar,
@@ -12,9 +12,16 @@ import {
   ListItemIcon,
   Menu,
   MenuItem,
+  Theme,
+  useMediaQuery,
+  Stack,
+  Drawer,
+  List,
+  ListItem,
 } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
 import HomeIcon from "@mui/icons-material/Home";
+import MenuIcon from "@mui/icons-material/Menu";
 import Badge from "@mui/material/Badge";
 import PersonIcon from "@mui/icons-material/Person";
 import StorefrontIcon from "@mui/icons-material/Storefront";
@@ -55,11 +62,32 @@ const Navbar = ({ darkMode, handleDarkMode }: Props) => {
     setAnchorEl(null);
   };
 
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const handleDrawerOpen = () => {
+    setDrawerOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+    setDrawerOpen(false);
+  };
+
+  const isSmallScreen = useMediaQuery((theme: Theme) =>
+    theme.breakpoints.down("sm")
+  );
+
   return (
     <>
-      <AppBar position="fixed" style={{ background: "white" }}>
+      <AppBar position="fixed" style={{ background: "#2196F3" }}>
         <Toolbar>
           {/* Left side */}
+          <IconButton
+            color="inherit"
+            aria-label="menu"
+            onClick={handleDrawerOpen}
+            sx={{ display: { md: "none" } }}
+          >
+            <MenuIcon />
+          </IconButton>
           <div style={{ display: "flex", alignItems: "center", flexGrow: 1 }}>
             <Typography variant="h6">
               <Link
@@ -70,7 +98,7 @@ const Navbar = ({ darkMode, handleDarkMode }: Props) => {
                   marginRight: "1rem",
                 }}
               >
-                pinnacleMall
+                PinnacleMall
               </Link>
             </Typography>
             <Tooltip title="Switch Mode" arrow>
@@ -85,6 +113,44 @@ const Navbar = ({ darkMode, handleDarkMode }: Props) => {
             </Tooltip>
           </div>
           {/* Right side */}
+          <Stack direction="row" spacing={2} alignItems="center">
+            {!isSmallScreen ? (
+              <>
+                <Tooltip title="Home" arrow>
+                  <IconButton component={Link} to="/" color="inherit">
+                    <HomeIcon style={{ color: "black" }} />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="Products" arrow>
+                  <IconButton component={Link} to="/products" color="inherit">
+                    <StorefrontIcon style={{ color: "black" }} />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="About" arrow>
+                  <IconButton component={Link} to="/about" color="inherit">
+                    <InfoOutlinedIcon style={{ color: "black" }} />
+                  </IconButton>
+                </Tooltip>
+
+                {login.userProfile?.role === "Admin" && (
+                  <Tooltip title="Dashboard" arrow>
+                    <IconButton component={Link} to="/admin" color="inherit">
+                      <DashboardOutlinedIcon style={{ color: "black" }} />
+                    </IconButton>
+                  </Tooltip>
+                )}
+              </>
+            ) : (
+              ""
+            )}
+          </Stack>
+          <Tooltip title="Cart" arrow>
+            <IconButton component={Link} to="/cart" color="inherit">
+              <Badge badgeContent={cartItems.length} color="secondary">
+                <ShoppingBagOutlined style={{ color: "black" }} />
+              </Badge>
+            </IconButton>
+          </Tooltip>
           <Box
             sx={{
               display: "flex",
@@ -94,35 +160,6 @@ const Navbar = ({ darkMode, handleDarkMode }: Props) => {
               padding: 0,
             }}
           >
-            <Tooltip title="Home" arrow>
-              <IconButton component={Link} to="/" color="inherit">
-                <HomeIcon style={{ color: "black" }} />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Products" arrow>
-              <IconButton component={Link} to="/products" color="inherit">
-                <StorefrontIcon style={{ color: "black" }} />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="About" arrow>
-              <IconButton component={Link} to="/about" color="inherit">
-                <InfoOutlinedIcon style={{ color: "black" }} />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Cart" arrow>
-              <IconButton component={Link} to="/cart" color="inherit">
-                <Badge badgeContent={cartItems.length} color="secondary">
-                  <ShoppingBagOutlined style={{ color: "black" }} />
-                </Badge>
-              </IconButton>
-            </Tooltip>
-            {login.userProfile?.role === "Admin" && (
-              <Tooltip title="Dashboard" arrow>
-                <IconButton component={Link} to="/admin" color="inherit">
-                  <DashboardOutlinedIcon style={{ color: "black" }} />
-                </IconButton>
-              </Tooltip>
-            )}
             <Tooltip title="Account">
               <IconButton
                 onClick={handleClick}
@@ -189,7 +226,7 @@ const Navbar = ({ darkMode, handleDarkMode }: Props) => {
               <Tooltip title="Signin" arrow>
                 <IconButton component={Link} to="/signin" color="inherit">
                   <PersonIcon style={{ color: "black" }} />
-                  Signin
+                  Login
                 </IconButton>
               </Tooltip>
             </MenuItem>
@@ -218,6 +255,62 @@ const Navbar = ({ darkMode, handleDarkMode }: Props) => {
           </Menu>
         </Toolbar>
       </AppBar>
+      <Drawer
+        anchor="left"
+        open={drawerOpen}
+        onClose={handleDrawerClose}
+        variant="temporary"
+        sx={{
+          display: { xs: "block", sm: "none" },
+        }}
+      >
+        <List>
+          <ListItem button onClick={handleDrawerClose}>
+            <Typography variant="h5">PinnacleMall</Typography>
+          </ListItem>
+          <Divider />
+          <ListItem>
+            <FormControlLabel
+              control={<Switch checked={darkMode} onChange={handleDarkMode} />}
+              label={darkMode ? "Light Mode" : "Dark Mode"}
+            />
+          </ListItem>
+          <Divider />
+          {["Home", "Products", "About"].map((text, index) => (
+            <ListItem button key={text} onClick={handleDrawerClose}>
+              <NavLink
+                to={text === "Home" ? "/" : `/${text.toLowerCase()}`}
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                <ListItemIcon>
+                  {text === "Home" ? (
+                    <HomeIcon style={{ color: "black" }} />
+                  ) : text === "Products" ? (
+                    <StorefrontIcon style={{ color: "black" }} />
+                  ) : (
+                    <InfoOutlinedIcon style={{ color: "black" }} />
+                  )}
+                </ListItemIcon>
+                <Typography variant="body1">{text}</Typography>
+              </NavLink>
+            </ListItem>
+          ))}
+          <Divider />
+          {login.userProfile?.role === "Admin" && (
+            <ListItem button onClick={handleDrawerClose}>
+              <NavLink
+                to="/admin"
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                <ListItemIcon>
+                  <DashboardOutlinedIcon style={{ color: "black" }} />
+                </ListItemIcon>
+                <Typography variant="body1">Dashboard</Typography>
+              </NavLink>
+            </ListItem>
+          )}
+        </List>
+      </Drawer>
       <Outlet />
     </>
   );
