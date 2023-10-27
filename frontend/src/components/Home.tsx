@@ -30,7 +30,12 @@ const Home = () => {
   }, [dispatch, slideIndex]);
   return (
     <>
-      <Box position="relative" marginTop={1} marginBottom={1}>
+      <Box
+        position="relative"
+        marginTop={1}
+        marginBottom={1}
+        style={{ height: "100vh", overflow: "hidden" }}
+      >
         <Box>
           {sliderData.map((item, index) => {
             return (
@@ -52,7 +57,8 @@ const Home = () => {
                       sx={{
                         borderRadius: "10px 10px 0 0",
                         height: "100vh",
-                        width: "100% ",
+                        width: "100%",
+                        objectFit: "cover",
                       }}
                       component="img"
                       image={item.img}
