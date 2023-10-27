@@ -67,13 +67,19 @@ const Home = () => {
                   right="25%"
                   marginLeft="auto"
                   marginRight="auto"
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "100vh",
+                  }}
                 >
                   <Typography
                     variant="h1"
                     textAlign="center"
                     sx={{
                       color: "orange",
-                      fontSize: "4rem",
+                      fontSize: ["1.5rem", "3rem", "4rem"],
                       fontFamily: "Inter",
                       fontWeight: "bold",
                       letterSpacing: "normal",
